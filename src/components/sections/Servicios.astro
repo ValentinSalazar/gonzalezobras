@@ -6,64 +6,178 @@ const servicios = [
         number: "01",
         title: "Wall Panel",
         description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,",
+        gallery: ["/projects/proyectos01.webp", "/projects/proyectos02.webp", "/projects/proyectos03.webp"],
     },
     {
         number: "02",
         title: "PVC",
         description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,",
+        gallery: ["/projects/proyectos01.webp", "/projects/proyectos02.webp"],
     },
     {
         number: "03",
         title: "Cielorrasos",
         description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,",
+        gallery: ["/projects/proyectos01.webp", "/projects/proyectos02.webp"],
     },
     {
         number: "04",
         title: "Amoblamientos",
         description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,",
+        gallery: ["/projects/proyectos01.webp", "/projects/proyectos02.webp"],
     },
     {
         number: "05",
         title: "Revestimentos",
         description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,",
+        gallery: ["/projects/proyectos01.webp", "/projects/proyectos02.webp"],
     },
 ];
 ---
 
-<section class="relative w-screen">
+<section class="relative w-screen h-screen">
     <div class="absolute inset-0 bg-cover bg-center bg-no-repeat" style="background-image: url('/projects/cristal-inn.png');"></div>
     <div class="absolute inset-0 bg-black/75"></div>
 
-    <div class="relative z-10 px-5 py-10">
-        <TitleSection title="Servicios" mas_color="first" subtitle="explorá lo que construimos" subtitle_color="white"/>
+    <div class="relative z-10 px-5 py-10 md:flex md:gap-8 md:px-10 lg:px-16">
+        <!-- Left column: Title + Accordions -->
+        <div class="md:w-1/2">
+            <TitleSection title="Servicios" mas_color="first" subtitle="explorá lo que construimos" subtitle_color="white"/>
 
-        <div class="mt-8 flex flex-col">
-            {servicios.map((servicio, index) => (
-                <div class="accordion-item border-b border-white/30" data-index={index}>
-                    <button
-                        class="accordion-header w-full flex items-center justify-between py-5"
-                        aria-expanded={index === 0 ? "true" : "false"}
-                    >
-                        <div class="flex items-baseline gap-3">
-                            <span class="font-bebas text-first text-2xl font-bold">{servicio.number}</span>
-                            <span class="font-bebas text-white text-3xl">{servicio.title}</span>
+            <div class="mt-8 flex flex-col">
+                {servicios.map((servicio, index) => (
+                    <div class="accordion-item border-b border-white/30" data-index={index} data-gallery={JSON.stringify(servicio.gallery)}>
+                        <button
+                            class="accordion-header w-full flex items-center justify-between py-5"
+                            aria-expanded={index === 0 ? "true" : "false"}
+                        >
+                            <div class="flex items-baseline gap-3">
+                                <span class="font-bebas text-first text-2xl font-bold">{servicio.number}</span>
+                                <span class="font-bebas text-white text-3xl">{servicio.title}</span>
+                            </div>
+                            <span class="accordion-icon font-bebas text-first text-3xl leading-none">
+                                {index === 0 ? "−" : "+"}
+                            </span>
+                        </button>
+                        <div class={`accordion-content overflow-hidden transition-all duration-300 ease-in-out ${index === 0 ? 'max-h-60' : 'max-h-0'}`}>
+                            <p class="font-poppins text-white/70 text-sm pb-3">{servicio.description}</p>
+                            <button class="gallery-btn font-poppins text-white text-sm italic flex justify-end pb-5 hover:text-first transition w-full md:hidden" data-title={servicio.title}>Ver galería</button>
                         </div>
-                        <span class="accordion-icon font-bebas text-first text-3xl leading-none">
-                            {index === 0 ? "−" : "+"}
-                        </span>
-                    </button>
-                    <div class={`accordion-content overflow-hidden transition-all duration-300 ease-in-out ${index === 0 ? 'max-h-60' : 'max-h-0'}`}>
-                        <p class="font-poppins text-white/70 text-sm pb-3">{servicio.description}</p>
-                        <a href="#" class="font-poppins text-white text-sm italic flex justify-end pb-5 hover:text-first transition">Ver galería</a>
+                    </div>
+                ))}
+            </div>
+        </div>
+
+        <!-- Right column: Desktop gallery (hidden on mobile) -->
+        <div class="hidden md:flex md:w-1/2 md:items-center md:justify-center">
+            <div class="w-full">
+                <div class="relative overflow-hidden rounded-lg h-80 lg:h-96">
+                    <div id="desktop-gallery-track" class="flex transition-transform duration-500 ease-in-out h-full">
                     </div>
                 </div>
-            ))}
+                <div class="flex items-center justify-center gap-6 mt-4">
+                    <button id="desktop-gallery-prev" class="text-white transition" aria-label="Imagen anterior">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </button>
+                    <span id="desktop-gallery-counter" class="font-poppins text-white/70 text-sm"></span>
+                    <button id="desktop-gallery-next" class="text-white transition" aria-label="Imagen siguiente">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
 </section>
 
+<!-- Gallery Modal -->
+<div id="gallery-modal" class="fixed inset-0 z-[100] hidden items-center justify-center">
+    <div class="absolute inset-0 bg-black/90" id="gallery-overlay"></div>
+    <div class="relative z-10 w-full h-full flex flex-col">
+        <!-- Header -->
+        <div class="flex items-center justify-between px-5 py-4">
+            <h3 id="gallery-title" class="font-bebas text-white text-2xl"></h3>
+            <button id="gallery-close" class="text-white hover:text-first transition" aria-label="Cerrar galería">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </button>
+        </div>
+        <!-- Image container -->
+        <div class="flex-1 flex items-center justify-center relative overflow-hidden">
+            <div id="gallery-track" class="flex transition-transform duration-500 ease-in-out h-full w-full">
+            </div>
+        </div>
+        <!-- Controls -->
+        <div class="flex items-center justify-center gap-6 py-4">
+            <button id="gallery-prev" class="text-white transition" aria-label="Imagen anterior">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </button>
+            <span id="gallery-counter" class="font-poppins text-white/70 text-sm"></span>
+            <button id="gallery-next" class="text-white transition" aria-label="Imagen siguiente">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </button>
+        </div>
+    </div>
+</div>
+
 <script>
+    const isDesktop = () => window.matchMedia('(min-width: 768px)').matches;
+
+    // Accordion logic
     const items = document.querySelectorAll('.accordion-item');
+
+    function loadDesktopGallery(galleryData: string[]) {
+        const dTrack = document.getElementById('desktop-gallery-track') as HTMLElement;
+        const dCounter = document.getElementById('desktop-gallery-counter') as HTMLElement;
+        const dPrev = document.getElementById('desktop-gallery-prev') as HTMLButtonElement;
+        const dNext = document.getElementById('desktop-gallery-next') as HTMLButtonElement;
+
+        let dCurrent = 0;
+        const dTotal = galleryData.length;
+
+        dTrack.innerHTML = '';
+        galleryData.forEach((src) => {
+            const slide = document.createElement('div');
+            slide.className = 'w-full h-full shrink-0 flex items-center justify-center';
+            const img = document.createElement('img');
+            img.src = src;
+            img.alt = '';
+            img.className = 'w-full h-full object-cover rounded-lg';
+            img.loading = 'lazy';
+            slide.appendChild(img);
+            dTrack.appendChild(slide);
+        });
+
+        function updateDesktop() {
+            dTrack.style.transform = `translateX(-${dCurrent * 100}%)`;
+            dCounter.textContent = `${dCurrent + 1} / ${dTotal}`;
+            dPrev.style.opacity = dCurrent === 0 ? '0.2' : '1';
+            dNext.style.opacity = dCurrent >= dTotal - 1 ? '0.2' : '1';
+        }
+
+        updateDesktop();
+
+        // Remove old listeners by cloning
+        const newPrev = dPrev.cloneNode(true) as HTMLButtonElement;
+        const newNext = dNext.cloneNode(true) as HTMLButtonElement;
+        dPrev.replaceWith(newPrev);
+        dNext.replaceWith(newNext);
+
+        newPrev.addEventListener('click', () => {
+            if (dCurrent > 0) { dCurrent--; updateDesktop(); }
+        });
+        newNext.addEventListener('click', () => {
+            if (dCurrent < dTotal - 1) { dCurrent++; updateDesktop(); }
+        });
+    }
 
     items.forEach((item) => {
         const header = item.querySelector('.accordion-header') as HTMLButtonElement;
@@ -73,8 +187,9 @@ const servicios = [
         header.addEventListener('click', () => {
             const isOpen = header.getAttribute('aria-expanded') === 'true';
 
-            // Close all
+            // Close all others with animation
             items.forEach((otherItem) => {
+                if (otherItem === item) return;
                 const otherHeader = otherItem.querySelector('.accordion-header') as HTMLButtonElement;
                 const otherContent = otherItem.querySelector('.accordion-content') as HTMLElement;
                 const otherIcon = otherItem.querySelector('.accordion-icon') as HTMLElement;
@@ -84,13 +199,117 @@ const servicios = [
                 otherIcon.textContent = '+';
             });
 
-            // Open clicked (if it was closed)
             if (!isOpen) {
-                header.setAttribute('aria-expanded', 'true');
                 content.classList.remove('max-h-0');
                 content.classList.add('max-h-60');
+                header.setAttribute('aria-expanded', 'true');
                 icon.textContent = '−';
+
+                // On desktop, update the right-side gallery
+                if (isDesktop()) {
+                    const gallery = JSON.parse((item as HTMLElement).dataset.gallery || '[]');
+                    loadDesktopGallery(gallery);
+                }
             }
         });
+    });
+
+    // Load first service gallery on desktop
+    if (isDesktop()) {
+        const firstItem = items[0] as HTMLElement;
+        const gallery = JSON.parse(firstItem.dataset.gallery || '[]');
+        loadDesktopGallery(gallery);
+    }
+
+    // Gallery modal logic (mobile only)
+    const modal = document.getElementById('gallery-modal') as HTMLElement;
+    const modalTitle = document.getElementById('gallery-title') as HTMLElement;
+    const track = document.getElementById('gallery-track') as HTMLElement;
+    const counter = document.getElementById('gallery-counter') as HTMLElement;
+    const closeBtn = document.getElementById('gallery-close') as HTMLButtonElement;
+    const overlay = document.getElementById('gallery-overlay') as HTMLElement;
+    const prevBtn = document.getElementById('gallery-prev') as HTMLButtonElement;
+    const nextBtn = document.getElementById('gallery-next') as HTMLButtonElement;
+
+    let currentImg = 0;
+    let totalImgs = 0;
+
+    function openGallery(title: string, images: string[]) {
+        modalTitle.textContent = title;
+        currentImg = 0;
+        totalImgs = images.length;
+
+        track.innerHTML = '';
+        images.forEach((src) => {
+            const slide = document.createElement('div');
+            slide.className = 'w-full shrink-0 flex items-center justify-center px-4';
+            const img = document.createElement('img');
+            img.src = src;
+            img.alt = title;
+            img.className = 'max-h-full max-w-full object-contain rounded-lg';
+            img.loading = 'lazy';
+            slide.appendChild(img);
+            track.appendChild(slide);
+        });
+
+        updateGallery();
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeGallery() {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+        document.body.style.overflow = '';
+        track.innerHTML = '';
+    }
+
+    function updateGallery() {
+        track.style.transform = `translateX(-${currentImg * 100}%)`;
+        counter.textContent = `${currentImg + 1} / ${totalImgs}`;
+        prevBtn.style.opacity = currentImg === 0 ? '0.2' : '1';
+        nextBtn.style.opacity = currentImg >= totalImgs - 1 ? '0.2' : '1';
+    }
+
+    document.querySelectorAll('.gallery-btn').forEach((btn) => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (isDesktop()) return; // On desktop, gallery is in the right column
+            const accordionItem = (btn as HTMLElement).closest('.accordion-item') as HTMLElement;
+            const gallery = JSON.parse(accordionItem.dataset.gallery || '[]');
+            const title = (btn as HTMLElement).dataset.title || '';
+            openGallery(title, gallery);
+        });
+    });
+
+    closeBtn.addEventListener('click', closeGallery);
+    overlay.addEventListener('click', closeGallery);
+
+    prevBtn.addEventListener('click', () => {
+        if (currentImg > 0) { currentImg--; updateGallery(); }
+    });
+
+    nextBtn.addEventListener('click', () => {
+        if (currentImg < totalImgs - 1) { currentImg++; updateGallery(); }
+    });
+
+    let startX = 0;
+    track.addEventListener('touchstart', (e) => {
+        startX = e.touches[0].clientX;
+    }, { passive: true });
+
+    track.addEventListener('touchend', (e) => {
+        const diff = startX - e.changedTouches[0].clientX;
+        if (Math.abs(diff) > 50) {
+            if (diff > 0 && currentImg < totalImgs - 1) { currentImg++; updateGallery(); }
+            else if (diff < 0 && currentImg > 0) { currentImg--; updateGallery(); }
+        }
+    }, { passive: true });
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && !modal.classList.contains('hidden')) closeGallery();
+        if (e.key === 'ArrowLeft' && !modal.classList.contains('hidden') && currentImg > 0) { currentImg--; updateGallery(); }
+        if (e.key === 'ArrowRight' && !modal.classList.contains('hidden') && currentImg < totalImgs - 1) { currentImg++; updateGallery(); }
     });
 </script>
