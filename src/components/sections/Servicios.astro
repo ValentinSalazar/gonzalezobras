@@ -1,12 +1,96 @@
 ---
 import TitleSection from "../TitleSection.astro";
+
+const servicios = [
+    {
+        number: "01",
+        title: "Wall Panel",
+        description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,",
+    },
+    {
+        number: "02",
+        title: "PVC",
+        description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,",
+    },
+    {
+        number: "03",
+        title: "Cielorrasos",
+        description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,",
+    },
+    {
+        number: "04",
+        title: "Amoblamientos",
+        description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,",
+    },
+    {
+        number: "05",
+        title: "Revestimentos",
+        description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,",
+    },
+];
 ---
 
-<section class="relative w-screen min-h-screen">
+<section class="relative w-screen">
     <div class="absolute inset-0 bg-cover bg-center bg-no-repeat" style="background-image: url('/projects/cristal-inn.png');"></div>
     <div class="absolute inset-0 bg-black/75"></div>
 
-    <div class="relative z-10 px-5 pt-5">
+    <div class="relative z-10 px-5 py-10">
         <TitleSection title="Servicios" mas_color="first" subtitle="explorá lo que construimos" subtitle_color="white"/>
+
+        <div class="mt-8 flex flex-col">
+            {servicios.map((servicio, index) => (
+                <div class="accordion-item border-b border-white/30" data-index={index}>
+                    <button
+                        class="accordion-header w-full flex items-center justify-between py-5"
+                        aria-expanded={index === 0 ? "true" : "false"}
+                    >
+                        <div class="flex items-baseline gap-3">
+                            <span class="font-bebas text-first text-2xl font-bold">{servicio.number}</span>
+                            <span class="font-bebas text-white text-3xl">{servicio.title}</span>
+                        </div>
+                        <span class="accordion-icon font-bebas text-first text-3xl leading-none">
+                            {index === 0 ? "−" : "+"}
+                        </span>
+                    </button>
+                    <div class={`accordion-content overflow-hidden transition-all duration-300 ease-in-out ${index === 0 ? 'max-h-60' : 'max-h-0'}`}>
+                        <p class="font-poppins text-white/70 text-sm pb-3">{servicio.description}</p>
+                        <a href="#" class="font-poppins text-white text-sm italic flex justify-end pb-5 hover:text-first transition">Ver galería</a>
+                    </div>
+                </div>
+            ))}
+        </div>
     </div>
 </section>
+
+<script>
+    const items = document.querySelectorAll('.accordion-item');
+
+    items.forEach((item) => {
+        const header = item.querySelector('.accordion-header') as HTMLButtonElement;
+        const content = item.querySelector('.accordion-content') as HTMLElement;
+        const icon = item.querySelector('.accordion-icon') as HTMLElement;
+
+        header.addEventListener('click', () => {
+            const isOpen = header.getAttribute('aria-expanded') === 'true';
+
+            // Close all
+            items.forEach((otherItem) => {
+                const otherHeader = otherItem.querySelector('.accordion-header') as HTMLButtonElement;
+                const otherContent = otherItem.querySelector('.accordion-content') as HTMLElement;
+                const otherIcon = otherItem.querySelector('.accordion-icon') as HTMLElement;
+                otherHeader.setAttribute('aria-expanded', 'false');
+                otherContent.classList.remove('max-h-60');
+                otherContent.classList.add('max-h-0');
+                otherIcon.textContent = '+';
+            });
+
+            // Open clicked (if it was closed)
+            if (!isOpen) {
+                header.setAttribute('aria-expanded', 'true');
+                content.classList.remove('max-h-0');
+                content.classList.add('max-h-60');
+                icon.textContent = '−';
+            }
+        });
+    });
+</script>
