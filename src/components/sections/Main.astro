@@ -1,0 +1,67 @@
+---
+import ScrollDown from "../icons/ScrollDown.astro";
+
+---
+
+<div class="relative overflow-hidden">
+<div class="hero-bg absolute inset-0 w-full h-full pointer-events-none select-none">
+</div>
+
+<main class="relative z-10">
+	<div
+		class="hero-gradient absolute inset-0"
+	>
+	</div>
+
+	<section class="relative z-10 flex flex-col items-center h-[100svh] pt-28 pb-6 px-10">
+		<div class="flex-1 flex flex-col items-center justify-center">
+			<h1 class="font-bebas leading-none text-center">
+				<span class="block text-[13vw] text-first">CONSTRUCCIÓN</span>
+				<span class="block text-[25vw] text-secondary -mt-2">EN SECO</span>
+			</h1>
+			<p
+				class="font-poppins text-secondary sm:mt-4 max-w-[85vw] w-full text-center"
+			>
+				Transformamos tus espacios con un <br /> sistema rápido, limpio y
+				a medida
+			</p>
+			<div class="w-full max-w-[75vw] flex gap-5 pt-5">
+				<a
+					href="#proyectos"
+					class="font-bebas text-secondary border border-secondary px-6 py-1.5 tracking-wider hover:bg-secondary hover:text-black transition w-[50%] text-lg flex items-center justify-center"
+				>
+					PROYECTOS
+				</a>
+				<a
+					href="#presupuestos"
+					class="font-bebas bg-first text-secondary px-6 py-1.5 tracking-wider hover:bg-red-700 transition w-[50%] text-lg flex items-center justify-center"
+				>
+					PRESUPUESTOS
+				</a>
+			</div>
+			<div class="max-w-[75vw] w-full">
+				<span class="flex w-20 h-1.25 bg-first mb-2 mt-5 sm:mt-10"></span>
+				<p
+					class="font-bebas text-secondary text-left w-full text-[8vw] leading-tight"
+				>
+					Más <span class="text-first">8 de años</span> en el <br />rubro y <span class="text-first">150 obras</span> finalizadas
+				</p>
+			</div>
+		</div>
+		<ScrollDown />
+	</section>
+</main>
+</div>
+
+<style>
+	.hero-bg {
+		background-image: url("../../assets/HeroMobile.webp");
+		background-size: 125% auto;
+		background-repeat: no-repeat;
+		background-position: center top;
+	}
+
+	.hero-gradient {
+		background: linear-gradient(to bottom, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.7) 75%, rgba(0,0,0,0) 100%);
+	}
+</style>

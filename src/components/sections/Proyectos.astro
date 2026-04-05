@@ -1,0 +1,166 @@
+---
+import TitleSection from "../TitleSection.astro";
+import ProjectCard from "../ProjectCard.astro";
+
+const projects = [
+  {
+    image: "/projects/proyectos01.webp",
+    title: "CRISTAL INN",
+    category: "Edificio",
+    tags: ["Techos", "PVC"],
+    location: "San Pedro, Buenos Aires",
+  },
+  {
+    image: "/projects/proyectos02.webp",
+    title: "SEBASTIAN",
+    category: "Casa",
+    tags: ["Techos", "Steel Frame"],
+    location: "San Pedro, Buenos Aires",
+  },
+  {
+    image: "/projects/proyectos03.webp",
+    title: "SALVADOR",
+    category: "Hogar",
+    tags: ["Muebles", "Revestimento"],
+    location: "San Pedro, Buenos Aires",
+  },
+];
+---
+
+<section class="relative z-20 pb-10">
+    <div
+        class="white-fade absolute -top-37.5 left-0 right-0 h-40 z-30 pointer-events-none"
+    >
+    </div>
+
+    <TitleSection
+        title="Proyectos"
+        color="first"
+        new_clases="ml-5 relative bottom-12 z-40"
+        subtitle="más destacados"
+        subtitle_color="#000000"
+    />
+
+    <!-- Carousel -->
+    <div class="relative mt-2 overflow-hidden">
+        <div id="carousel-track" class="flex gap-4 transition-transform duration-500 ease-in-out">
+            {projects.map((project) => (
+                <ProjectCard
+                    image={project.image}
+                    category={project.category}
+                    title={project.title}
+                    tags={project.tags}
+                    location={project.location}
+                />
+            ))}
+        </div>
+    </div>
+
+    <!-- Controls -->
+    <div class="flex items-center justify-between px-5 mt-6">
+        <div class="flex gap-4">
+            <button id="carousel-prev" aria-label="Proyecto anterior" class="text-black/40 hover:text-black transition">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </button>
+            <button id="carousel-next" aria-label="Proyecto siguiente" class="text-black hover:text-black/70 transition">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </button>
+        </div>
+        <a href="/proyectos" class="font-bebas bg-first text-secondary px-5 py-1.5 text-sm tracking-wider flex items-center gap-2 hover:bg-red-700 transition">
+            VER MAS PROYECTOS
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </a>
+    </div>
+</section>
+
+<script>
+    const track = document.getElementById('carousel-track') as HTMLElement;
+    const prevBtn = document.getElementById('carousel-prev') as HTMLButtonElement;
+    const nextBtn = document.getElementById('carousel-next') as HTMLButtonElement;
+    
+    let currentIndex = 0;
+    const cards = track.querySelectorAll('.project-card');
+    const totalCards = cards.length;
+
+    function getCardWidth() {
+        const card = cards[0] as HTMLElement;
+        const gap = 16; // gap-4 = 1rem = 16px
+        return card.offsetWidth + gap;
+    }
+
+    function updateCarousel() {
+        const cardWidth = getCardWidth();
+        const trackWidth = totalCards * cardWidth - 26; // total track width minus last gap
+        const containerWidth = track.parentElement!.offsetWidth;
+        const maxOffset = trackWidth - containerWidth;
+        const offset = Math.min(currentIndex * cardWidth, maxOffset);
+        track.style.transform = `translateX(-${Math.max(0, offset)}px)`;
+        
+        // Update arrow styles
+        prevBtn.classList.toggle('text-black/40', currentIndex === 0);
+        prevBtn.classList.toggle('text-black', currentIndex > 0);
+        nextBtn.classList.toggle('text-black/40', currentIndex >= totalCards - 1);
+        nextBtn.classList.toggle('text-black', currentIndex < totalCards - 1);
+    }
+
+    prevBtn.addEventListener('click', () => {
+        if (currentIndex > 0) {
+            currentIndex--;
+            updateCarousel();
+        }
+    });
+
+    nextBtn.addEventListener('click', () => {
+        if (currentIndex < totalCards - 1) {
+            currentIndex++;
+            updateCarousel();
+        }
+    });
+
+    // Touch/swipe support
+    let startX = 0;
+    let startY = 0;
+    let isHorizontalSwipe = false;
+
+    track.addEventListener('touchstart', (e) => {
+        startX = e.touches[0].clientX;
+        startY = e.touches[0].clientY;
+        isHorizontalSwipe = false;
+    }, { passive: true });
+
+    track.addEventListener('touchmove', (e) => {
+        const diffX = Math.abs(e.touches[0].clientX - startX);
+        const diffY = Math.abs(e.touches[0].clientY - startY);
+        if (diffX > diffY && diffX > 10) {
+            isHorizontalSwipe = true;
+            e.preventDefault();
+        }
+    }, { passive: false });
+
+    track.addEventListener('touchend', (e) => {
+        if (!isHorizontalSwipe) return;
+        const endX = e.changedTouches[0].clientX;
+        const diff = startX - endX;
+
+        if (Math.abs(diff) > 50) {
+            if (diff > 0 && currentIndex < totalCards - 1) {
+                currentIndex++;
+            } else if (diff < 0 && currentIndex > 0) {
+                currentIndex--;
+            }
+            updateCarousel();
+        }
+    }, { passive: true });
+</script>
+
+<style>
+    .white-fade {
+        background: linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 75%);
+    }
+</style>

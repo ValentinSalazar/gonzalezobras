@@ -1,0 +1,13 @@
+@import "tailwindcss";
+@import "@fontsource/bebas-neue/latin.css";
+@import "@fontsource/poppins/latin-400.css";
+@import "@fontsource/poppins/latin-500.css";
+@import "@fontsource/poppins/latin-700.css";
+
+@theme {
+  --font-bebas: "Bebas Neue", sans-serif;
+  --font-poppins: "Poppins", sans-serif;
+  --color-first: #EB192E;
+  --color-secondary: #FFFFFF;
+  --breakpoint-xs: 390px;
+}

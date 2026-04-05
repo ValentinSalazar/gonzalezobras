@@ -1,0 +1,19 @@
+---
+interface Props {
+    title: string;
+    color?: string;
+    new_clases?: string;
+    subtitle?: string;
+    subtitle_color?: string;
+    mas_color?: string;
+}
+
+const { title, color = "secondary", new_clases, subtitle, mas_color = "black", subtitle_color } = Astro.props;
+---
+
+<div class=`${new_clases} z-50`>
+    <h2 class=`font-bebas text-${color} text-4xl relative`>
+        {title}
+    </h2>
+    <p class=`font-poppins text-sm leading-0 text-${subtitle_color}`><span class=`text-${mas_color}`>+</span>{subtitle}</p>
+</div>

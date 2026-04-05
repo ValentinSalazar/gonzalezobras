@@ -1,0 +1,152 @@
+---
+import TitleSection from "../TitleSection.astro";
+import antes01 from "../../assets/antes01.webp";
+import antes02 from "../../assets/antes02.webp";
+import antes03 from "../../assets/antes03.webp";
+import antes04 from "../../assets/antes04.webp";
+import antes05 from "../../assets/antes05.webp";
+import despues01 from "../../assets/despues01.webp";
+import despues02 from "../../assets/despues02.webp";
+import despues03 from "../../assets/despues03.webp";
+import despues04 from "../../assets/despues04.webp";
+import despues05 from "../../assets/despues05.webp";
+
+const transformaciones = [
+    {
+        before: antes02.src,
+        after: despues02.src,
+    },
+    {
+        before: antes01.src,
+        after: despues01.src,
+    },
+    {
+        before: antes03.src,
+        after: despues03.src,
+    },
+    {
+        before: antes04.src,
+        after: despues04.src,
+    },
+    {
+        before: antes05.src,
+        after: despues05.src,
+    },
+];
+---
+
+<section class="w-screen pb-10 relative">
+    <TitleSection title="Transformaciones" color="first" subtitle="antes y después" new_clases="pl-5 pb-5"/>
+    <div class="w-full flex flex-col justify-center items-center relative mt-4 overflow-hidden px-5">
+        <!-- Before (top) -->
+        <div class="w-full h-64 relative overflow-hidden border border-b-0 border-white/20">
+            {transformaciones.map((t, i) => (
+                <img
+                    src={t.before}
+                    alt="Antes"
+                    class={`transf-before w-full h-full object-cover object-center transition-transform duration-500 ease-in-out ${i === 0 ? 'relative' : 'absolute inset-0 -translate-x-full'}`}
+                    data-index={i}
+                />
+            ))}
+            <span class="absolute bottom-2 left-3 z-30 font-bebas text-white/70 text-sm tracking-wider">ANTES</span>
+            <div class="absolute inset-0 pointer-events-none img-overlay z-10"></div>
+        </div>
+
+        <div class="w-full h-1 bg-white relative z-20 flex items-center justify-center">
+            <div class="absolute z-50 w-8 h-8 bg-white flex items-center justify-center">
+                <svg width="20" height="19" viewBox="0 0 20 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M11.683 12.5594L13.804 10.4384L19.8 16.4344L17.679 18.5554L11.683 12.5594ZM15.4 7.38736C17.33 7.38736 18.9 5.81736 18.9 3.88736C18.9 3.30736 18.74 2.76736 18.49 2.28736L15.79 4.98736L14.3 3.49736L17 0.79736C16.52 0.54736 15.98 0.38736 15.4 0.38736C13.47 0.38736 11.9 1.95736 11.9 3.88736C11.9 4.29736 11.98 4.68736 12.11 5.04736L10.26 6.89736L8.48 5.11736L9.19 4.40736L7.78 2.99736L9.9 0.87736C9.3375 0.315558 8.575 0 7.78 0C6.985 0 6.2225 0.315558 5.66 0.87736L2.12 4.41736L3.53 5.82736H0.71L0 6.53736L3.54 10.0774L4.25 9.36736V6.53736L5.66 7.94736L6.37 7.23736L8.15 9.01736L0.74 16.4274L2.86 18.5474L14.24 7.17736C14.6 7.30736 14.99 7.38736 15.4 7.38736Z" fill="#EB192E"/>
+                </svg>
+            </div>
+        </div>
+
+        <!-- After (bottom) -->
+        <div class="w-full h-64 relative overflow-hidden border border-t-0 border-white/20">
+            {transformaciones.map((t, i) => (
+                <img
+                    src={t.after}
+                    alt="Después"
+                    class={`transf-after w-full h-full object-cover object-center transition-transform duration-500 ease-in-out ${i === 0 ? 'relative' : 'absolute inset-0 translate-x-full'}`}
+                    data-index={i}
+                />
+            ))}
+            <span class="absolute top-2 left-3 z-30 font-bebas text-white/70 text-sm tracking-wider">DESPUÉS</span>
+            <div class="absolute inset-0 pointer-events-none img-overlay z-10"></div>
+        </div>
+    </div>
+
+    <!-- Controls -->
+    <div class="flex items-center justify-between px-5 mt-6">
+        <div class="flex gap-4">
+            <button id="transf-prev" aria-label="Transformación anterior" class="text-black/40 hover:text-black transition">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </button>
+            <button id="transf-next" aria-label="Transformación siguiente" class="text-black hover:text-black/70 transition">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </button>
+        </div>
+        <a href="#" class="font-bebas bg-first text-secondary px-5 py-1.5 text-sm tracking-wider flex items-center gap-2 hover:bg-red-700 transition">
+            VER MAS TRANSFORMACIONES
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </a>
+    </div>
+
+    <div class="red-fade absolute bottom-0 left-0 right-0 h-2 pointer-events-none"></div>
+</section>
+
+<script>
+    const prevBtn = document.getElementById('transf-prev') as HTMLButtonElement;
+    const nextBtn = document.getElementById('transf-next') as HTMLButtonElement;
+    const befores = document.querySelectorAll('.transf-before') as NodeListOf<HTMLElement>;
+    const afters = document.querySelectorAll('.transf-after') as NodeListOf<HTMLElement>;
+    const total = befores.length;
+    let current = 0;
+
+    function updateTransf() {
+        befores.forEach((img, i) => {
+            img.classList.remove('translate-x-full', '-translate-x-full');
+            if (i < current) img.classList.add('-translate-x-full');
+            else if (i > current) img.classList.add('translate-x-full');
+        });
+        afters.forEach((img, i) => {
+            img.classList.remove('translate-x-full', '-translate-x-full');
+            if (i < current) img.classList.add('translate-x-full');
+            else if (i > current) img.classList.add('-translate-x-full');
+        });
+
+        prevBtn.classList.toggle('text-black/40', current === 0);
+        prevBtn.classList.toggle('text-black', current > 0);
+        nextBtn.classList.toggle('text-black/40', current >= total - 1);
+        nextBtn.classList.toggle('text-black', current < total - 1);
+    }
+
+    prevBtn.addEventListener('click', () => {
+        if (current > 0) { current--; updateTransf(); }
+    });
+
+    nextBtn.addEventListener('click', () => {
+        if (current < total - 1) { current++; updateTransf(); }
+    });
+</script>
+
+<style>
+    .img-overlay {
+        background: linear-gradient(
+            to bottom,
+            rgba(0,0,0,0.75) 0%,
+            rgba(0,0,0,0) 25%,
+            rgba(0,0,0,0) 75%,
+            rgba(0,0,0,0.75) 100%
+        );
+    }
+
+    .red-fade {
+        background: linear-gradient(to bottom, rgba(235,25,46,0) 0%, rgba(235,25,46,1) 100%);
+    }
+</style>
