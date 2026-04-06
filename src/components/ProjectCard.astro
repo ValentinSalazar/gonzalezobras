@@ -1,6 +1,9 @@
 ---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
 interface Props {
-  image: string;
+  image: ImageMetadata;
   title: string;
   category: string;
   tags: string[];
@@ -12,11 +15,12 @@ const { image, title, category, tags, location } = Astro.props;
 
 <div class="project-card shrink-0 w-[85%] isolate">
   <div class="card-image-wrapper aspect-3/4 w-full relative overflow-hidden">
-    <img
+    <Image
       src={image}
       alt={title}
+      width={700}
       class="w-full h-full object-cover block"
-      loading="lazy"    
+      loading="lazy"
     />
     <div class="card-gradient absolute bottom-0 inset-x-0 p-4">
       <div class="flex items-center gap-3 mb-2">
