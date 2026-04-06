@@ -8,21 +8,18 @@ import proyectos03 from "../../assets/projects/proyectos03.webp";
 const projects = [
   {
     image: proyectos01,
-    title: "CRISTAL INN",
     category: "Edificio",
     tags: ["Techos", "PVC"],
     location: "San Pedro, Buenos Aires",
   },
   {
     image: proyectos02,
-    title: "SEBASTIAN",
-    category: "Casa",
+    category: "Hogar",
     tags: ["Techos", "Steel Frame"],
     location: "San Pedro, Buenos Aires",
   },
   {
     image: proyectos03,
-    title: "SALVADOR",
     category: "Hogar",
     tags: ["Muebles", "Revestimento"],
     location: "San Pedro, Buenos Aires",
@@ -51,7 +48,6 @@ const projects = [
                 <ProjectCard
                     image={project.image}
                     category={project.category}
-                    title={project.title}
                     tags={project.tags}
                     location={project.location}
                 />

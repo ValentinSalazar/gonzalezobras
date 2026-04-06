@@ -1,1 +1,28 @@
-<h1>contacto</h1>
+---
+import Layout from '../layouts/Layout.astro';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/sections/Footer.astro';
+import Contacto from '../components/sections/Contacto.astro';
+import FormularioContacto from '../components/sections/FormularioContacto.astro';
+---
+
+<Layout>
+    <Navbar />
+
+    <!-- Hero -->
+    <div class="relative h-52 flex items-end overflow-hidden bg-[#111]">
+        <div class="absolute inset-0 bg-black/60"></div>
+        <div class="relative z-10 px-5 pb-8">
+            <span class="flex w-14 h-1 bg-first mb-2"></span>
+            <h1 class="font-bebas text-white text-5xl leading-none">Contacto</h1>
+            <p class="font-poppins text-white text-sm"><span class="text-first">+</span>hablemos de tu proyecto</p>
+        </div>
+    </div>
+
+    <div class="md:flex">
+        <Contacto />
+        <FormularioContacto />
+    </div>
+
+    <Footer />
+</Layout>

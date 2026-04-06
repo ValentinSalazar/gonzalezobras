@@ -1,1 +1,240 @@
-<h1>Proyectos</h1>
+---
+import Layout from '../layouts/Layout.astro';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/sections/Footer.astro';
+import { Image } from 'astro:assets';
+import proyectos01 from '../assets/projects/proyectos01.webp';
+import proyectos02 from '../assets/projects/proyectos02.webp';
+import proyectos03 from '../assets/projects/proyectos03.webp';
+import Location from '../components/icons/Location.astro';
+
+const projects = [
+    {
+        slug: "cristal-inn",
+        image: proyectos01,
+        title: "CRISTAL INN",
+        category: "Edificio",
+        tags: ["Techos", "PVC"],
+        location: "San Pedro, Buenos Aires",
+        duration: "15 días",
+    },
+    {
+        slug: "sebastian",
+        image: proyectos02,
+        title: "SEBASTIAN",
+        category: "Casa",
+        tags: ["Techos", "Steel Frame"],
+        location: "San Pedro, Buenos Aires",
+        duration: "20 días",
+    },
+    {
+        slug: "salvador",
+        image: proyectos03,
+        title: "SALVADOR",
+        category: "Hogar",
+        tags: ["Muebles", "Revestimiento"],
+        location: "San Pedro, Buenos Aires",
+        duration: "10 días",
+    },
+    {
+        slug: "proyecto-norte",
+        image: proyectos01,
+        title: "PROYECTO NORTE",
+        category: "Comercial",
+        tags: ["Cielorrasos", "Wall Panel"],
+        location: "San Pedro, Buenos Aires",
+        duration: "7 días",
+    },
+    {
+        slug: "residencia-sur",
+        image: proyectos02,
+        title: "RESIDENCIA SUR",
+        category: "Hogar",
+        tags: ["Amoblamientos"],
+        location: "San Pedro, Buenos Aires",
+        duration: "12 días",
+    },
+    {
+        slug: "edificio-central",
+        image: proyectos03,
+        title: "EDIFICIO CENTRAL",
+        category: "Edificio",
+        tags: ["Revestimiento", "PVC"],
+        location: "San Pedro, Buenos Aires",
+        duration: "30 días",
+    },
+];
+
+// Collect unique filter tags from all projects
+const allTags = ["Todos", ...new Set(projects.flatMap(p => p.tags))];
+---
+
+<Layout>
+    <Navbar />
+
+    <!-- Hero -->
+    <div class="relative h-52 flex items-end overflow-hidden">
+        <Image
+            src={proyectos01}
+            alt="Proyectos González Obras"
+            width={800}
+            class="absolute inset-0 w-full h-full object-cover"
+            loading="eager"
+            fetchpriority="high"
+        />
+        <div class="absolute inset-0 bg-black/70"></div>
+        <div class="relative z-10 px-5 pb-8">
+            <span class="flex w-14 h-1 bg-first mb-2"></span>
+            <h1 class="font-bebas text-white text-5xl leading-none">Proyectos</h1>
+            <p class="font-poppins text-white text-sm"><span class="text-first">+</span>obras realizadas</p>
+            <p class="font-poppins text-gray-500 text-sm leading-relaxed max-w-lg">
+                Cada obra que realizamos refleja nuestro compromiso con la calidad y el detalle. 
+                <br/>Explorá nuestros trabajos y encontrá inspiración para tu próximo proyecto.
+            </p>
+        </div>
+    </div>
+
+    <!-- Filters -->
+    <div class="bg-white border-b border-gray-200 px-5 py-4 overflow-x-auto">
+        <div class="flex gap-2 min-w-max">
+            {allTags.map((tag) => (
+                <button
+                    class="filter-btn font-poppins text-xs px-4 py-2 border transition-colors"
+                    data-filter={tag}
+                >
+                    {tag}
+                </button>
+            ))}
+        </div>
+    </div>
+
+    <!-- Cards grid -->
+    <section class="bg-white px-5 py-8">
+        <div id="projects-grid" class="grid grid-cols-1 gap-5 sm:grid-cols-2">
+            {projects.map((project, i) => (
+                <a
+                    href={`/proyectos/${project.slug}`}
+                    class="project-card group flex flex-col overflow-hidden border border-gray-200 shadow-sm hover:shadow-md transition-shadow min-h-[80vh] sm:min-h-0"
+                    data-tags={project.tags.join(',')}
+                >
+                    <!-- Image -->
+                    <div class="relative overflow-hidden flex-1 sm:aspect-4/3 sm:flex-none">
+                        <Image
+                            src={project.image}
+                            alt={project.title}
+                            width={600}
+                            class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                            loading="lazy"
+                        />
+                        <div class="absolute inset-0" style="background: linear-gradient(to top, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0) 60%)"></div>
+                        <span class="absolute top-3 right-3 font-poppins text-white text-xs border border-white/60 px-2 py-0.5 bg-black/40 backdrop-blur-sm">
+                            {project.category}
+                        </span>
+                        <span class="absolute bottom-3 left-3 font-bebas text-white/20 text-5xl leading-none select-none">
+                            {String(i + 1).padStart(2, '0')}
+                        </span>
+                    </div>
+
+                    <!-- Info -->
+                    <div class="px-4 py-5 flex flex-col gap-3 bg-white">
+                        <h2 class="font-bebas text-gray-900 text-2xl leading-none">{project.title}</h2>
+
+                        <div class="flex flex-wrap gap-1.5">
+                            {project.tags.map((tag) => (
+                                <span class="font-poppins text-gray-500 text-xs border border-gray-200 px-2 py-0.5">
+                                    + {tag}
+                                </span>
+                            ))}
+                        </div>
+
+                        <div class="flex items-center gap-4 mt-auto pt-3 border-t border-gray-100 justify-between">
+                            <div class="flex items-center gap-3">
+                                <!-- Duration -->
+                                <div class="flex items-center gap-1">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                                        <circle cx="12" cy="12" r="9" stroke="#EB192E" stroke-width="1"/>
+                                        <path d="M12 7v5l3 3" stroke="#EB192E" stroke-width="1" stroke-linecap="round"/>
+                                    </svg>
+                                    <span class="font-poppins text-gray-400 text-xs">{project.duration}</span>
+                                </div>
+                                <!-- Location -->
+                                <div class="flex items-center gap-1">
+                                    <Location />
+                                    <span class="font-poppins text-gray-400 text-xs">{project.location}</span>
+                                </div>
+                            </div>
+                            <span class="font-bebas text-first text-sm tracking-wider flex items-center gap-1 group-hover:gap-2 transition-all">
+                                VER
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+                                    <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="#EB192E" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </span>
+                        </div>
+                    </div>
+                </a>
+            ))}
+        </div>
+
+        <!-- Empty state -->
+        <div id="no-results" class="hidden py-16 text-center">
+            <p class="font-bebas text-gray-300 text-3xl">Sin resultados</p>
+            <p class="font-poppins text-gray-400 text-sm mt-2">No hay proyectos con ese filtro.</p>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <div class="bg-white px-5 py-12 flex flex-col items-center gap-3 border-t border-gray-100">
+        <p class="font-bebas text-gray-900 text-3xl text-center">¿TENÉS UN PROYECTO EN MENTE?</p>
+        <p class="font-poppins text-gray-400 text-sm text-center max-w-xs">Te respondemos en menos de 24 horas con un presupuesto sin compromiso.</p>
+        <a
+            href="https://wa.me/3329335202?text=Hola%2C%20quiero%20consultar%20por%20un%20presupuesto"
+            target="_blank"
+            class="font-bebas bg-first text-white px-8 py-2.5 text-xl tracking-wider hover:bg-red-700 transition mt-1"
+        >
+            PEDIR PRESUPUESTO
+        </a>
+    </div>
+
+    <Footer />
+</Layout>
+
+<script>
+    const filterBtns = document.querySelectorAll<HTMLButtonElement>('.filter-btn');
+    const cards = document.querySelectorAll<HTMLElement>('.project-card');
+    const noResults = document.getElementById('no-results')!;
+
+    let activeFilter = 'Todos';
+
+    function applyFilter(filter: string) {
+        activeFilter = filter;
+
+        // Update button styles
+        filterBtns.forEach(btn => {
+            const isActive = btn.dataset.filter === filter;
+            btn.classList.toggle('bg-first', isActive);
+            btn.classList.toggle('text-white', isActive);
+            btn.classList.toggle('border-first', isActive);
+            btn.classList.toggle('text-gray-500', !isActive);
+            btn.classList.toggle('border-gray-200', !isActive);
+            btn.classList.toggle('bg-white', !isActive);
+        });
+
+        // Show/hide cards
+        let visible = 0;
+        cards.forEach(card => {
+            const tags = (card.dataset.tags ?? '').split(',');
+            const show = filter === 'Todos' || tags.includes(filter);
+            card.style.display = show ? '' : 'none';
+            if (show) visible++;
+        });
+
+        noResults.classList.toggle('hidden', visible > 0);
+    }
+
+    filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => applyFilter(btn.dataset.filter ?? 'Todos'));
+    });
+
+    // Set initial active state
+    applyFilter('Todos');
+</script>

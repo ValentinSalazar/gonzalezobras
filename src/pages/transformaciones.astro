@@ -1,1 +1,89 @@
-<h1>transformaciones</h1>
+---
+import Layout from '../layouts/Layout.astro';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/sections/Footer.astro';
+import { Image } from 'astro:assets';
+import antes01 from '../assets/antes01.webp';
+import antes02 from '../assets/antes02.webp';
+import antes03 from '../assets/antes03.webp';
+import antes04 from '../assets/antes04.webp';
+import antes05 from '../assets/antes05.webp';
+import despues01 from '../assets/despues01.webp';
+import despues02 from '../assets/despues02.webp';
+import despues03 from '../assets/despues03.webp';
+import despues04 from '../assets/despues04.webp';
+import despues05 from '../assets/despues05.webp';
+
+const transformaciones = [
+    { before: antes02, after: despues02 },
+    { before: antes01, after: despues01 },
+    { before: antes03, after: despues03 },
+    { before: antes04, after: despues04 },
+    { before: antes05, after: despues05 },
+];
+---
+
+<Layout>
+    <Navbar />
+
+    <!-- Hero -->
+    <div class="relative h-52 flex items-end overflow-hidden">
+        <Image
+            src={antes01}
+            alt="Transformaciones González Obras"
+            width={800}
+            class="absolute inset-0 w-full h-full object-cover"
+            loading="eager"
+            fetchpriority="high"
+        />
+        <div class="absolute inset-0 bg-black/70"></div>
+        <div class="relative z-10 px-5 pb-8">
+            <span class="flex w-14 h-1 bg-first mb-2"></span>
+            <h1 class="font-bebas text-white text-5xl leading-none">Transformaciones</h1>
+            <p class="font-poppins text-white text-sm"><span class="text-first">+</span>antes y después</p>
+        </div>
+    </div>
+
+    <!-- Lista de transformaciones -->
+    <section class="bg-[#111] px-5 py-10 flex flex-col gap-16">
+        {transformaciones.map((t, i) => (
+            <div>
+                <p class="font-bebas text-first text-sm tracking-widest mb-3">0{i + 1}</p>
+                <div class="flex flex-col gap-1">
+                    <!-- Antes -->
+                    <div class="relative w-full h-52 overflow-hidden">
+                        <Image
+                            src={t.before}
+                            alt="Antes"
+                            width={700}
+                            class="w-full h-full object-cover"
+                            loading="lazy"
+                        />
+                        <span class="absolute bottom-2 left-3 font-bebas text-white/70 text-sm tracking-wider">ANTES</span>
+                        <div class="absolute inset-0" style="background: linear-gradient(to bottom, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0) 40%, rgba(0,0,0,0) 60%, rgba(0,0,0,0.5) 100%)"></div>
+                    </div>
+                    <!-- Separador -->
+                    <div class="w-full h-0.5 bg-first relative flex items-center justify-center">
+                        <div class="absolute bg-[#111] w-8 h-8 flex items-center justify-center">
+                            <svg width="16" height="15" viewBox="0 0 20 19" fill="none"><path d="M11.683 12.5594L13.804 10.4384L19.8 16.4344L17.679 18.5554L11.683 12.5594ZM15.4 7.38736C17.33 7.38736 18.9 5.81736 18.9 3.88736C18.9 3.30736 18.74 2.76736 18.49 2.28736L15.79 4.98736L14.3 3.49736L17 0.79736C16.52 0.54736 15.98 0.38736 15.4 0.38736C13.47 0.38736 11.9 1.95736 11.9 3.88736C11.9 4.29736 11.98 4.68736 12.11 5.04736L10.26 6.89736L8.48 5.11736L9.19 4.40736L7.78 2.99736L9.9 0.87736C9.3375 0.315558 8.575 0 7.78 0C6.985 0 6.2225 0.315558 5.66 0.87736L2.12 4.41736L3.53 5.82736H0.71L0 6.53736L3.54 10.0774L4.25 9.36736V6.53736L5.66 7.94736L6.37 7.23736L8.15 9.01736L0.74 16.4274L2.86 18.5474L14.24 7.17736C14.6 7.30736 14.99 7.38736 15.4 7.38736Z" fill="#EB192E"/></svg>
+                        </div>
+                    </div>
+                    <!-- Después -->
+                    <div class="relative w-full h-52 overflow-hidden">
+                        <Image
+                            src={t.after}
+                            alt="Después"
+                            width={700}
+                            class="w-full h-full object-cover"
+                            loading="lazy"
+                        />
+                        <span class="absolute top-2 left-3 font-bebas text-white/70 text-sm tracking-wider">DESPUÉS</span>
+                        <div class="absolute inset-0" style="background: linear-gradient(to bottom, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0) 40%, rgba(0,0,0,0) 60%, rgba(0,0,0,0.5) 100%)"></div>
+                    </div>
+                </div>
+            </div>
+        ))}
+    </section>
+
+    <Footer />
+</Layout>

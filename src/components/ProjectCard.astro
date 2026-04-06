@@ -1,10 +1,11 @@
 ---
 import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
+import Location from './icons/Location.astro';
 
 interface Props {
   image: ImageMetadata;
-  title: string;
+  title?: string;
   category: string;
   tags: string[];
   location: string;
@@ -17,14 +18,13 @@ const { image, title, category, tags, location } = Astro.props;
   <div class="card-image-wrapper aspect-3/4 w-full relative overflow-hidden">
     <Image
       src={image}
-      alt={title}
+      alt={title ?? category}
       width={700}
       class="w-full h-full object-cover block"
       loading="lazy"
     />
     <div class="card-gradient absolute bottom-0 inset-x-0 p-4">
       <div class="flex items-center gap-3 mb-2">
-        <h3 class="font-bebas text-secondary text-2xl leading-none">{title}</h3>
         <span class="text-secondary text-xs font-poppins border border-secondary/50 rounded px-2 py-0.5">{category}</span>
       </div>
       <div class="flex gap-3 mb-1.5">
@@ -33,10 +33,7 @@ const { image, title, category, tags, location } = Astro.props;
         ))}
       </div>
       <div class="flex items-center gap-1.5">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" fill="#EB192E"/>
-          <circle cx="12" cy="9" r="2.5" fill="white"/>
-        </svg>
+        <Location color='white'/>
         <span class="font-poppins text-secondary/70 text-xs">{location}</span>
       </div>
     </div>
