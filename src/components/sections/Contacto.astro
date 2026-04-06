@@ -4,7 +4,8 @@ import Phone from "../icons/Phone.astro";
 import TitleSection from "../TitleSection.astro";
 ---
 
-<section class="h-auto w-full px-5 pt-5 md:w-1/2">
+<section class="relative h-auto w-full px-5 pt-5 md:w-1/2 overflow-hidden">
+    <span class="hidden md:flex w-20 h-1.25 mb-2"></span>
     <TitleSection
         title="Nosotros"
         color="first"
@@ -52,5 +53,21 @@ import TitleSection from "../TitleSection.astro";
             referrerpolicy="no-referrer-when-downgrade"
             title="Ubicación de González Obras en San Pedro, Buenos Aires"
         ></iframe>
+    </div>
+
+    <div class="absolute bottom-0 left-0 right-0 pointer-events-none select-none overflow-hidden z-[-1]">
+        <div
+            class="flex flex-col font-bebas text-[100px] md:text-8xl leading-tight whitespace-nowrap"
+            style="background: linear-gradient(to bottom, #4E4B4B 0%, #1E1E1E 53%, #FFFFFF 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; opacity: 0.03;"
+        >
+            <span>NOSOTROS</span>
+            <span>CIELORRASOS</span>
+            <span>AMOBLAMIENTOS</span>
+            <span>REVESTIMIENTOS</span>
+            <span>CONSTRUCCIONN</span>
+            <span>ESPECIALISTAS</span>
+            <span>OPTIMIZAMOS</span>
+            <span>TRANSFORMACION</span>
+        </div>
     </div>
 </section>
