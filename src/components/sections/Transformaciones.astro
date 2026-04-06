@@ -1,4 +1,5 @@
 ---
+import { Image } from 'astro:assets';
 import TitleSection from "../TitleSection.astro";
 import antes01 from "../../assets/antes01.webp";
 import antes02 from "../../assets/antes02.webp";
@@ -12,26 +13,11 @@ import despues04 from "../../assets/despues04.webp";
 import despues05 from "../../assets/despues05.webp";
 
 const transformaciones = [
-    {
-        before: antes02.src,
-        after: despues02.src,
-    },
-    {
-        before: antes01.src,
-        after: despues01.src,
-    },
-    {
-        before: antes03.src,
-        after: despues03.src,
-    },
-    {
-        before: antes04.src,
-        after: despues04.src,
-    },
-    {
-        before: antes05.src,
-        after: despues05.src,
-    },
+    { before: antes02, after: despues02 },
+    { before: antes01, after: despues01 },
+    { before: antes03, after: despues03 },
+    { before: antes04, after: despues04 },
+    { before: antes05, after: despues05 },
 ];
 ---
 
@@ -41,11 +27,13 @@ const transformaciones = [
         <!-- Before (top) -->
         <div class="w-full h-64 relative overflow-hidden border border-b-0 border-white/20">
             {transformaciones.map((t, i) => (
-                <img
+                <Image
                     src={t.before}
                     alt="Antes"
+                    width={700}
                     class={`transf-before w-full h-full object-cover object-center transition-transform duration-500 ease-in-out ${i === 0 ? 'relative' : 'absolute inset-0 -translate-x-full'}`}
                     data-index={i}
+                    loading="lazy"
                 />
             ))}
             <span class="absolute bottom-2 left-3 z-30 font-bebas text-white/70 text-sm tracking-wider">ANTES</span>
@@ -63,11 +51,13 @@ const transformaciones = [
         <!-- After (bottom) -->
         <div class="w-full h-64 relative overflow-hidden border border-t-0 border-white/20">
             {transformaciones.map((t, i) => (
-                <img
+                <Image
                     src={t.after}
                     alt="Después"
+                    width={700}
                     class={`transf-after w-full h-full object-cover object-center transition-transform duration-500 ease-in-out ${i === 0 ? 'relative' : 'absolute inset-0 translate-x-full'}`}
                     data-index={i}
+                    loading="lazy"
                 />
             ))}
             <span class="absolute top-2 left-3 z-30 font-bebas text-white/70 text-sm tracking-wider">DESPUÉS</span>

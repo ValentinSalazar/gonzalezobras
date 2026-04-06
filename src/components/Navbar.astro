@@ -2,7 +2,9 @@
 import Menu from "./icons/Menu.astro";
 ---
 
-<nav class="flex justify-between items-center px-5 font-poppins absolute pt-10 z-20 w-full">
+<nav class="flex justify-between items-center px-5 font-poppins absolute pt-10 z-20 w-full" aria-label="Navegación principal">
     <a href="#" class="text-white">Gonzalez</a>
-    <Menu size={32} color="#ffffff"/>
+    <button aria-label="Abrir menú" class="bg-transparent border-none cursor-pointer p-0">
+        <Menu size={32} color="#ffffff"/>
+    </button>
 </nav>
