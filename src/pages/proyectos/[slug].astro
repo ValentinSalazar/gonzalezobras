@@ -1,12 +1,13 @@
 ---
-import Layout from '../../layouts/Layout.astro';
-import Navbar from '../../components/Navbar.astro';
-import Footer from '../../components/sections/Footer.astro';
-import { Image } from 'astro:assets';
-import type { ImageMetadata } from 'astro';
-import proyectos01 from '../../assets/projects/proyectos01.webp';
-import proyectos02 from '../../assets/projects/proyectos02.webp';
-import proyectos03 from '../../assets/projects/proyectos03.webp';
+import Layout from "../../layouts/Layout.astro";
+import Navbar from "../../components/Navbar.astro";
+import Footer from "../../components/sections/Footer.astro";
+import { Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
+import proyectos01 from "../../assets/projects/proyectos01.webp";
+import proyectos02 from "../../assets/projects/proyectos02.webp";
+import proyectos03 from "../../assets/projects/proyectos03.webp";
+import Location from "../../components/icons/Location.astro";
 
 interface Project {
     title: string;
@@ -22,79 +23,85 @@ interface Project {
 export function getStaticPaths() {
     return [
         {
-            params: { slug: 'cristal-inn' },
+            params: { slug: "cristal-inn" },
             props: {
                 title: "CRISTAL INN",
                 category: "Edificio",
                 tags: ["Techos", "PVC"],
                 location: "San Pedro, Buenos Aires",
                 year: "2024",
-                description: "Renovación completa de techos con sistema de PVC de alta durabilidad para edificio comercial en el centro de San Pedro. El proyecto incluyó desmontaje del sistema anterior, impermeabilización, y colocación de cubierta de PVC con aislación térmica.",
+                description:
+                    "Renovación completa de techos con sistema de PVC de alta durabilidad para edificio comercial en el centro de San Pedro. El proyecto incluyó desmontaje del sistema anterior, impermeabilización, y colocación de cubierta de PVC con aislación térmica.",
                 hero: proyectos01,
                 gallery: [proyectos02, proyectos03, proyectos01],
             } satisfies Project,
         },
         {
-            params: { slug: 'sebastian' },
+            params: { slug: "sebastian" },
             props: {
                 title: "SEBASTIAN",
                 category: "Casa",
                 tags: ["Techos", "Steel Frame"],
                 location: "San Pedro, Buenos Aires",
                 year: "2024",
-                description: "Construcción de techo con estructura steel frame, aislación térmica de alta performance y cubierta metálica prepintada. El proyecto contempló el diseño estructural, montaje y terminaciones interiores del cielorraso.",
+                description:
+                    "Construcción de techo con estructura steel frame, aislación térmica de alta performance y cubierta metálica prepintada. El proyecto contempló el diseño estructural, montaje y terminaciones interiores del cielorraso.",
                 hero: proyectos02,
                 gallery: [proyectos03, proyectos01, proyectos02],
             } satisfies Project,
         },
         {
-            params: { slug: 'salvador' },
+            params: { slug: "salvador" },
             props: {
                 title: "SALVADOR",
                 category: "Hogar",
                 tags: ["Muebles", "Revestimiento"],
                 location: "San Pedro, Buenos Aires",
                 year: "2023",
-                description: "Remodelación interior completa con diseño y fabricación de muebles a medida en melamina y madera maciza. Se realizaron revestimientos en paredes con diferentes materiales y texturas, logrando una estética moderna y funcional.",
+                description:
+                    "Remodelación interior completa con diseño y fabricación de muebles a medida en melamina y madera maciza. Se realizaron revestimientos en paredes con diferentes materiales y texturas, logrando una estética moderna y funcional.",
                 hero: proyectos03,
                 gallery: [proyectos01, proyectos02, proyectos03],
             } satisfies Project,
         },
         {
-            params: { slug: 'proyecto-norte' },
+            params: { slug: "proyecto-norte" },
             props: {
                 title: "PROYECTO NORTE",
                 category: "Comercial",
                 tags: ["Cielorrasos", "Wall Panel"],
                 location: "San Pedro, Buenos Aires",
                 year: "2023",
-                description: "Instalación de cielorrasos desmontables y paneles decorativos para local comercial. El trabajo incluyó estructura metálica, placas de yeso y terminaciones con molduras de aluminio.",
+                description:
+                    "Instalación de cielorrasos desmontables y paneles decorativos para local comercial. El trabajo incluyó estructura metálica, placas de yeso y terminaciones con molduras de aluminio.",
                 hero: proyectos01,
                 gallery: [proyectos02, proyectos03, proyectos01],
             } satisfies Project,
         },
         {
-            params: { slug: 'residencia-sur' },
+            params: { slug: "residencia-sur" },
             props: {
                 title: "RESIDENCIA SUR",
                 category: "Hogar",
                 tags: ["Amoblamientos"],
                 location: "San Pedro, Buenos Aires",
                 year: "2023",
-                description: "Proyecto integral de amoblamientos a medida para vivienda familiar. Cocina, dormitorios, placard y living completamente amoblados con materiales de primera calidad y herrajes importados.",
+                description:
+                    "Proyecto integral de amoblamientos a medida para vivienda familiar. Cocina, dormitorios, placard y living completamente amoblados con materiales de primera calidad y herrajes importados.",
                 hero: proyectos02,
                 gallery: [proyectos03, proyectos01, proyectos02],
             } satisfies Project,
         },
         {
-            params: { slug: 'edificio-central' },
+            params: { slug: "edificio-central" },
             props: {
                 title: "EDIFICIO CENTRAL",
                 category: "Edificio",
                 tags: ["Revestimiento", "PVC"],
                 location: "San Pedro, Buenos Aires",
                 year: "2022",
-                description: "Revestimiento exterior completo de edificio de 4 pisos con sistema PVC resistente a la intemperie. El proyecto incluyó preparación de superficies, fijación de perfiles y colocación de paneles en toda la fachada.",
+                description:
+                    "Revestimiento exterior completo de edificio de 4 pisos con sistema PVC resistente a la intemperie. El proyecto incluyó preparación de superficies, fijación de perfiles y colocación de paneles en toda la fachada.",
                 hero: proyectos03,
                 gallery: [proyectos01, proyectos02, proyectos03],
             } satisfies Project,
@@ -102,7 +109,8 @@ export function getStaticPaths() {
     ];
 }
 
-const { title, category, tags, location, year, description, hero, gallery } = Astro.props as Project;
+const { title, category, tags, location, year, description, hero, gallery } =
+    Astro.props as Project;
 ---
 
 <Layout
@@ -123,80 +131,125 @@ const { title, category, tags, location, year, description, hero, gallery } = As
         />
         <div class="absolute inset-0 bg-black/70"></div>
         <div class="relative z-10 px-5 pb-8 w-full">
-            <a href="/proyectos" class="font-poppins text-white text-xs flex items-center gap-1.5 mb-4 hover:text-white/80 transition">
+            <a
+                href="/proyectos"
+                class="font-poppins text-white text-xs flex items-center gap-1.5 mb-4 hover:text-white/80 transition"
+            >
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
-                    <path d="M19 12H5M5 12L12 19M5 12L12 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path
+                        d="M19 12H5M5 12L12 19M5 12L12 5"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"></path>
                 </svg>
                 Todos los proyectos
             </a>
             <span class="flex w-14 h-1 bg-first mb-3"></span>
             <div class="flex items-end justify-between">
                 <div>
-                    <p class="font-bebas text-first text-sm tracking-widest mb-1">{year} · {category}</p>
-                    <h1 class="font-bebas text-white text-5xl leading-none">{title}</h1>
+                    <p
+                        class="font-bebas text-first text-sm tracking-widest mb-1"
+                    >
+                        {year} - {category}
+                    </p>
+                    <h1 class="font-bebas text-white text-5xl leading-none">
+                        {title}
+                    </h1>
                 </div>
+            </div>
+            <div
+                class="flex items-center gap-4 flex-wrap"
+            >
+                <div class="flex items-center gap-1.5">
+                    <Location color="white" />
+                    <span class="font-poppins text-secondary text-xs"
+                        >{location}</span
+                    >
+                </div>
+                {
+                    tags.map((tag) => (
+                        <span class="font-poppins text-secondary text-xs">
+                            + {tag}
+                        </span>
+                    ))
+                }
             </div>
         </div>
     </div>
 
-    <!-- Content -->
-    <div class="bg-[#111]">
-
-        <!-- Meta bar -->
-        <div class="flex items-center gap-4 px-5 py-4 border-b border-white/10 flex-wrap">
-            <div class="flex items-center gap-1.5">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
-                    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" fill="#EB192E"/>
-                    <circle cx="12" cy="9" r="2.5" fill="white"/>
-                </svg>
-                <span class="font-poppins text-white/50 text-xs">{location}</span>
-            </div>
-            <span class="w-px h-3 bg-white/20"></span>
-            {tags.map((tag) => (
-                <span class="font-poppins text-white/50 text-xs">+ {tag}</span>
-            ))}
-        </div>
-
-        <!-- Description -->
+    <div class="bg-secondary">
         <div class="px-5 py-8">
-            <p class="font-bebas text-first text-xs tracking-widest mb-3">DESCRIPCIÓN</p>
-            <p class="font-poppins text-white/70 text-sm leading-relaxed">{description}</p>
+            <p class="font-bebas text-first text-xs tracking-widest mb-3">
+                DESCRIPCIÓN
+            </p>
+            <p class="font-poppins text-third text-sm leading-relaxed">
+                {description}
+            </p>
         </div>
 
-        <!-- Gallery -->
         <div class="px-5 pb-10">
-            <p class="font-bebas text-first text-xs tracking-widest mb-4">GALERÍA DE FOTOS</p>
+            <p class="font-bebas text-first text-xs tracking-widest mb-4">
+                GALERÍA DE FOTOS
+            </p>
             <div class="grid grid-cols-1 gap-2 sm:grid-cols-2">
-                {gallery.map((img, i) => (
-                    <button
-                        class={`relative overflow-hidden group cursor-zoom-in ${i === 0 ? 'sm:col-span-2 aspect-video' : 'aspect-video'}`}
-                        data-gallery-index={i}
-                        aria-label={`Ver foto ${i + 1}`}
-                    >
-                        <Image
-                            src={img}
-                            alt={`${title} - foto ${i + 1}`}
-                            width={800}
-                            class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                            loading="lazy"
-                        />
-                        <div class="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors flex items-center justify-center">
-                            <svg class="opacity-0 group-hover:opacity-100 transition-opacity" width="32" height="32" viewBox="0 0 24 24" fill="none">
-                                <circle cx="11" cy="11" r="7" stroke="white" stroke-width="2"/>
-                                <path d="M16.5 16.5L21 21" stroke="white" stroke-width="2" stroke-linecap="round"/>
-                                <path d="M11 8v6M8 11h6" stroke="white" stroke-width="2" stroke-linecap="round"/>
-                            </svg>
-                        </div>
-                    </button>
-                ))}
+                {
+                    gallery.map((img, i) => (
+                        <button
+                            class={`relative overflow-hidden group cursor-zoom-in ${i === 0 ? "sm:col-span-2 aspect-video" : "aspect-video"}`}
+                            data-gallery-index={i}
+                            aria-label={`Ver foto ${i + 1}`}
+                        >
+                            <Image
+                                src={img}
+                                alt={`${title} - foto ${i + 1}`}
+                                width={800}
+                                class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                                loading="lazy"
+                            />
+                            <div class="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors flex items-center justify-center">
+                                <svg
+                                    class="opacity-0 group-hover:opacity-100 transition-opacity"
+                                    width="32"
+                                    height="32"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                >
+                                    <circle
+                                        cx="11"
+                                        cy="11"
+                                        r="7"
+                                        stroke="white"
+                                        stroke-width="2"
+                                    />
+                                    <path
+                                        d="M16.5 16.5L21 21"
+                                        stroke="white"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                    />
+                                    <path
+                                        d="M11 8v6M8 11h6"
+                                        stroke="white"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                    />
+                                </svg>
+                            </div>
+                        </button>
+                    ))
+                }
             </div>
         </div>
-
     </div>
 
     <!-- CTA -->
-    <div class="bg-[#0d0d0d] px-5 py-10 flex flex-col items-center gap-4 border-t border-white/10">
-        <p class="font-bebas text-white text-xl tracking-wider text-center">¿QUERÉS UN PROYECTO SIMILAR?</p>
+    <div
+        class="bg-third px-5 py-10 flex flex-col items-center gap-4 border-t border-white/10"
+    >
+        <p class="font-bebas text-white text-xl tracking-wider text-center">
+            ¿QUERÉS UN PROYECTO SIMILAR?
+        </p>
         <a
             href={`https://wa.me/3329335202?text=Hola%2C%20quiero%20consultar%20por%20un%20presupuesto%20similar%20al%20proyecto%20${encodeURIComponent(title)}`}
             target="_blank"
@@ -205,8 +258,11 @@ const { title, category, tags, location, year, description, hero, gallery } = As
         >
             PEDIR PRESUPUESTO
         </a>
-        <a href="/proyectos" class="font-poppins text-white/40 text-xs hover:text-white/70 transition">
-            ← Ver todos los proyectos
+        <a
+            href="/proyectos"
+            class="font-poppins text-white text-xs hover:text-white/70 transition"
+        >
+            Ver todos los <span class="underline">proyectos</span> →
         </a>
     </div>
 
@@ -216,36 +272,85 @@ const { title, category, tags, location, year, description, hero, gallery } = As
         class="fixed inset-0 z-[100] bg-black/95 flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300"
         aria-hidden="true"
     >
-        <button id="lb-close" aria-label="Cerrar" class="absolute top-5 right-5 text-white/70 hover:text-white transition">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-                <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+        <button
+            id="lb-close"
+            aria-label="Cerrar"
+            class="absolute top-5 right-5 text-white/70 hover:text-white transition"
+        >
+            <svg
+                width="28"
+                height="28"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+            >
+                <line x1="18" y1="6" x2="6" y2="18"></line><line
+                    x1="6"
+                    y1="6"
+                    x2="18"
+                    y2="18"></line>
             </svg>
         </button>
-        <button id="lb-prev" aria-label="Anterior" class="absolute left-3 top-1/2 -translate-y-1/2 text-white/60 hover:text-white transition">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M15 18L9 12L15 6"/></svg>
+        <button
+            id="lb-prev"
+            aria-label="Anterior"
+            class="absolute left-3 top-1/2 -translate-y-1/2 text-white/60 hover:text-white transition"
+        >
+            <svg
+                width="32"
+                height="32"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"><path d="M15 18L9 12L15 6"></path></svg
+            >
         </button>
-        <button id="lb-next" aria-label="Siguiente" class="absolute right-3 top-1/2 -translate-y-1/2 text-white/60 hover:text-white transition">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 18L15 12L9 6"/></svg>
+        <button
+            id="lb-next"
+            aria-label="Siguiente"
+            class="absolute right-3 top-1/2 -translate-y-1/2 text-white/60 hover:text-white transition"
+        >
+            <svg
+                width="32"
+                height="32"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"><path d="M9 18L15 12L9 6"></path></svg
+            >
         </button>
-        <img id="lb-img" src="" alt="" class="max-w-[90vw] max-h-[85vh] object-contain" />
-        <p id="lb-counter" class="absolute bottom-5 left-1/2 -translate-x-1/2 font-poppins text-white/50 text-xs"></p>
+        <img
+            id="lb-img"
+            src=""
+            alt=""
+            class="max-w-[90vw] max-h-[85vh] object-contain"
+        />
+        <p
+            id="lb-counter"
+            class="absolute bottom-5 left-1/2 -translate-x-1/2 font-poppins text-white/50 text-xs"
+        >
+        </p>
     </div>
 
     <Footer />
 </Layout>
 
 <script>
-    const galleryBtns = document.querySelectorAll('[data-gallery-index]');
-    const lightbox = document.getElementById('lightbox')!;
-    const lbImg = document.getElementById('lb-img') as HTMLImageElement;
-    const lbClose = document.getElementById('lb-close')!;
-    const lbPrev = document.getElementById('lb-prev')!;
-    const lbNext = document.getElementById('lb-next')!;
-    const lbCounter = document.getElementById('lb-counter')!;
+    const galleryBtns = document.querySelectorAll("[data-gallery-index]");
+    const lightbox = document.getElementById("lightbox")!;
+    const lbImg = document.getElementById("lb-img") as HTMLImageElement;
+    const lbClose = document.getElementById("lb-close")!;
+    const lbPrev = document.getElementById("lb-prev")!;
+    const lbNext = document.getElementById("lb-next")!;
+    const lbCounter = document.getElementById("lb-counter")!;
 
     const images: string[] = [];
-    galleryBtns.forEach(btn => {
-        const img = btn.querySelector('img');
+    galleryBtns.forEach((btn) => {
+        const img = btn.querySelector("img");
         if (img) images.push(img.src);
     });
 
@@ -254,15 +359,15 @@ const { title, category, tags, location, year, description, hero, gallery } = As
     function openLightbox(index: number) {
         current = index;
         showImage();
-        lightbox.classList.remove('opacity-0', 'pointer-events-none');
-        lightbox.setAttribute('aria-hidden', 'false');
-        document.body.style.overflow = 'hidden';
+        lightbox.classList.remove("opacity-0", "pointer-events-none");
+        lightbox.setAttribute("aria-hidden", "false");
+        document.body.style.overflow = "hidden";
     }
 
     function closeLightbox() {
-        lightbox.classList.add('opacity-0', 'pointer-events-none');
-        lightbox.setAttribute('aria-hidden', 'true');
-        document.body.style.overflow = '';
+        lightbox.classList.add("opacity-0", "pointer-events-none");
+        lightbox.setAttribute("aria-hidden", "true");
+        document.body.style.overflow = "";
     }
 
     function showImage() {
@@ -270,29 +375,37 @@ const { title, category, tags, location, year, description, hero, gallery } = As
         lbCounter.textContent = `${current + 1} / ${images.length}`;
     }
 
-    galleryBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            openLightbox(Number(btn.getAttribute('data-gallery-index')));
+    galleryBtns.forEach((btn) => {
+        btn.addEventListener("click", () => {
+            openLightbox(Number(btn.getAttribute("data-gallery-index")));
         });
     });
 
-    lbClose.addEventListener('click', closeLightbox);
-    lightbox.addEventListener('click', (e) => { if (e.target === lightbox) closeLightbox(); });
+    lbClose.addEventListener("click", closeLightbox);
+    lightbox.addEventListener("click", (e) => {
+        if (e.target === lightbox) closeLightbox();
+    });
 
-    lbPrev.addEventListener('click', () => {
+    lbPrev.addEventListener("click", () => {
         current = (current - 1 + images.length) % images.length;
         showImage();
     });
 
-    lbNext.addEventListener('click', () => {
+    lbNext.addEventListener("click", () => {
         current = (current + 1) % images.length;
         showImage();
     });
 
-    document.addEventListener('keydown', (e) => {
-        if (lightbox.getAttribute('aria-hidden') === 'true') return;
-        if (e.key === 'Escape') closeLightbox();
-        if (e.key === 'ArrowLeft') { current = (current - 1 + images.length) % images.length; showImage(); }
-        if (e.key === 'ArrowRight') { current = (current + 1) % images.length; showImage(); }
+    document.addEventListener("keydown", (e) => {
+        if (lightbox.getAttribute("aria-hidden") === "true") return;
+        if (e.key === "Escape") closeLightbox();
+        if (e.key === "ArrowLeft") {
+            current = (current - 1 + images.length) % images.length;
+            showImage();
+        }
+        if (e.key === "ArrowRight") {
+            current = (current + 1) % images.length;
+            showImage();
+        }
     });
 </script>

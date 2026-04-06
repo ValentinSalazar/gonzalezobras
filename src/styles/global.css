@@ -1,8 +1,13 @@
 @import "tailwindcss";
 @import "@fontsource/bebas-neue/latin.css";
+@import "@fontsource/poppins/latin-100.css";
+@import "@fontsource/poppins/latin-200.css";
+@import "@fontsource/poppins/latin-300.css";
 @import "@fontsource/poppins/latin-400.css";
 @import "@fontsource/poppins/latin-500.css";
+@import "@fontsource/poppins/latin-600.css";
 @import "@fontsource/poppins/latin-700.css";
+@import "@fontsource/poppins/latin-800.css";
 
 @theme {
   --font-bebas: "Bebas Neue", sans-serif;

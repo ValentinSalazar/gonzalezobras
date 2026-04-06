@@ -91,14 +91,13 @@ const allTags = ["Todos", ...new Set(projects.flatMap(p => p.tags))];
             <span class="flex w-14 h-1 bg-first mb-2"></span>
             <h1 class="font-bebas text-white text-5xl leading-none">Proyectos</h1>
             <p class="font-poppins text-white text-sm"><span class="text-first">+</span>obras realizadas</p>
-            <p class="font-poppins text-secondary text-sm leading-relaxed max-w-lg pt-5">
+            <p class="font-poppins font-extralight text-secondary text-sm leading-relaxed max-w-lg pt-5">
                 Cada obra que realizamos refleja nuestro compromiso con la calidad y el detalle. 
                 <br/>Explorá nuestros trabajos y encontrá inspiración para tu próximo proyecto.
             </p>
         </div>
     </div>
 
-    <!-- Filters -->
     <div class="bg-white border-b border-gray-200 px-5 py-4 overflow-x-auto">
         <div class="flex gap-2 min-w-max">
             {allTags.map((tag) => (
