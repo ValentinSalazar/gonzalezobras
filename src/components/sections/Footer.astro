@@ -1,0 +1,76 @@
+---
+import Phone from "../icons/Phone.astro";
+import Mail from "../icons/Mail.astro";
+import Location from "../icons/Location.astro";
+import Instagram from "../icons/Instagram.astro";
+import Facebook from "../icons/Facebook.astro";
+
+const currentPath = Astro.url.pathname;
+
+const navLinks = [
+    { href: "/", label: "Inicio" },
+    { href: "/proyectos", label: "Proyectos" },
+    { href: "/transformaciones", label: "Transformaciones" },
+    { href: "/servicios", label: "Servicios" },
+    { href: "/contacto", label: "Contacto" },
+];
+---
+
+<footer class="bg-[#1a1a1a] text-white px-7 py-12">
+    <!-- Logo + descripción -->
+    <div>
+        <h2 class="font-bebas text-4xl">GONZALEZ</h2>
+        <p class="font-poppins text-white text-sm mt-3 leading-relaxed">
+            Especialistas en construcción en seco.<br />
+            Soluciones rápidas, limpias y modernas para tus espacios residenciales y comerciales.
+        </p>
+        <span class="flex w-20 h-1.25 bg-first mt-4"></span>
+    </div>
+
+    <!-- Navegación -->
+    <div class="mt-10">
+        <h3 class="font-bebas text-2xl">NAVEGACIÓN</h3>
+        <nav class="mt-3 flex flex-col gap-2">
+            {navLinks.map((link) => {
+                const isActive = currentPath === link.href || (link.href !== "/" && currentPath.startsWith(link.href));
+                return (
+                    <a href={link.href} class={`font-poppins text-sm text-white hover:text-first transition ${isActive ? 'font-medium' : 'font-extralight'}`}>{link.label}</a>
+                );
+            })}
+        </nav>
+    </div>
+
+    <!-- Contacto -->
+    <div class="mt-10">
+        <h3 class="font-bebas text-2xl">CONTACTO</h3>
+        <ul class="mt-3 flex flex-col gap-3">
+            <li class="flex items-center gap-3">
+                <Phone color="#EB192E" />
+                <a href="tel:+543329454647" class="font-poppins text-sm text-white hover:text-first transition">+54 3329 454647</a>
+            </li>
+            <li class="flex items-center gap-3">
+                <Mail color="#EB192E" />
+                <a href="mailto:facundo@gonzalezobras.com" class="font-poppins text-sm text-white hover:text-first transition">facundo@gonzalezobras.com</a>
+            </li>
+            <li class="flex items-center gap-3">
+                <Location color="#EB192E" />
+                <span class="font-poppins text-sm text-white">San Pedro, Buenos Aires</span>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Seguinos -->
+    <div class="mt-10">
+        <h3 class="font-bebas text-2xl">SEGUINOS</h3>
+        <ul class="mt-3 flex flex-col gap-3">
+            <li class="flex items-center gap-3">
+                <Instagram fill="white" stroke="#1a1a1a" />
+                <a href="https://instagram.com/GonzalezObras" target="_blank" rel="noopener noreferrer" class="font-poppins text-sm text-white hover:text-first transition">@GonzalezObras</a>
+            </li>
+            <li class="flex items-center gap-3">
+                <Facebook color="white" />
+                <a href="https://facebook.com/FacundoGonzalez" target="_blank" rel="noopener noreferrer" class="font-poppins text-sm text-white hover:text-first transition">Facundo Gonzalez</a>
+            </li>
+        </ul>
+    </div>
+</footer>
