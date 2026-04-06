@@ -2,11 +2,173 @@
 import Layout from '../layouts/Layout.astro';
 import Navbar from '../components/Navbar.astro';
 import Footer from '../components/sections/Footer.astro';
-import Servicios from '../components/sections/Servicios.astro';
+import { Image } from 'astro:assets';
+import proyectos01 from '../assets/projects/proyectos01.webp';
+import proyectos02 from '../assets/projects/proyectos02.webp';
+import proyectos03 from '../assets/projects/proyectos03.webp';
+
+const servicios = [
+    {
+        number: "01",
+        title: "Wall Panel",
+        description: "Instalamos paneles decorativos para interiores y exteriores con acabados modernos y duraderos. Transformamos cualquier espacio con una amplia variedad de texturas y colores adaptados a cada proyecto.",
+        features: ["Interiores y exteriores", "Variedad de texturas", "Instalación limpia", "Alta durabilidad"],
+        image: proyectos01,
+    },
+    {
+        number: "02",
+        title: "PVC",
+        description: "Techos y revestimientos de PVC resistentes a la intemperie, livianos y de bajo mantenimiento. Ideales para obras residenciales y comerciales que requieren soluciones modernas y eficientes.",
+        features: ["Resistente a la humedad", "Bajo mantenimiento", "Aislación térmica", "Rápida instalación"],
+        image: proyectos02,
+    },
+    {
+        number: "03",
+        title: "Cielorrasos",
+        description: "Diseñamos e instalamos cielorrasos desmontables y continuos con estructura metálica y placas de yeso. Acabados perfectos para todo tipo de ambientes residenciales y comerciales.",
+        features: ["Cielorrasos desmontables", "Placas de yeso", "Estructura metálica", "Molduras de aluminio"],
+        image: proyectos03,
+    },
+    {
+        number: "04",
+        title: "Amoblamientos",
+        description: "Fabricamos y colocamos muebles a medida en melamina y madera maciza con herrajes importados. Cocinas, placards, dormitorios y livings completamente equipados con materiales de primera calidad.",
+        features: ["Diseño a medida", "Melamina y madera", "Herrajes importados", "Instalación incluida"],
+        image: proyectos01,
+    },
+    {
+        number: "05",
+        title: "Revestimientos",
+        description: "Aplicamos revestimientos interiores y exteriores con materiales de primera calidad. Desde cerámicas y porcellanatos hasta sistemas de fachada ventilada para todo tipo de construcciones.",
+        features: ["Interiores y exteriores", "Múltiples materiales", "Fachada ventilada", "Terminación premium"],
+        image: proyectos02,
+    },
+    {
+        number: "06",
+        title: "Steel Frame",
+        description: "Construcción con estructura de acero galvanizado liviana, resistente y sustentable. Ideal para ampliaciones, segundos pisos y construcciones nuevas con tiempos de obra reducidos.",
+        features: ["Acero galvanizado", "Construcción en seco", "Alta resistencia", "Menor tiempo de obra"],
+        image: proyectos03,
+    },
+];
+
+const pasos = [
+    {
+        number: "01",
+        title: "Consulta inicial",
+        description: "Nos contactás por WhatsApp o formulario. Te respondemos en menos de 24 horas.",
+    },
+    {
+        number: "02",
+        title: "Visita y medición",
+        description: "Coordinamos una visita al lugar para evaluar el trabajo y tomar medidas.",
+    },
+    {
+        number: "03",
+        title: "Presupuesto",
+        description: "Te enviamos un presupuesto detallado sin cargos ni compromisos.",
+    },
+    {
+        number: "04",
+        title: "Ejecución",
+        description: "Comenzamos la obra con plazos cumplidos, materiales de calidad y limpieza total.",
+    },
+];
 ---
 
 <Layout>
     <Navbar />
-    <Servicios />
+
+    <!-- Hero -->
+    <div class="relative h-80 overflow-hidden">
+        <Image
+            src={proyectos01}
+            alt="Servicios González Obras"
+            width={800}
+            class="absolute inset-0 w-full h-full object-cover"
+            loading="eager"
+            fetchpriority="high"
+        />
+        <div class="absolute inset-0 bg-black/75"></div>
+        <div class="absolute top-32 left-0 right-0 z-10 px-5">
+            <span class="flex w-14 h-1 bg-first mb-2"></span>
+            <h1 class="font-bebas text-white text-5xl leading-none">Servicios</h1>
+            <p class="font-poppins text-white text-sm mt-1">Construcción en seco <br/> Soluciones modernas para cada espacio</p>
+        </div>
+    </div>
+
+    <!-- Services -->
+    <div class="bg-[#111]">
+        {servicios.map((s, i) => (
+            <div class={`flex flex-col md:flex-row ${i % 2 !== 0 ? 'md:flex-row-reverse' : ''} border-b border-white/10`}>
+                <!-- Image -->
+                <div class="relative w-full md:w-1/2 h-64 md:h-80 overflow-hidden shrink-0">
+                    <Image
+                        src={s.image}
+                        alt={s.title}
+                        width={600}
+                        class="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
+                        loading="lazy"
+                    />
+                    <div class="absolute inset-0 bg-black/30"></div>
+                    <span class="absolute bottom-4 right-4 font-bebas text-white/10 text-8xl leading-none select-none">{s.number}</span>
+                </div>
+
+                <!-- Text -->
+                <div class="w-full md:w-1/2 px-6 py-8 md:px-10 md:py-10 flex flex-col justify-center">
+                    <p class="font-bebas text-first text-sm tracking-widest mb-1">{s.number}</p>
+                    <h2 class="font-bebas text-white text-4xl md:text-5xl leading-none mb-4">{s.title}</h2>
+                    <p class="font-poppins text-white/60 text-sm leading-relaxed mb-6">{s.description}</p>
+                    <ul class="flex flex-wrap gap-2">
+                        {s.features.map(f => (
+                            <li class="font-poppins text-white/50 text-xs border border-white/15 px-3 py-1">
+                                + {f}
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+            </div>
+        ))}
+    </div>
+
+    <!-- How we work -->
+    <div class="bg-white px-5 py-14">
+        <div class="max-w-lg mx-auto md:max-w-none">
+            <span class="flex w-14 h-1 bg-first mb-3"></span>
+            <h2 class="font-bebas text-gray-900 text-4xl mb-1">¿Cómo trabajamos?</h2>
+            <p class="font-poppins text-gray-400 text-sm mb-10">Un proceso simple, claro y sin sorpresas.</p>
+
+            <div class="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-4">
+                {pasos.map((paso) => (
+                    <div class="flex flex-col">
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="w-10 h-10 bg-first flex items-center justify-center font-bebas text-white text-lg shrink-0">{paso.number}</span>
+                            <span class="h-px flex-1 bg-gray-100"></span>
+                        </div>
+                        <h3 class="font-bebas text-gray-900 text-xl mb-2">{paso.title}</h3>
+                        <p class="font-poppins text-gray-400 text-sm leading-relaxed">{paso.description}</p>
+                    </div>
+                ))}
+            </div>
+        </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="bg-[#0d0d0d] px-5 py-14 flex flex-col items-center gap-4 border-t border-white/10">
+        <span class="flex w-14 h-1 bg-first mb-1"></span>
+        <p class="font-bebas text-white text-3xl md:text-4xl text-center leading-tight">¿NECESITÁS ALGUNO DE ESTOS SERVICIOS?</p>
+        <p class="font-poppins text-white/40 text-sm text-center max-w-xs">Te respondemos en menos de 24 horas con un presupuesto sin compromiso.</p>
+        <a
+            href="https://wa.me/3329335202?text=Hola%2C%20quiero%20consultar%20por%20un%20presupuesto"
+            target="_blank"
+            class="font-bebas bg-first text-white px-8 py-2.5 text-xl tracking-wider hover:bg-red-700 transition mt-1"
+        >
+            PEDIR PRESUPUESTO
+        </a>
+        <a href="/proyectos" class="font-poppins text-white/40 text-xs hover:text-white/70 transition">
+            Ver nuestros proyectos →
+        </a>
+    </div>
+
     <Footer />
 </Layout>
