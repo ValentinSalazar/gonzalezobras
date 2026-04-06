@@ -210,6 +210,12 @@ const servicios = [
                     const gallery = JSON.parse((item as HTMLElement).dataset.gallery || '[]');
                     loadDesktopGallery(gallery);
                 }
+            } else {
+                // Close the current item
+                content.classList.remove('max-h-60');
+                content.classList.add('max-h-0');
+                header.setAttribute('aria-expanded', 'false');
+                icon.textContent = '+';
             }
         });
     });
