@@ -105,7 +105,10 @@ export function getStaticPaths() {
 const { title, category, tags, location, year, description, hero, gallery } = Astro.props as Project;
 ---
 
-<Layout>
+<Layout
+    title={`${title} - ${category} | González Obras - ${location}`}
+    description={description}
+>
     <Navbar />
 
     <!-- Hero -->
@@ -195,8 +198,9 @@ const { title, category, tags, location, year, description, hero, gallery } = As
     <div class="bg-[#0d0d0d] px-5 py-10 flex flex-col items-center gap-4 border-t border-white/10">
         <p class="font-bebas text-white text-xl tracking-wider text-center">¿QUERÉS UN PROYECTO SIMILAR?</p>
         <a
-            href="https://wa.me/3329335202?text=Hola%2C%20quiero%20consultar%20por%20un%20presupuesto%20similar%20al%20proyecto%20{title}"
+            href={`https://wa.me/3329335202?text=Hola%2C%20quiero%20consultar%20por%20un%20presupuesto%20similar%20al%20proyecto%20${encodeURIComponent(title)}`}
             target="_blank"
+            rel="noopener noreferrer"
             class="font-bebas bg-first text-white px-8 py-2.5 text-xl tracking-wider hover:bg-red-700 transition"
         >
             PEDIR PRESUPUESTO

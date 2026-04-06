@@ -1,5 +1,21 @@
 ---
+import WhatsappButton from '../components/WhatsappButton.astro';
+import { ClientRouter } from 'astro:transitions';
 import '../styles/global.css';
+
+interface Props {
+	title?: string;
+	description?: string;
+	ogImage?: string;
+}
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+
+const {
+	title = "González Obras - Construcción en Seco en San Pedro, Buenos Aires",
+	description = "González Obras: especialistas en construcción en seco en San Pedro, Buenos Aires. Wall panel, cielorrasos, PVC, steel frame, revestimientos y amoblamientos a medida. Atendemos Buenos Aires, CABA y Rosario.",
+	ogImage = "/favicon.svg",
+} = Astro.props;
 ---
 
 <!doctype html>
@@ -10,11 +26,37 @@ import '../styles/global.css';
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<link rel="icon" href="/favicon.ico" />
 		<meta name="generator" content={Astro.generator} />
-		<meta name="description" content="González Obras - Construcción en seco. Transformamos tus espacios con un sistema rápido, limpio y a medida." />
-		<title>González Obras - Construcción en Seco</title>
+
+		<!-- SEO -->
+		<title>{title}</title>
+		<meta name="description" content={description} />
+		<meta name="robots" content="index, follow" />
+		<link rel="canonical" href={canonicalURL.href} />
+
+		<!-- Geo -->
+		<meta name="geo.region" content="AR-B" />
+		<meta name="geo.placename" content="San Pedro, Buenos Aires" />
+
+		<!-- Open Graph -->
+		<meta property="og:type" content="website" />
+		<meta property="og:url" content={canonicalURL.href} />
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content={description} />
+		<meta property="og:image" content={ogImage} />
+		<meta property="og:locale" content="es_AR" />
+		<meta property="og:site_name" content="González Obras" />
+
+		<!-- Twitter Card -->
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:title" content={title} />
+		<meta name="twitter:description" content={description} />
+		<meta name="twitter:image" content={ogImage} />
+
+		<ClientRouter />
 	</head>
 	<body>
 		<slot />
+		<WhatsappButton />
 	</body>
 </html>
 

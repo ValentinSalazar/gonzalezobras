@@ -13,77 +13,149 @@ import despues02 from '../assets/despues02.webp';
 import despues03 from '../assets/despues03.webp';
 import despues04 from '../assets/despues04.webp';
 import despues05 from '../assets/despues05.webp';
+import hero from '../assets/transformacionesHero.webp';
 
 const transformaciones = [
-    { before: antes02, after: despues02 },
-    { before: antes01, after: despues01 },
-    { before: antes03, after: despues03 },
-    { before: antes04, after: despues04 },
-    { before: antes05, after: despues05 },
+    { number: "01", title: "Cielorrasos y terminaciones", before: antes02, after: despues02 },
+    { number: "02", title: "Revestimiento interior", before: antes01, after: despues01 },
+    { number: "03", title: "Reforma completa", before: antes03, after: despues03 },
+    { number: "04", title: "Construcción en seco", before: antes04, after: despues04 },
+    { number: "05", title: "Amoblamientos a medida", before: antes05, after: despues05 },
 ];
 ---
 
-<Layout>
+<Layout
+    title="Transformaciones Antes y Después | González Obras - San Pedro, Buenos Aires"
+    description="Mirá las transformaciones reales de nuestras obras de construcción en seco. Cielorrasos, revestimientos, reformas completas y amoblamientos a medida en San Pedro, Buenos Aires."
+>
     <Navbar />
 
-    <!-- Hero -->
     <div class="relative h-80 overflow-hidden">
         <Image
-            src={antes01}
+            src={hero}
             alt="Transformaciones González Obras"
             width={800}
             class="absolute inset-0 w-full h-full object-cover"
             loading="eager"
             fetchpriority="high"
         />
-        <div class="absolute inset-0 bg-black/70"></div>
+        <div class="absolute inset-0 bg-gradient-to-b from-black via-black/90 to-black/60"></div>
         <div class="absolute top-32 left-0 right-0 z-10 px-5">
             <span class="flex w-14 h-1 bg-first mb-2"></span>
-            <h1 class="font-bebas text-white text-5xl leading-none">Transformaciones</h1>
-            <p class="font-poppins text-white text-sm"><span class="text-first">+</span>antes y después</p>
+            <h1 class="font-bebas text-white text-4xl">Transformaciones</h1>
+            <p class="font-poppins text-sm text-white"><span class="text-first">+</span>antes y después</p>
+            <p class="font-poppins text-secondary text-sm mt-5">Resultados reales de nuestras obras</p>
+            <div class="pt-10 flex items-center gap-3">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                    <path d="M8 12h8M8 12l3-3M8 12l3 3" stroke="#EB192E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M16 12l-3-3M16 12l-3 3" stroke="#EB192E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <p class="font-poppins text-secondary/60 text-xs">Arrastrá el divisor para comparar antes y después</p>
+            </div>
         </div>
+        
     </div>
-
-    <!-- Lista de transformaciones -->
-    <section class="bg-[#111] px-5 py-10 flex flex-col gap-16">
+    <div class="bg-secondary]">
         {transformaciones.map((t, i) => (
-            <div>
-                <p class="font-bebas text-first text-sm tracking-widest mb-3">0{i + 1}</p>
-                <div class="flex flex-col gap-1">
-                    <!-- Antes -->
-                    <div class="relative w-full h-52 overflow-hidden">
-                        <Image
-                            src={t.before}
-                            alt="Antes"
-                            width={700}
-                            class="w-full h-full object-cover"
-                            loading="lazy"
-                        />
-                        <span class="absolute bottom-2 left-3 font-bebas text-white/70 text-sm tracking-wider">ANTES</span>
-                        <div class="absolute inset-0" style="background: linear-gradient(to bottom, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0) 40%, rgba(0,0,0,0) 60%, rgba(0,0,0,0.5) 100%)"></div>
+            <div class="border-b border-white/10">
+                <div class="flex items-baseline justify-between px-5 pt-6 pb-3">
+                    <div class="flex items-baseline gap-3">
+                        <span class="font-bebas text-first text-sm tracking-widest">{t.number}</span>
+                        <h2 class="font-bebas text-third text-2xl">{t.title}</h2>
                     </div>
-                    <!-- Separador -->
-                    <div class="w-full h-0.5 bg-first relative flex items-center justify-center">
-                        <div class="absolute bg-[#111] w-8 h-8 flex items-center justify-center">
-                            <svg width="16" height="15" viewBox="0 0 20 19" fill="none"><path d="M11.683 12.5594L13.804 10.4384L19.8 16.4344L17.679 18.5554L11.683 12.5594ZM15.4 7.38736C17.33 7.38736 18.9 5.81736 18.9 3.88736C18.9 3.30736 18.74 2.76736 18.49 2.28736L15.79 4.98736L14.3 3.49736L17 0.79736C16.52 0.54736 15.98 0.38736 15.4 0.38736C13.47 0.38736 11.9 1.95736 11.9 3.88736C11.9 4.29736 11.98 4.68736 12.11 5.04736L10.26 6.89736L8.48 5.11736L9.19 4.40736L7.78 2.99736L9.9 0.87736C9.3375 0.315558 8.575 0 7.78 0C6.985 0 6.2225 0.315558 5.66 0.87736L2.12 4.41736L3.53 5.82736H0.71L0 6.53736L3.54 10.0774L4.25 9.36736V6.53736L5.66 7.94736L6.37 7.23736L8.15 9.01736L0.74 16.4274L2.86 18.5474L14.24 7.17736C14.6 7.30736 14.99 7.38736 15.4 7.38736Z" fill="#EB192E"/></svg>
+                    <span class="font-poppins text-third/60 text-xs">ANTES → DESPUÉS</span>
+                </div>
+
+                <div
+                    class="comparison-slider relative w-full h-96 overflow-hidden cursor-ew-resize select-none"
+                    data-slider={i}
+                >
+                    <Image
+                        src={t.after}
+                        alt={`Después de ${t.title.toLowerCase()} - González Obras`}
+                        width={800}
+                        class="img-after absolute inset-0 w-full h-full object-cover pointer-events-none"
+                        loading="lazy"
+                    />
+                    <Image
+                        src={t.before}
+                        alt={`Antes de ${t.title.toLowerCase()} - González Obras`}
+                        width={800}
+                        class="img-before absolute inset-0 w-full h-full object-cover pointer-events-none"
+                        style="clip-path: inset(0 50% 0 0)"
+                        loading="lazy"
+                    />
+
+                    <span class="absolute bottom-3 left-3 z-20 font-bebas text-white/70 text-xs tracking-widest bg-black/40 px-2 py-0.5">ANTES</span>
+                    <span class="absolute bottom-3 right-3 z-20 font-bebas text-white/70 text-xs tracking-widest bg-black/40 px-2 py-0.5">DESPUÉS</span>
+
+                    <div class="slider-handle absolute top-0 bottom-0 z-30 pointer-events-none" style="left: 50%; transform: translateX(-50%)">
+                        <div class="absolute inset-0 left-1/2 w-px bg-white/80 -translate-x-1/2"></div>
+                        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-10 bg-white rounded-full shadow-lg flex items-center justify-center pointer-events-auto cursor-ew-resize">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                                <path d="M8 12h8M8 12l3-3M8 12l3 3" stroke="#EB192E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M16 12l-3-3M16 12l-3 3" stroke="#EB192E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
                         </div>
-                    </div>
-                    <!-- Después -->
-                    <div class="relative w-full h-52 overflow-hidden">
-                        <Image
-                            src={t.after}
-                            alt="Después"
-                            width={700}
-                            class="w-full h-full object-cover"
-                            loading="lazy"
-                        />
-                        <span class="absolute top-2 left-3 font-bebas text-white/70 text-sm tracking-wider">DESPUÉS</span>
-                        <div class="absolute inset-0" style="background: linear-gradient(to bottom, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0) 40%, rgba(0,0,0,0) 60%, rgba(0,0,0,0.5) 100%)"></div>
                     </div>
                 </div>
             </div>
         ))}
-    </section>
+    </div>
+
+    <!-- CTA -->
+    <div class="bg-[#0d0d0d] px-5 py-14 flex flex-col items-center gap-4 border-t border-white/10">
+        <span class="flex w-14 h-1 bg-first mb-1"></span>
+        <p class="font-bebas text-white text-3xl text-center leading-tight">¿QUERÉS UNA TRANSFORMACIÓN ASÍ?</p>
+        <p class="font-poppins text-secondary/70 text-sm text-center max-w-xs">Contanos tu proyecto y te mandamos un presupuesto sin compromiso.</p>
+        <a
+            href="https://wa.me/3329335202?text=Hola%2C%20quiero%20consultar%20por%20un%20presupuesto"
+            target="_blank"
+            class="font-bebas bg-first text-white px-8 py-2.5 text-xl tracking-wider hover:bg-red-700 transition mt-1"
+        >
+            PEDIR PRESUPUESTO
+        </a>
+        <a href="/proyectos" class="font-poppins text-white text-xs hover:text-white/70 transition">
+            Ver nuestros <span class="underline">proyectos</span> →
+        </a>
+    </div>
 
     <Footer />
 </Layout>
+
+<script>
+    const sliders = document.querySelectorAll<HTMLElement>('.comparison-slider');
+
+    sliders.forEach(container => {
+        const beforeImg = container.querySelector<HTMLElement>('.img-before')!;
+        const handle = container.querySelector<HTMLElement>('.slider-handle')!;
+        let isDragging = false;
+
+        function setPosition(clientX: number) {
+            const rect = container.getBoundingClientRect();
+            const pct = Math.max(0, Math.min(100, ((clientX - rect.left) / rect.width) * 100));
+            beforeImg.style.clipPath = `inset(0 ${100 - pct}% 0 0)`;
+            handle.style.left = `${pct}%`;
+        }
+
+        // Mouse
+        container.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            setPosition(e.clientX);
+        });
+        document.addEventListener('mousemove', (e) => {
+            if (isDragging) setPosition(e.clientX);
+        });
+        document.addEventListener('mouseup', () => { isDragging = false; });
+
+        // Touch
+        container.addEventListener('touchstart', (e) => {
+            isDragging = true;
+            setPosition(e.touches[0].clientX);
+        }, { passive: true });
+        document.addEventListener('touchmove', (e) => {
+            if (isDragging) setPosition(e.touches[0].clientX);
+        }, { passive: true });
+        document.addEventListener('touchend', () => { isDragging = false; });
+    });
+</script>

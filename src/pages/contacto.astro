@@ -2,11 +2,14 @@
 import Layout from '../layouts/Layout.astro';
 import Navbar from '../components/Navbar.astro';
 import Footer from '../components/sections/Footer.astro';
-import Contacto from '../components/sections/Contacto.astro';
+import ContactoSection from '../components/sections/Contacto.astro';
 import FormularioContacto from '../components/sections/FormularioContacto.astro';
 ---
 
-<Layout>
+<Layout
+    title="Contacto | González Obras - Pedí tu Presupuesto en San Pedro, Buenos Aires"
+    description="Contactá a González Obras para tu proyecto de construcción en seco. Presupuestos sin cargo en San Pedro, Buenos Aires, CABA y Rosario. Respondemos en menos de 24 horas."
+>
     <Navbar />
 
     <!-- Hero -->
@@ -20,7 +23,7 @@ import FormularioContacto from '../components/sections/FormularioContacto.astro'
     </div>
 
     <div class="md:flex">
-        <Contacto />
+        <ContactoSection />
         <FormularioContacto />
     </div>
 

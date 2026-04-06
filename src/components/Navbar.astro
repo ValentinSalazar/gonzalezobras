@@ -5,20 +5,18 @@ import Facebook from "./icons/Facebook.astro";
 ---
 
 <nav class="flex justify-between items-center px-5 font-poppins absolute pt-10 z-50 w-full" aria-label="Navegación principal">
-    <a href="#" class="text-white">Gonzalez</a>
+    <a href="/" class="text-white">Gonzalez</a>
     <button id="menu-open" aria-label="Abrir menú" class="bg-transparent border-none cursor-pointer p-0">
         <Menu size={32} color="#ffffff"/>
     </button>
 </nav>
 
-<!-- Overlay -->
 <div
     id="menu-overlay"
     class="fixed inset-0 z-[60] bg-black/60 opacity-0 pointer-events-none transition-opacity duration-300"
     aria-hidden="true"
 ></div>
 
-<!-- Drawer -->
 <div
     id="menu-drawer"
     class="fixed top-0 right-0 z-[70] h-full w-[65%] bg-black translate-x-full transition-transform duration-300 flex flex-col px-8 py-10"
@@ -65,30 +63,34 @@ import Facebook from "./icons/Facebook.astro";
 </div>
 
 <script>
-    const openBtn = document.getElementById('menu-open')!;
-    const closeBtn = document.getElementById('menu-close')!;
-    const overlay = document.getElementById('menu-overlay')!;
-    const drawer = document.getElementById('menu-drawer')!;
-    const navLinks = drawer.querySelectorAll('a');
+    function initMenu() {
+        const openBtn = document.getElementById('menu-open')!;
+        const closeBtn = document.getElementById('menu-close')!;
+        const overlay = document.getElementById('menu-overlay')!;
+        const drawer = document.getElementById('menu-drawer')!;
+        const navLinks = drawer.querySelectorAll('a');
 
-    function openMenu() {
-        drawer.classList.remove('translate-x-full');
-        overlay.classList.remove('opacity-0', 'pointer-events-none');
-        drawer.setAttribute('aria-hidden', 'false');
-        overlay.setAttribute('aria-hidden', 'false');
-        document.body.style.overflow = 'hidden';
+        function openMenu() {
+            drawer.classList.remove('translate-x-full');
+            overlay.classList.remove('opacity-0', 'pointer-events-none');
+            drawer.setAttribute('aria-hidden', 'false');
+            overlay.setAttribute('aria-hidden', 'false');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMenu() {
+            drawer.classList.add('translate-x-full');
+            overlay.classList.add('opacity-0', 'pointer-events-none');
+            drawer.setAttribute('aria-hidden', 'true');
+            overlay.setAttribute('aria-hidden', 'true');
+            document.body.style.overflow = '';
+        }
+
+        openBtn.addEventListener('click', openMenu);
+        closeBtn.addEventListener('click', closeMenu);
+        overlay.addEventListener('click', closeMenu);
+        navLinks.forEach(link => link.addEventListener('click', closeMenu));
     }
 
-    function closeMenu() {
-        drawer.classList.add('translate-x-full');
-        overlay.classList.add('opacity-0', 'pointer-events-none');
-        drawer.setAttribute('aria-hidden', 'true');
-        overlay.setAttribute('aria-hidden', 'true');
-        document.body.style.overflow = '';
-    }
-
-    openBtn.addEventListener('click', openMenu);
-    closeBtn.addEventListener('click', closeMenu);
-    overlay.addEventListener('click', closeMenu);
-    navLinks.forEach(link => link.addEventListener('click', closeMenu));
+    document.addEventListener('astro:page-load', initMenu);
 </script>

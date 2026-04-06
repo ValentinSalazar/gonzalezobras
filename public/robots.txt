@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://gonzalezobras.com/sitemap-index.xml

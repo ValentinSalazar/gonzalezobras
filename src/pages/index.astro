@@ -12,16 +12,51 @@ import Footer from '../components/sections/Footer.astro';
 
 ---
 
-<Layout>
+<Layout
+	title="González Obras | Construcción en Seco en San Pedro, Buenos Aires"
+	description="González Obras: más de 8 años en construcción en seco. Wall panel, cielorrasos, PVC, steel frame, revestimientos y amoblamientos a medida en San Pedro, Buenos Aires. Atendemos CABA, provincia de Buenos Aires y Rosario."
+>
 	<Navbar />
 	<Main />
 	<Proyectos />
 	<Transformaciones />
 	<Servicios />
-	<WhatsappButton />
 	<div class="relative md:flex md:mb-10 md:pb-5">
 		<Contacto />
 		<FormularioContacto />
 	</div>
 	<Footer />
+
+	<script type="application/ld+json" set:html={JSON.stringify({
+		"@context": "https://schema.org",
+		"@type": "LocalBusiness",
+		"name": "González Obras",
+		"description": "Especialistas en construcción en seco. Wall panel, cielorrasos, PVC, steel frame, revestimientos y amoblamientos a medida.",
+		"url": "https://gonzalezobras.com",
+		"telephone": "+543329335202",
+		"email": "facundo@gonzalezobras.com",
+		"address": {
+			"@type": "PostalAddress",
+			"addressLocality": "San Pedro",
+			"addressRegion": "Buenos Aires",
+			"addressCountry": "AR"
+		},
+		"areaServed": [
+			{ "@type": "City", "name": "San Pedro" },
+			{ "@type": "State", "name": "Buenos Aires" },
+			{ "@type": "City", "name": "Buenos Aires (CABA)" },
+			{ "@type": "City", "name": "Rosario" }
+		],
+		"sameAs": [
+			"https://instagram.com/GonzalezObras",
+			"https://facebook.com/FacundoGonzalez"
+		],
+		"priceRange": "$$",
+		"openingHoursSpecification": {
+			"@type": "OpeningHoursSpecification",
+			"dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+			"opens": "08:00",
+			"closes": "18:00"
+		}
+	})} />
 </Layout>

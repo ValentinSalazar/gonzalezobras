@@ -6,6 +6,7 @@ import { Image } from 'astro:assets';
 import proyectos01 from '../assets/projects/proyectos01.webp';
 import proyectos02 from '../assets/projects/proyectos02.webp';
 import proyectos03 from '../assets/projects/proyectos03.webp';
+import techo from '../assets/techo.webp';
 
 const servicios = [
     {
@@ -76,20 +77,21 @@ const pasos = [
 ];
 ---
 
-<Layout>
+<Layout
+    title="Servicios de Construcción en Seco | González Obras - San Pedro, Buenos Aires"
+    description="Servicios de wall panel, PVC, cielorrasos, amoblamientos a medida, revestimientos y steel frame en San Pedro, Buenos Aires. Presupuestos sin cargo para CABA, provincia de Buenos Aires y Rosario."
+>
     <Navbar />
-
-    <!-- Hero -->
     <div class="relative h-80 overflow-hidden">
         <Image
-            src={proyectos01}
+            src={techo}
             alt="Servicios González Obras"
             width={800}
             class="absolute inset-0 w-full h-full object-cover"
             loading="eager"
             fetchpriority="high"
         />
-        <div class="absolute inset-0 bg-black/75"></div>
+        <div class="absolute inset-0 bg-gradient-to-b from-black via-black/90 to-black/60"></div>
         <div class="absolute top-32 left-0 right-0 z-10 px-5">
             <span class="flex w-14 h-1 bg-first mb-2"></span>
             <h1 class="font-bebas text-white text-5xl leading-none">Servicios</h1>
@@ -101,7 +103,6 @@ const pasos = [
     <div class="bg-[#111]">
         {servicios.map((s, i) => (
             <div class={`flex flex-col md:flex-row ${i % 2 !== 0 ? 'md:flex-row-reverse' : ''} border-b border-white/10`}>
-                <!-- Image -->
                 <div class="relative w-full md:w-1/2 h-64 md:h-80 overflow-hidden shrink-0">
                     <Image
                         src={s.image}
@@ -114,14 +115,13 @@ const pasos = [
                     <span class="absolute bottom-4 right-4 font-bebas text-white/10 text-8xl leading-none select-none">{s.number}</span>
                 </div>
 
-                <!-- Text -->
-                <div class="w-full md:w-1/2 px-6 py-8 md:px-10 md:py-10 flex flex-col justify-center">
+                <div class="w-full md:w-1/2 px-6 py-8 md:px-10 md:py-10 flex flex-col justify-center bg-white">
                     <p class="font-bebas text-first text-sm tracking-widest mb-1">{s.number}</p>
-                    <h2 class="font-bebas text-white text-4xl md:text-5xl leading-none mb-4">{s.title}</h2>
-                    <p class="font-poppins text-white/60 text-sm leading-relaxed mb-6">{s.description}</p>
+                    <h2 class="font-bebas text-third text-4xl md:text-5xl leading-none mb-4">{s.title}</h2>
+                    <p class="font-poppins text-third text-sm leading-relaxed mb-6">{s.description}</p>
                     <ul class="flex flex-wrap gap-2">
                         {s.features.map(f => (
-                            <li class="font-poppins text-white/50 text-xs border border-white/15 px-3 py-1">
+                            <li class="font-poppins text-third text-xs border border-third/15 px-3 py-1">
                                 + {f}
                             </li>
                         ))}
@@ -131,7 +131,6 @@ const pasos = [
         ))}
     </div>
 
-    <!-- How we work -->
     <div class="bg-white px-5 py-14">
         <div class="max-w-lg mx-auto md:max-w-none">
             <span class="flex w-14 h-1 bg-first mb-3"></span>
@@ -153,7 +152,6 @@ const pasos = [
         </div>
     </div>
 
-    <!-- CTA -->
     <div class="bg-[#0d0d0d] px-5 py-14 flex flex-col items-center gap-4 border-t border-white/10">
         <span class="flex w-14 h-1 bg-first mb-1"></span>
         <p class="font-bebas text-white text-3xl md:text-4xl text-center leading-tight">¿NECESITÁS ALGUNO DE ESTOS SERVICIOS?</p>
@@ -165,10 +163,36 @@ const pasos = [
         >
             PEDIR PRESUPUESTO
         </a>
-        <a href="/proyectos" class="font-poppins text-white/40 text-xs hover:text-white/70 transition">
-            Ver nuestros proyectos →
+        <a href="/proyectos" class="font-poppins text-white text-xs hover:text-white/70 transition">
+            Ver nuestros <span class="underline">proyectos</span> →
         </a>
     </div>
 
     <Footer />
+
+    <script type="application/ld+json" set:html={JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "ItemList",
+        "name": "Servicios de González Obras",
+        "itemListElement": servicios.map((s, i) => ({
+            "@type": "ListItem",
+            "position": i + 1,
+            "item": {
+                "@type": "Service",
+                "name": s.title,
+                "description": s.description,
+                "provider": {
+                    "@type": "LocalBusiness",
+                    "name": "González Obras",
+                    "address": {
+                        "@type": "PostalAddress",
+                        "addressLocality": "San Pedro",
+                        "addressRegion": "Buenos Aires",
+                        "addressCountry": "AR"
+                    }
+                },
+                "areaServed": ["San Pedro", "Buenos Aires", "CABA", "Rosario"]
+            }
+        }))
+    })} />
 </Layout>
