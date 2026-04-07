@@ -1,0 +1,61 @@
+---
+interface Props {
+    href: string;
+    text: string;
+    size?: 'sm' | 'md' | 'lg' | 'xl';
+    mdSize?: 'sm' | 'md' | 'lg' | 'xl';
+    icon?: boolean;
+    color?: 'white' | 'secondary';
+    target?: '_blank' | '_self';
+    class?: string;
+}
+
+const {
+    href,
+    text,
+    size = 'lg',
+    mdSize,
+    icon = false,
+    color = 'white',
+    target,
+    class: extraClass,
+} = Astro.props;
+
+const sizeClasses = {
+    sm: 'px-5 py-1.5 text-sm',
+    md: 'px-6 py-2 text-xl',
+    lg: 'px-8 py-2.5 text-xl',
+    xl: 'px-8 py-3 text-3xl',
+};
+
+const mdSizeClasses = {
+    sm: 'md:px-5 md:py-1.5 md:text-sm',
+    md: 'md:px-6 md:py-2 md:text-xl',
+    lg: 'md:px-8 md:py-2.5 md:text-xl',
+    xl: 'md:px-8 md:py-3 md:text-3xl',
+};
+
+const iconSizes = {
+    sm: 'w-4 h-4',
+    md: 'w-5 h-5',
+    lg: 'w-5 h-5',
+    xl: 'w-6 h-6',
+};
+
+const textColor = color === 'secondary' ? 'text-secondary' : 'text-white';
+const currentSize = mdSize ?? size;
+---
+
+<a
+    href={href}
+    target={target}
+    rel={target === '_blank' ? 'noopener noreferrer' : undefined}
+    class={`font-bebas ${textColor} bg-first tracking-wider hover:bg-red-700 transition flex items-center gap-2 ${sizeClasses[size]} ${mdSize ? mdSizeClasses[mdSize] : ''} ${extraClass ?? ''}`}
+>
+    {text}
+    {icon && (
+        <svg class={`${iconSizes[currentSize]}`} viewBox="0 0 24 24" fill="none">
+            <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+    )}
+</a>

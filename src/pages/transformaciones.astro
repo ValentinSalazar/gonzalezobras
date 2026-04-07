@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Navbar from '../components/Navbar.astro';
+import ButtonRed from '../components/ButtonRed.astro';
 import Footer from '../components/sections/Footer.astro';
 import { Image } from 'astro:assets';
 import antes01 from '../assets/antes01.webp';
@@ -40,7 +41,7 @@ const transformaciones = [
             fetchpriority="high"
         />
         <div class="absolute inset-0 bg-gradient-to-b from-black via-black/90 to-black/60"></div>
-        <div class="absolute top-32 left-0 right-0 z-10 px-5">
+        <div class="absolute top-32 left-0 right-0 z-10 px-5 md:px-20">
             <span class="flex w-14 h-1 bg-first mb-2"></span>
             <h1 class="font-bebas text-white text-4xl">Transformaciones</h1>
             <p class="font-poppins text-sm text-white"><span class="text-first">+</span>antes y después</p>
@@ -58,7 +59,7 @@ const transformaciones = [
     <div class="bg-secondary]">
         {transformaciones.map((t, i) => (
             <div class="border-b border-white/10">
-                <div class="flex items-baseline justify-between px-5 pt-6 pb-3">
+                <div class="flex items-baseline justify-between px-5 md:px-20 pt-6 pb-3">
                     <div class="flex items-baseline gap-3">
                         <span class="font-bebas text-first text-sm tracking-widest">{t.number}</span>
                         <h2 class="font-bebas text-third text-2xl">{t.title}</h2>
@@ -104,17 +105,11 @@ const transformaciones = [
     </div>
 
     <!-- CTA -->
-    <div class="bg-[#0d0d0d] px-5 py-14 flex flex-col items-center gap-4 border-t border-white/10">
+    <div class="bg-[#0d0d0d] px-5 md:px-20 py-14 flex flex-col items-center gap-4 border-t border-white/10">
         <span class="flex w-14 h-1 bg-first mb-1"></span>
         <p class="font-bebas text-white text-3xl text-center leading-tight">¿QUERÉS UNA TRANSFORMACIÓN ASÍ?</p>
         <p class="font-poppins text-secondary/70 text-sm text-center max-w-xs">Contanos tu proyecto y te mandamos un presupuesto sin compromiso.</p>
-        <a
-            href="https://wa.me/3329335202?text=Hola%2C%20quiero%20consultar%20por%20un%20presupuesto"
-            target="_blank"
-            class="font-bebas bg-first text-white px-8 py-2.5 text-xl tracking-wider hover:bg-red-700 transition mt-1"
-        >
-            PEDIR PRESUPUESTO
-        </a>
+        <ButtonRed href="https://wa.me/3329335202?text=Hola%2C%20quiero%20consultar%20por%20un%20presupuesto" text="PEDIR PRESUPUESTO" size="lg" target="_blank" class="mt-1" />
         <a href="/proyectos" class="font-poppins text-white text-xs hover:text-white/70 transition">
             Ver nuestros <span class="underline">proyectos</span> →
         </a>

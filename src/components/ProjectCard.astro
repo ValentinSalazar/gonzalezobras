@@ -14,27 +14,27 @@ interface Props {
 const { image, title, category, tags, location } = Astro.props;
 ---
 
-<div class="project-card shrink-0 w-[85%] isolate">
-  <div class="card-image-wrapper aspect-3/4 w-full relative overflow-hidden">
+<div class="project-card shrink-0 w-[60vw] isolate">
+  <div class="card-image-wrapper aspect-3/4 w-full relative overflow-hidden md:h-[50vh] md:w-[60vw]">
     <Image
       src={image}
       alt={title ?? category}
       width={700}
-      class="w-full h-full object-cover block"
+      class="w-full h-full md:h-[60vh] object-cover block"
       loading="lazy"
     />
-    <div class="card-gradient absolute bottom-0 inset-x-0 p-4">
+    <div class="card-gradient absolute bottom-0 inset-x-0 p-4 md:pb-10 md:pl-10">
       <div class="flex items-center gap-3 mb-2">
-        <span class="text-secondary text-xs font-poppins border border-secondary/50 rounded px-2 py-0.5">{category}</span>
+        <span class="text-secondary text-xs font-poppins border border-secondary/50 px-2 py-0.5 md:text-lg">{category}</span>
       </div>
       <div class="flex gap-3 mb-1.5">
         {tags.map((tag) => (
-          <span class="font-poppins text-secondary/80 text-xs">+ {tag}</span>
+          <span class="font-poppins text-secondary text-xs md:text-lg">+ {tag}</span>
         ))}
       </div>
       <div class="flex items-center gap-1.5">
         <Location color='white'/>
-        <span class="font-poppins text-secondary/70 text-xs">{location}</span>
+        <span class="font-poppins text-secondary text-xs md:text-lg">{location}</span>
       </div>
     </div>
   </div>

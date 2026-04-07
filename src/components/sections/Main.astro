@@ -1,6 +1,7 @@
 ---
 import ScrollDown from "../icons/ScrollDown.astro";
 import heroImage from "../../assets/HeroMobile.webp";
+import ButtonRed from "../ButtonRed.astro";
 ---
 
 <div class="relative overflow-hidden">
@@ -9,7 +10,7 @@ import heroImage from "../../assets/HeroMobile.webp";
 	alt="González Obras - Construcción en Seco en San Pedro, Buenos Aires"
 	width={heroImage.width}
 	height={heroImage.height}
-	class="absolute top-0 left-1/2 -translate-x-1/2 w-[125%] max-w-none h-auto pointer-events-none select-none"
+	class="absolute top-0 left-1/2 -translate-x-1/2 w-[125%] md:w-full md:h-full max-w-none h-auto pointer-events-none select-none"
 	loading="eager"
 	fetchpriority="high"
 	decoding="async"
@@ -24,33 +25,28 @@ import heroImage from "../../assets/HeroMobile.webp";
 	<section class="relative z-10 flex flex-col items-center h-[100svh] pt-28 pb-6 px-10">
 		<div class="flex-1 flex flex-col items-center justify-center">
 			<h1 class="font-bebas leading-none text-center">
-				<span class="block text-[13vw] text-first">CONSTRUCCIÓN</span>
-				<span class="block text-[25vw] text-secondary -mt-2">EN SECO</span>
+				<span class="block text-[13vw] md:text-[10vw] text-first">CONSTRUCCIÓN</span>
+				<span class="block text-[25vw] md:text-[18.5vw] text-secondary -mt-2">EN SECO</span>
 			</h1>
 			<p
-				class="font-poppins text-secondary sm:mt-4 max-w-[85vw] w-full text-center"
+				class="font-poppins text-secondary sm:mt-4 max-w-[85vw] w-full text-center md:text-xl md:-mt-4"
 			>
-				Transformamos tus espacios con un <br /> sistema rápido, limpio y
+				Transformamos tus espacios con un <br/> sistema rápido, limpio y
 				a medida
 			</p>
 			<div class="w-full max-w-[75vw] flex gap-5 pt-5">
 				<a
 					href="#proyectos"
-					class="font-bebas text-secondary border border-secondary px-6 py-1 tracking-wider hover:bg-secondary hover:text-black transition w-[50%] text-lg flex items-center justify-center"
+					class="font-bebas text-secondary border border-secondary px-6 py-1 tracking-wider hover:bg-secondary hover:text-black transition w-[50%] text-lg md:text-xl flex items-center justify-center"
 				>
 					PROYECTOS
 				</a>
-				<a
-					href="https://wa.me/3329335202?text=Hola%2C%20quiero%20consultar%20por%20un%20presupuesto"
-					class="font-bebas bg-first text-secondary px-6 py-1 tracking-wider hover:bg-red-700 transition w-[50%] text-lg flex items-center justify-center"
-				>
-					PRESUPUESTOS
-				</a>
+				<ButtonRed href="https://wa.me/3329335202?text=Hola%2C%20quiero%20consultar%20por%20un%20presupuesto" text="PRESUPUESTOS" size="lg" mdSize="lg" color="secondary" target="_blank" class="w-[50%] justify-center" />
 			</div>
-			<div class="max-w-[75vw] w-full">
-				<span class="flex w-20 h-1.25 bg-first mb-2 mt-5 sm:mt-10"></span>
+			<div class="max-w-[75vw] w-full md:mt-5">
+				<span class="flex w-20 h-1.25 bg-first mb-2 mt-5 sm:mt-10 md:mb-10"></span>
 				<p
-					class="font-bebas text-secondary text-left w-full text-[8vw] leading-tight"
+					class="font-bebas text-secondary text-left w-full text-[8vw] md:text-5xl leading-tight"
 				>
 					Más <span class="text-first">de 8 años</span> en el <br />rubro y <span class="text-first">150 obras</span> finalizadas
 				</p>

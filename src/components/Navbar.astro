@@ -2,12 +2,13 @@
 import Menu from "./icons/Menu.astro";
 import Instagram from "./icons/Instagram.astro";
 import Facebook from "./icons/Facebook.astro";
+import ButtonRed from "./ButtonRed.astro";
 ---
 
-<nav class="flex justify-between items-center px-5 font-poppins absolute pt-10 z-50 w-full" aria-label="Navegación principal">
+<nav class="flex justify-between items-center px-5 md:px-20 font-poppins absolute pt-10 z-50 w-full" aria-label="Navegación principal">
     <a href="/" class="text-white">Gonzalez</a>
     <button id="menu-open" aria-label="Abrir menú" class="bg-transparent border-none cursor-pointer p-0">
-        <Menu size={32} color="#ffffff"/>
+        <Menu color="#ffffff" class="w-8 h-8"/>
     </button>
 </nav>
 
@@ -19,20 +20,20 @@ import Facebook from "./icons/Facebook.astro";
 
 <div
     id="menu-drawer"
-    class="fixed top-0 right-0 z-[70] h-full w-[65%] bg-black translate-x-full transition-transform duration-300 flex flex-col px-8 py-10"
+    class="fixed top-0 right-0 z-[70] h-full w-[65%] md:w-[45%] bg-black translate-x-full transition-transform duration-300 flex flex-col px-8 md:px-14 py-10 md:py-16"
     aria-hidden="true"
     role="dialog"
     aria-modal="true"
     aria-label="Menú de navegación"
 >
     <button id="menu-close" aria-label="Cerrar menú" class="self-end bg-transparent border-none cursor-pointer p-0 text-white mb-10">
-        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 md:w-12 md:h-12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <line x1="18" y1="6" x2="6" y2="18"></line>
             <line x1="6" y1="6" x2="18" y2="18"></line>
         </svg>
     </button>
 
-    <ul class="flex flex-col gap-2 font-poppins text-white text-lg">
+    <ul class="flex flex-col gap-2 md:gap-5 font-poppins text-white text-lg md:text-3xl">
         <li><a href="/" class="hover:text-first transition-colors">Inicio</a></li>
         <li><a href="/proyectos" class="hover:text-first transition-colors">Proyectos</a></li>
         <li><a href="/servicios" class="hover:text-first transition-colors">Servicios</a></li>
@@ -52,13 +53,7 @@ import Facebook from "./icons/Facebook.astro";
                 </a>
             </div>
         </div>
-        <a
-            href="https://wa.me/3329335202?text=Hola%2C%20quiero%20consultar%20por%20un%20presupuesto"
-            target="_blank"
-            class="font-bebas bg-first text-white px-6 py-2 text-xl tracking-wider block text-center hover:bg-red-700 transition"
-        >
-            PRESUPUESTO
-        </a>
+        <ButtonRed href="https://wa.me/3329335202?text=Hola%2C%20quiero%20consultar%20por%20un%20presupuesto" text="PRESUPUESTO" size="md" target="_blank" class="justify-center" />
     </div>
 </div>
 

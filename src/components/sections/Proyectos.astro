@@ -1,6 +1,7 @@
 ---
 import TitleSection from "../TitleSection.astro";
 import ProjectCard from "../ProjectCard.astro";
+import ButtonRed from "../ButtonRed.astro";
 import proyectos01 from "../../assets/projects/proyectos01.webp";
 import proyectos02 from "../../assets/projects/proyectos02.webp";
 import proyectos03 from "../../assets/projects/proyectos03.webp";
@@ -36,12 +37,11 @@ const projects = [
     <TitleSection
         title="Proyectos"
         color="first"
-        new_clases="ml-5 relative bottom-12 z-40"
+        new_clases="ml-5 md:ml-20 relative bottom-12 z-40"
         subtitle="más destacados"
         subtitle_color="#000000"
     />
 
-    <!-- Carousel -->
     <div class="relative mt-2 overflow-hidden">
         <div id="carousel-track" class="flex gap-4 transition-transform duration-500 ease-in-out">
             {projects.map((project) => (
@@ -55,26 +55,20 @@ const projects = [
         </div>
     </div>
 
-    <!-- Controls -->
-    <div class="flex items-center justify-between px-5 mt-6">
+    <div class="flex items-center justify-between px-5 md:px-20 mt-6">
         <div class="flex gap-4">
             <button id="carousel-prev" aria-label="Proyecto anterior" class="text-black/40 hover:text-black transition">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
             </button>
             <button id="carousel-next" aria-label="Proyecto siguiente" class="text-black hover:text-black/70 transition">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
             </button>
         </div>
-        <a href="/proyectos" class="font-bebas bg-first text-secondary px-5 py-1.5 text-sm tracking-wider flex items-center gap-2 hover:bg-red-700 transition">
-            VER MAS PROYECTOS
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-        </a>
+        <ButtonRed href="/proyectos" text="VER MAS PROYECTOS" size="sm" mdSize="lg" icon color="secondary" />
     </div>
 </section>
 
