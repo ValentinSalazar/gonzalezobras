@@ -1,48 +1,63 @@
 ---
-import TitleSection from "../TitleSection.astro";
 ---
 
-<section class="relative w-full px-5 py-5 md:w-1/2">
-    <span class="flex w-20 h-1.25 bg-first mb-2 mt-2 sm:mt-5 md:mt-0"></span>
-    <TitleSection
-        title="Contactanos"
-        color="black"
-        subtitle="despejá tus dudas"
-        mas_color="first"
-    />
-    <form id="contact-form" class="my-5 flex flex-col gap-5" novalidate>
-        <div>
-            <label class="font-poppins font-medium text-sm block mb-2" for="nombre">Nombre</label>
-            <input
-                type="text"
-                id="nombre"
-                name="name"
-                placeholder="Braulio"
-                class="w-full border border-black/40 px-4 py-3 font-poppins text-sm text-black/50 outline-none focus:border-first transition"
-                required
-            />
-            <p class="form-error font-poppins text-first text-xs mt-1 hidden"></p>
+<section class="bg-white px-5 md:px-14 xl:px-16 py-14 flex flex-col justify-center">
+    <span class="flex w-14 h-1 bg-first mb-4"></span>
+    <h2 class="font-bebas text-gray-900 text-4xl leading-none mb-1">Escribinos</h2>
+    <p class="font-poppins text-gray-400 text-sm mb-8">Te respondemos en menos de 24 horas.</p>
+
+    <form id="contact-form" class="flex flex-col gap-5" novalidate>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            <div>
+                <label class="font-poppins font-medium text-xs uppercase tracking-widest text-gray-400 block mb-2" for="nombre">Nombre</label>
+                <input
+                    type="text"
+                    id="nombre"
+                    name="name"
+                    placeholder="Tu nombre"
+                    class="w-full border border-gray-200 px-4 py-3 font-poppins text-sm text-gray-700 outline-none focus:border-first transition bg-gray-50"
+                    required
+                />
+                <p class="form-error font-poppins text-first text-xs mt-1 hidden"></p>
+            </div>
+            <div>
+                <label class="font-poppins font-medium text-xs uppercase tracking-widest text-gray-400 block mb-2" for="email">Email</label>
+                <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    placeholder="tu@email.com"
+                    class="w-full border border-gray-200 px-4 py-3 font-poppins text-sm text-gray-700 outline-none focus:border-first transition bg-gray-50"
+                    required
+                />
+                <p class="form-error font-poppins text-first text-xs mt-1 hidden"></p>
+            </div>
         </div>
         <div>
-            <label class="font-poppins font-medium text-sm block mb-2" for="email">Email</label>
-            <input
-                type="email"
-                id="email"
-                name="email"
-                placeholder="Braulio@hotmail.com"
-                class="w-full border border-black/40 px-4 py-3 font-poppins text-sm text-black/50 outline-none focus:border-first transition"
-                required
-            />
-            <p class="form-error font-poppins text-first text-xs mt-1 hidden"></p>
+            <label class="font-poppins font-medium text-xs uppercase tracking-widest text-gray-400 block mb-2" for="servicio">Servicio de interés</label>
+            <select
+                id="servicio"
+                name="servicio"
+                class="w-full border border-gray-200 px-4 py-3 font-poppins text-sm text-gray-500 outline-none focus:border-first transition bg-gray-50 appearance-none"
+            >
+                <option value="">Seleccioná un servicio</option>
+                <option>Wall Panel</option>
+                <option>PVC</option>
+                <option>Cielorrasos</option>
+                <option>Amoblamientos</option>
+                <option>Revestimientos</option>
+                <option>Steel Frame</option>
+                <option>Otro</option>
+            </select>
         </div>
         <div>
-            <label class="font-poppins font-medium text-sm block mb-2" for="mensaje">Mensaje</label>
+            <label class="font-poppins font-medium text-xs uppercase tracking-widest text-gray-400 block mb-2" for="mensaje">Mensaje</label>
             <textarea
                 id="mensaje"
                 name="message"
-                rows="6"
-                placeholder="Hola me comunico para consultar.."
-                class="w-full border border-black/40 px-4 py-3 font-poppins text-sm text-black/50 outline-none focus:border-first transition resize-none"
+                rows="5"
+                placeholder="Contanos sobre tu proyecto..."
+                class="w-full border border-gray-200 px-4 py-3 font-poppins text-sm text-gray-700 outline-none focus:border-first transition resize-none bg-gray-50"
                 required
             ></textarea>
             <p class="form-error font-poppins text-first text-xs mt-1 hidden"></p>
@@ -50,9 +65,12 @@ import TitleSection from "../TitleSection.astro";
         <button
             type="submit"
             id="submit-btn"
-            class="font-bebas bg-first text-white text-xl tracking-wider py-1 hover:bg-red-700 transition disabled:opacity-50"
+            class="font-bebas bg-first text-white text-xl tracking-wider py-3 hover:bg-red-700 transition disabled:opacity-50 flex items-center justify-center gap-2"
         >
-            ENVIAR
+            ENVIAR MENSAJE
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
         </button>
         <p id="form-status" class="font-poppins text-sm text-center hidden"></p>
     </form>
@@ -74,7 +92,7 @@ import TitleSection from "../TitleSection.astro";
     };
 
     function showError(field: HTMLInputElement | HTMLTextAreaElement, message: string) {
-        field.classList.remove('border-black/40');
+        field.classList.remove('border-gray-200');
         field.classList.add('border-first');
         const errorEl = field.parentElement?.querySelector('.form-error') as HTMLElement;
         if (errorEl) {
@@ -85,7 +103,7 @@ import TitleSection from "../TitleSection.astro";
 
     function clearError(field: HTMLInputElement | HTMLTextAreaElement) {
         field.classList.remove('border-first');
-        field.classList.add('border-black/40');
+        field.classList.add('border-gray-200');
         const errorEl = field.parentElement?.querySelector('.form-error') as HTMLElement;
         if (errorEl) {
             errorEl.textContent = '';
@@ -93,7 +111,6 @@ import TitleSection from "../TitleSection.astro";
         }
     }
 
-    // Clear error on input
     ['name', 'email', 'message'].forEach((name) => {
         const field = form.elements.namedItem(name) as HTMLInputElement | HTMLTextAreaElement;
         field.addEventListener('input', () => clearError(field));
@@ -122,6 +139,7 @@ import TitleSection from "../TitleSection.astro";
         submitBtn.textContent = 'ENVIANDO...';
 
         try {
+            const servicioField = form.elements.namedItem('servicio') as HTMLSelectElement;
             const res = await fetch('https://api.web3forms.com/submit', {
                 method: 'POST',
                 headers: {
@@ -134,6 +152,7 @@ import TitleSection from "../TitleSection.astro";
                     from_name: 'Gonzalez Obras – Consultas',
                     name: (form.elements.namedItem('name') as HTMLInputElement).value,
                     email: (form.elements.namedItem('email') as HTMLInputElement).value,
+                    servicio: servicioField?.value || 'No especificado',
                     message: (form.elements.namedItem('message') as HTMLTextAreaElement).value,
                 }),
             });
@@ -153,7 +172,7 @@ import TitleSection from "../TitleSection.astro";
             formStatus.className = 'font-poppins text-sm text-center text-first';
         } finally {
             submitBtn.disabled = false;
-            submitBtn.textContent = 'ENVIAR';
+            submitBtn.textContent = 'ENVIAR MENSAJE';
         }
     });
 </script>

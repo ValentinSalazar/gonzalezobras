@@ -4,10 +4,10 @@ import Navbar from '../components/Navbar.astro';
 import ButtonRed from '../components/ButtonRed.astro';
 import Footer from '../components/sections/Footer.astro';
 import { Image } from 'astro:assets';
+import techo from '../assets/techo.webp';
 import proyectos01 from '../assets/projects/proyectos01.webp';
 import proyectos02 from '../assets/projects/proyectos02.webp';
 import proyectos03 from '../assets/projects/proyectos03.webp';
-import techo from '../assets/techo.webp';
 
 const servicios = [
     {
@@ -93,7 +93,7 @@ const pasos = [
             fetchpriority="high"
         />
         <div class="absolute inset-0 bg-gradient-to-b from-black via-black/90 to-black/60"></div>
-        <div class="absolute top-32 left-0 right-0 z-10 px-5 md:px-20">
+        <div class="absolute top-32 left-0 right-0 z-10 px-5 md:px-20 xl:px-40">
             <span class="flex w-14 h-1 bg-first mb-2"></span>
             <h1 class="font-bebas text-white text-5xl leading-none">Servicios</h1>
             <p class="font-poppins text-white text-sm mt-1">Construcción en seco <br/> Soluciones modernas para cada espacio</p>
@@ -101,38 +101,43 @@ const pasos = [
     </div>
 
     <!-- Services -->
-    <div class="bg-[#111]">
-        {servicios.map((s, i) => (
-            <div class={`flex flex-col md:flex-row ${i % 2 !== 0 ? 'md:flex-row-reverse' : ''} border-b border-white/10`}>
-                <div class="relative w-full md:w-1/2 h-64 md:h-80 overflow-hidden shrink-0">
-                    <Image
-                        src={s.image}
-                        alt={s.title}
-                        width={600}
-                        class="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
-                        loading="lazy"
-                    />
-                    <div class="absolute inset-0 bg-black/30"></div>
-                    <span class="absolute bottom-4 right-4 font-bebas text-white/10 text-8xl leading-none select-none">{s.number}</span>
-                </div>
-
-                <div class="w-full md:w-1/2 px-6 py-8 md:px-20 md:py-10 flex flex-col justify-center bg-white">
-                    <p class="font-bebas text-first text-sm tracking-widest mb-1">{s.number}</p>
-                    <h2 class="font-bebas text-third text-4xl md:text-5xl leading-none mb-4">{s.title}</h2>
-                    <p class="font-poppins text-third text-sm leading-relaxed mb-6">{s.description}</p>
-                    <ul class="flex flex-wrap gap-2">
+    <div class="svc-grid px-5 md:px-20 xl:px-40 py-12">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px bg-gray-200">
+            {servicios.map((s) => (
+                <div class="bg-white flex flex-col group hover:bg-gray-50 transition-colors">
+                    <div class="relative h-44 overflow-hidden shrink-0">
+                        <Image
+                            src={s.image}
+                            alt={s.title}
+                            width={600}
+                            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                            loading="lazy"
+                        />
+                        <div class="absolute inset-0 bg-black/20"></div>
+                    </div>
+                    <div class="p-7 flex flex-col gap-4 flex-1">
+                    <div class="flex items-start justify-between">
+                        <span class="font-bebas text-first text-5xl leading-none">{s.number}</span>
+                        <span class="w-8 h-px bg-first mt-4 group-hover:w-12 transition-all duration-300"></span>
+                    </div>
+                    <div>
+                        <h2 class="font-bebas text-third text-2xl lg:text-3xl leading-tight mb-2">{s.title}</h2>
+                        <p class="font-poppins text-gray-500 text-sm leading-relaxed text-pretty">{s.description}</p>
+                    </div>
+                    <ul class="flex flex-wrap gap-2 mt-auto pt-2 border-t border-gray-100">
                         {s.features.map(f => (
-                            <li class="font-poppins text-third text-xs border border-third/15 px-3 py-1">
+                            <li class="font-poppins text-gray-400 text-xs border border-gray-200 px-2 py-0.5">
                                 + {f}
                             </li>
                         ))}
                     </ul>
+                    </div>
                 </div>
-            </div>
-        ))}
+            ))}
+        </div>
     </div>
 
-    <div class="bg-white px-5 md:px-20 py-14">
+    <div class="bg-white px-5 md:px-20 xl:px-40 py-14">
         <div class="max-w-lg mx-auto md:max-w-none">
             <span class="flex w-14 h-1 bg-first mb-3"></span>
             <h2 class="font-bebas text-gray-900 text-4xl mb-1">¿Cómo trabajamos?</h2>
@@ -153,7 +158,7 @@ const pasos = [
         </div>
     </div>
 
-    <div class="bg-[#0d0d0d] px-5 md:px-20 py-14 flex flex-col items-center gap-4 border-t border-white/10">
+    <div class="bg-[#0d0d0d] px-5 md:px-20 xl:px-40 py-14 flex flex-col items-center gap-4 border-t border-white/10">
         <span class="flex w-14 h-1 bg-first mb-1"></span>
         <p class="font-bebas text-white text-3xl md:text-4xl text-center leading-tight">¿NECESITÁS ALGUNO DE ESTOS SERVICIOS?</p>
         <p class="font-poppins text-white/40 text-sm text-center max-w-xs">Te respondemos en menos de 24 horas con un presupuesto sin compromiso.</p>
@@ -163,7 +168,7 @@ const pasos = [
         </a>
     </div>
 
-    <Footer />
+    <Footer fadeStyle="linear-gradient(to bottom, #0d0d0d 0%, rgba(235,25,46,1) 100%)" />
 
     <script type="application/ld+json" set:html={JSON.stringify({
         "@context": "https://schema.org",

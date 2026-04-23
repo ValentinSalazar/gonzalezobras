@@ -17,12 +17,14 @@ import despues05 from '../assets/despues05.webp';
 import hero from '../assets/transformacionesHero.webp';
 
 const transformaciones = [
-    { number: "01", title: "Cielorrasos y terminaciones", before: antes02, after: despues02 },
-    { number: "02", title: "Revestimiento interior", before: antes01, after: despues01 },
-    { number: "03", title: "Reforma completa", before: antes03, after: despues03 },
-    { number: "04", title: "Construcción en seco", before: antes04, after: despues04 },
-    { number: "05", title: "Amoblamientos a medida", before: antes05, after: despues05 },
+    { number: "01", title: "Cielorrasos y terminaciones", category: "Cielorrasos", before: antes02, after: despues02 },
+    { number: "02", title: "Revestimiento interior", category: "Revestimientos", before: antes01, after: despues01 },
+    { number: "03", title: "Reforma completa", category: "Reformas", before: antes03, after: despues03 },
+    { number: "04", title: "Construcción en seco", category: "Construcción en Seco", before: antes04, after: despues04 },
+    { number: "05", title: "Amoblamientos a medida", category: "Amoblamientos", before: antes05, after: despues05 },
 ];
+
+const allCategories = ["Todos", ...new Set(transformaciones.map(t => t.category))];
 ---
 
 <Layout
@@ -41,9 +43,9 @@ const transformaciones = [
             fetchpriority="high"
         />
         <div class="absolute inset-0 bg-gradient-to-b from-black via-black/90 to-black/60"></div>
-        <div class="absolute top-32 left-0 right-0 z-10 px-5 md:px-20">
+        <div class="absolute top-32 left-0 right-0 z-10 px-5 md:px-20 xl:px-40">
             <span class="flex w-14 h-1 bg-first mb-2"></span>
-            <h1 class="font-bebas text-white text-4xl">Transformaciones</h1>
+            <h1 class="font-bebas text-white text-5xl leading-none">Transformaciones</h1>
             <p class="font-poppins text-sm text-white"><span class="text-first">+</span>antes y después</p>
             <p class="font-poppins text-secondary text-sm mt-5">Resultados reales de nuestras obras</p>
             <div class="pt-10 flex items-center gap-3">
@@ -54,21 +56,36 @@ const transformaciones = [
                 <p class="font-poppins text-secondary/60 text-xs">Arrastrá el divisor para comparar antes y después</p>
             </div>
         </div>
-        
     </div>
-    <div class="bg-secondary]">
+
+    <!-- Filter bar -->
+    <div class="bg-white border-b border-gray-200 px-5 md:px-20 xl:px-40 py-4 overflow-x-auto">
+        <div class="flex gap-2 min-w-max">
+            {allCategories.map((cat) => (
+                <button
+                    class="filter-btn font-poppins text-xs px-4 py-2 border transition-colors"
+                    data-filter={cat}
+                >
+                    {cat}
+                </button>
+            ))}
+        </div>
+    </div>
+
+    <!-- Grid -->
+    <div id="transformaciones-grid" class="px-5 md:px-20 xl:px-40 py-8 grid grid-cols-1 md:grid-cols-2 gap-6">
         {transformaciones.map((t, i) => (
-            <div class="border-b border-white/10">
-                <div class="flex items-baseline justify-between px-5 md:px-20 pt-6 pb-3">
+            <div class="trans-card flex flex-col gap-3" data-category={t.category}>
+                <div class="flex items-baseline justify-between">
                     <div class="flex items-baseline gap-3">
                         <span class="font-bebas text-first text-sm tracking-widest">{t.number}</span>
                         <h2 class="font-bebas text-third text-2xl">{t.title}</h2>
                     </div>
-                    <span class="font-poppins text-third/60 text-xs">ANTES → DESPUÉS</span>
+                    <span class="font-poppins text-third/40 text-xs border border-gray-200 px-2 py-0.5">{t.category}</span>
                 </div>
 
                 <div
-                    class="comparison-slider relative w-full h-96 overflow-hidden cursor-ew-resize select-none"
+                    class="comparison-slider relative w-full h-72 overflow-hidden cursor-ew-resize select-none"
                     data-slider={i}
                 >
                     <Image
@@ -104,8 +121,14 @@ const transformaciones = [
         ))}
     </div>
 
+    <!-- Empty state -->
+    <div id="no-results" class="hidden py-16 text-center px-5">
+        <p class="font-bebas text-gray-300 text-3xl">Sin resultados</p>
+        <p class="font-poppins text-gray-400 text-sm mt-2">No hay transformaciones con esa categoría.</p>
+    </div>
+
     <!-- CTA -->
-    <div class="bg-[#0d0d0d] px-5 md:px-20 py-14 flex flex-col items-center gap-4 border-t border-white/10">
+    <div class="bg-[#0d0d0d] px-5 md:px-20 xl:px-40 py-14 flex flex-col items-center gap-4 border-t border-white/10">
         <span class="flex w-14 h-1 bg-first mb-1"></span>
         <p class="font-bebas text-white text-3xl text-center leading-tight">¿QUERÉS UNA TRANSFORMACIÓN ASÍ?</p>
         <p class="font-poppins text-secondary/70 text-sm text-center max-w-xs">Contanos tu proyecto y te mandamos un presupuesto sin compromiso.</p>
@@ -115,10 +138,43 @@ const transformaciones = [
         </a>
     </div>
 
-    <Footer />
+    <Footer fadeStyle="linear-gradient(to bottom, #0d0d0d 0%, rgba(235,25,46,1) 100%)" />
 </Layout>
 
 <script>
+    // Filter logic
+    const filterBtns = document.querySelectorAll<HTMLButtonElement>('.filter-btn');
+    const cards = document.querySelectorAll<HTMLElement>('.trans-card');
+    const noResults = document.getElementById('no-results')!;
+
+    function applyFilter(filter: string) {
+        filterBtns.forEach(btn => {
+            const isActive = btn.dataset.filter === filter;
+            btn.classList.toggle('bg-first', isActive);
+            btn.classList.toggle('text-white', isActive);
+            btn.classList.toggle('border-first', isActive);
+            btn.classList.toggle('text-gray-500', !isActive);
+            btn.classList.toggle('border-gray-200', !isActive);
+            btn.classList.toggle('bg-white', !isActive);
+        });
+
+        let visible = 0;
+        cards.forEach(card => {
+            const show = filter === 'Todos' || card.dataset.category === filter;
+            card.style.display = show ? '' : 'none';
+            if (show) visible++;
+        });
+
+        noResults.classList.toggle('hidden', visible > 0);
+    }
+
+    filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => applyFilter(btn.dataset.filter ?? 'Todos'));
+    });
+
+    applyFilter('Todos');
+
+    // Comparison slider logic
     const sliders = document.querySelectorAll<HTMLElement>('.comparison-slider');
 
     sliders.forEach(container => {
@@ -133,24 +189,12 @@ const transformaciones = [
             handle.style.left = `${pct}%`;
         }
 
-        // Mouse
-        container.addEventListener('mousedown', (e) => {
-            isDragging = true;
-            setPosition(e.clientX);
-        });
-        document.addEventListener('mousemove', (e) => {
-            if (isDragging) setPosition(e.clientX);
-        });
+        container.addEventListener('mousedown', (e) => { isDragging = true; setPosition(e.clientX); });
+        document.addEventListener('mousemove', (e) => { if (isDragging) setPosition(e.clientX); });
         document.addEventListener('mouseup', () => { isDragging = false; });
 
-        // Touch
-        container.addEventListener('touchstart', (e) => {
-            isDragging = true;
-            setPosition(e.touches[0].clientX);
-        }, { passive: true });
-        document.addEventListener('touchmove', (e) => {
-            if (isDragging) setPosition(e.touches[0].clientX);
-        }, { passive: true });
+        container.addEventListener('touchstart', (e) => { isDragging = true; setPosition(e.touches[0].clientX); }, { passive: true });
+        document.addEventListener('touchmove', (e) => { if (isDragging) setPosition(e.touches[0].clientX); }, { passive: true });
         document.addEventListener('touchend', () => { isDragging = false; });
     });
 </script>

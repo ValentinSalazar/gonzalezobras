@@ -6,13 +6,14 @@ interface Props {
     subtitle?: string;
     subtitle_color?: string;
     mas_color?: string;
+    title_size?: string;
 }
 
-const { title, color = "secondary", new_clases, subtitle, mas_color = "black", subtitle_color } = Astro.props;
+const { title, color = "secondary", new_clases, subtitle, mas_color = "black", subtitle_color, title_size = "text-4xl lg:text-6xl" } = Astro.props;
 ---
 
 <div class=`${new_clases} z-50`>
-    <h1 class=`font-bebas text-${color} text-5xl lg:text-6xl relative`>
+    <h1 class=`font-bebas text-${color} ${title_size} relative`>
         {title}
     </h1>
     <p class=`font-poppins text-sm lg:text-base leading-0 text-${subtitle_color}`><span class=`text-${mas_color}`>+</span>{subtitle}</p>

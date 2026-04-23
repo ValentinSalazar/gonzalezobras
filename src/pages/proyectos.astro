@@ -67,7 +67,6 @@ const projects = [
     },
 ];
 
-// Collect unique filter tags from all projects
 const allTags = ["Todos", ...new Set(projects.flatMap(p => p.tags))];
 ---
 
@@ -91,7 +90,7 @@ const allTags = ["Todos", ...new Set(projects.flatMap(p => p.tags))];
             <span class="flex w-14 h-1 bg-first mb-2"></span>
             <h1 class="font-bebas text-white text-5xl leading-none">Proyectos</h1>
             <p class="font-poppins text-white text-sm"><span class="text-first">+</span>obras realizadas</p>
-            <p class="font-poppins xl:font-light text-secondary text-sm leading-relaxed max-w-lg md:max-w-xl pt-5">
+            <p class="font-poppins font-light text-secondary text-sm leading-relaxed max-w-lg md:max-w-xl pt-5">
                 Cada obra que realizamos refleja nuestro compromiso con la calidad y el detalle. 
                 <br/>Explorá nuestros trabajos y encontrá inspiración para tu próximo proyecto.
             </p>
@@ -112,19 +111,19 @@ const allTags = ["Todos", ...new Set(projects.flatMap(p => p.tags))];
     </div>
 
     <section class="bg-white px-5 md:px-20 xl:px-40 py-8">
-        <div id="projects-grid" class="grid grid-cols-1 gap-5 sm:grid-cols-2">
+        <div id="projects-grid" class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {projects.map((project, i) => (
                 <a
                     href={`/proyectos/${project.slug}`}
                     class="project-card group flex flex-col overflow-hidden border border-gray-200 shadow-sm hover:shadow-md transition-shadow min-h-[80vh] sm:min-h-0"
                     data-tags={project.tags.join(',')}
                 >
-                    <div class="relative overflow-hidden flex-1 sm:aspect-4/3 sm:flex-none">
+                    <div class="relative overflow-hidden flex-1 sm:aspect-[3/4] sm:flex-none bg-gray-100">
                         <Image
                             src={project.image}
                             alt={project.title}
                             width={600}
-                            class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                            class="absolute inset-0 w-full h-full object-contain transition-transform duration-500 group-hover:scale-105"
                             loading="lazy"
                         />
                         <div class="absolute inset-0" style="background: linear-gradient(to top, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0) 60%)"></div>

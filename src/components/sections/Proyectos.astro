@@ -28,7 +28,7 @@ const projects = [
 ];
 ---
 
-<section class="relative z-20 pb-10">
+<section class="relative z-20 pb-10 dot-grid">
     <div
         class="white-fade absolute -top-37.5 left-0 right-0 h-40 lg:h-20 lg:-top-20 z-30 pointer-events-none"
     >
@@ -40,6 +40,7 @@ const projects = [
         new_clases="px-5 md:px-20 xl:px-40 relative bottom-12 z-40"
         subtitle="más destacados"
         subtitle_color="#000000"
+        title_size="text-5xl"
     />
 
     <div class="relative mt-2 overflow-hidden pl-5 md:pl-20 xl:pl-40">
@@ -149,6 +150,11 @@ const projects = [
 
 <style>
     .white-fade {
-        background: linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 75%);
+        background: linear-gradient(to bottom, rgba(249,250,251,0) 0%, rgba(249,250,251,1) 75%);
+    }
+    .dot-grid {
+        background-color: #f9fafb;
+        background-image: radial-gradient(#d1d5db 1px, transparent 1px);
+        background-size: 20px 20px;
     }
 </style>

@@ -59,7 +59,7 @@ const servicios = [
 
     <div class="relative z-10 px-5 py-8 md:flex md:gap-8 md:px-20 lg:px-24 xl:px-40 lg:py-10 lg:gap-16">
         <div class="md:w-1/2">
-            <TitleSection title="Servicios" mas_color="first" subtitle="explorá lo que construimos" subtitle_color="white"/>
+            <TitleSection title="Servicios" mas_color="first" subtitle="explorá lo que construimos" subtitle_color="white" title_size="text-5xl"/>
 
             <div class="mt-5 flex flex-col">
                 {servicios.map((servicio, index) => (
@@ -77,7 +77,7 @@ const servicios = [
                             </span>
                         </button>
                         <div class={`accordion-content overflow-hidden transition-all duration-300 ease-in-out ${index === 0 ? 'max-h-60' : 'max-h-0'}`}>
-                            <p class="font-poppins font-light text-white text-sm pb-3">{servicio.description}</p>
+                            <p class="font-poppins font-light text-white text-sm pb-3 text-pretty">{servicio.description}</p>
                             <button class="gallery-btn font-poppins text-white text-sm italic flex justify-end pb-5 hover:text-first transition w-full md:hidden" data-title={servicio.title}>Ver galería</button>
                         </div>
                     </div>
@@ -86,25 +86,13 @@ const servicios = [
         </div>
 
         <!-- Right column: Desktop gallery (hidden on mobile) -->
-        <div class="hidden md:flex md:w-1/2 md:self-center md:h-[50vh] lg:h-[55vh]">
+        <div class="hidden md:flex md:w-1/2 md:self-center md:h-[65vh] lg:h-[70vh]">
             <div class="w-full flex flex-col">
                 <div class="relative overflow-hidden flex-1">
-                    <div id="desktop-gallery-track" class="flex transition-transform duration-500 ease-in-out h-full">
+                    <div id="desktop-gallery-track" class="flex transition-transform duration-500 ease-in-out h-full cursor-grab">
                     </div>
                 </div>
-                <div class="flex items-center justify-center gap-6 mt-4">
-                    <button id="desktop-gallery-prev" class="text-white transition" aria-label="Imagen anterior">
-                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                    </button>
-                    <span id="desktop-gallery-counter" class="font-poppins text-white/70 text-sm"></span>
-                    <button id="desktop-gallery-next" class="text-white transition" aria-label="Imagen siguiente">
-                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                    </button>
-                </div>
+                <div id="desktop-gallery-dots" class="flex justify-center gap-3 mt-4"></div>
             </div>
         </div>
     </div>
@@ -153,9 +141,7 @@ const servicios = [
 
     function loadDesktopGallery(galleryData: string[]) {
         const dTrack = document.getElementById('desktop-gallery-track') as HTMLElement;
-        const dCounter = document.getElementById('desktop-gallery-counter') as HTMLElement;
-        const dPrev = document.getElementById('desktop-gallery-prev') as HTMLButtonElement;
-        const dNext = document.getElementById('desktop-gallery-next') as HTMLButtonElement;
+        const dotsContainer = document.getElementById('desktop-gallery-dots') as HTMLElement;
 
         let dCurrent = 0;
         const dTotal = galleryData.length;
@@ -167,32 +153,67 @@ const servicios = [
             const img = document.createElement('img');
             img.src = src;
             img.alt = '';
-            img.className = 'h-full w-4/5 object-contain';
+            img.className = 'h-full w-full object-contain   ';
             img.loading = 'lazy';
             slide.appendChild(img);
             dTrack.appendChild(slide);
         });
 
-        // Clone first to remove old listeners, then reference the new nodes
-        const newPrev = dPrev.cloneNode(true) as HTMLButtonElement;
-        const newNext = dNext.cloneNode(true) as HTMLButtonElement;
-        dPrev.replaceWith(newPrev);
-        dNext.replaceWith(newNext);
-
         function updateDesktop() {
             dTrack.style.transform = `translateX(-${dCurrent * 100}%)`;
-            dCounter.textContent = `${dCurrent + 1} / ${dTotal}`;
-            newPrev.style.opacity = dCurrent === 0 ? '0.2' : '1';
-            newNext.style.opacity = dCurrent >= dTotal - 1 ? '0.2' : '1';
+            dotsContainer.querySelectorAll('.svc-dot').forEach((dot, i) => {
+                const el = dot as HTMLElement;
+                if (i === dCurrent) {
+                    el.classList.add('w-5', 'bg-[#EB192E]');
+                    el.classList.remove('w-2.5', 'bg-white/30');
+                } else {
+                    el.classList.remove('w-5', 'bg-[#EB192E]');
+                    el.classList.add('w-2.5', 'bg-white/30');
+                }
+            });
         }
+
+        dotsContainer.innerHTML = '';
+        galleryData.forEach((_, i) => {
+            const dot = document.createElement('button');
+            dot.className = `svc-dot rounded-full h-2.5 transition-all duration-300 ${i === 0 ? 'w-5 bg-[#EB192E]' : 'w-2.5 bg-white/30'}`;
+            dot.setAttribute('aria-label', `Imagen ${i + 1}`);
+            dot.addEventListener('click', () => { dCurrent = i; updateDesktop(); });
+            dotsContainer.appendChild(dot);
+        });
 
         updateDesktop();
 
-        newPrev.addEventListener('click', () => {
-            if (dCurrent > 0) { dCurrent--; updateDesktop(); }
+        // Touch swipe
+        let touchStartX = 0;
+        dTrack.addEventListener('touchstart', (e) => {
+            touchStartX = e.touches[0].clientX;
+        }, { passive: true });
+        dTrack.addEventListener('touchend', (e) => {
+            const diff = touchStartX - e.changedTouches[0].clientX;
+            if (Math.abs(diff) > 50) {
+                if (diff > 0 && dCurrent < dTotal - 1) { dCurrent++; updateDesktop(); }
+                else if (diff < 0 && dCurrent > 0) { dCurrent--; updateDesktop(); }
+            }
+        }, { passive: true });
+
+        // Mouse drag
+        let mouseStartX = 0;
+        let isDragging = false;
+        dTrack.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            mouseStartX = e.clientX;
+            dTrack.style.cursor = 'grabbing';
         });
-        newNext.addEventListener('click', () => {
-            if (dCurrent < dTotal - 1) { dCurrent++; updateDesktop(); }
+        document.addEventListener('mouseup', (e) => {
+            if (!isDragging) return;
+            isDragging = false;
+            dTrack.style.cursor = 'grab';
+            const diff = mouseStartX - e.clientX;
+            if (Math.abs(diff) > 50) {
+                if (diff > 0 && dCurrent < dTotal - 1) { dCurrent++; updateDesktop(); }
+                else if (diff < 0 && dCurrent > 0) { dCurrent--; updateDesktop(); }
+            }
         });
     }
 

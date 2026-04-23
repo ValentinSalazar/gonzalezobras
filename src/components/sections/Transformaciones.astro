@@ -23,15 +23,14 @@ const transformaciones = [
 const srcs = transformaciones.map(t => ({ before: t.before.src, after: t.after.src }));
 ---
 
-<section class="w-screen pb-10 relative">
-    <TitleSection title="Transformaciones" color="first" subtitle="antes y después" new_clases="pl-5 md:pl-20 xl:pl-40 pb-5"/>
+<section class="w-screen pb-10 relative dot-grid">
+    <TitleSection title="Transformaciones" color="first" subtitle="antes y después" new_clases="pl-5 md:pl-20 xl:pl-40 pb-5" title_size="text-5xl"/>
 
     <div class="w-full mt-4 px-5 md:px-16 xl:px-40">
         <!-- Comparison slider -->
         <div
             id="comp-slider"
-            class="relative overflow-hidden select-none cursor-ew-resize"
-            style="height: 60vw; max-height: 72vh;"
+            class="relative overflow-hidden select-none cursor-ew-resize aspect-[8/3]"
         >
             <!-- Before image -->
             <img id="comp-before" class="absolute inset-0 w-full h-full object-cover" alt="Antes" />
@@ -82,6 +81,11 @@ const srcs = transformaciones.map(t => ({ before: t.before.src, after: t.after.s
 </section>
 
 <style>
+    .dot-grid {
+        background-color: #f9fafb;
+        background-image: radial-gradient(#d1d5db 1px, transparent 1px);
+        background-size: 20px 20px;
+    }
     .hint-fade {
         animation: hintFade 2.5s ease forwards;
         animation-delay: 0.8s;

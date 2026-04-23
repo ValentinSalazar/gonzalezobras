@@ -2,8 +2,17 @@
 import Layout from '../layouts/Layout.astro';
 import Navbar from '../components/Navbar.astro';
 import Footer from '../components/sections/Footer.astro';
-import ContactoSection from '../components/sections/Contacto.astro';
 import FormularioContacto from '../components/sections/FormularioContacto.astro';
+import Mail from '../components/icons/Mail.astro';
+import Location from '../components/icons/Location.astro';
+import Instagram from '../components/icons/Instagram.astro';
+import Facebook from '../components/icons/Facebook.astro';
+
+const stats = [
+    { value: "8+", label: "Años de experiencia" },
+    { value: "150+", label: "Obras realizadas" },
+    { value: "24hs", label: "Tiempo de respuesta" },
+];
 ---
 
 <Layout
@@ -13,17 +22,127 @@ import FormularioContacto from '../components/sections/FormularioContacto.astro'
     <Navbar />
 
     <!-- Hero -->
-    <div class="relative h-80 overflow-hidden bg-[#111]">
-        <div class="absolute inset-0 bg-black/60"></div>
-        <div class="absolute top-32 left-0 right-0 z-10 px-5 md:px-20">
-            <span class="flex w-14 h-1 bg-first mb-2"></span>
-            <h1 class="font-bebas text-white text-5xl leading-none">Contacto</h1>
-            <p class="font-poppins text-white text-sm"><span class="text-first">+</span>hablemos de tu proyecto</p>
+    <div class="bg-[#0d0d0d] px-5 md:px-20 xl:px-40 pt-36 pb-14">
+        <span class="flex w-14 h-1 bg-first mb-4"></span>
+        <h1 class="font-bebas text-white text-6xl md:text-7xl leading-none">Contacto</h1>
+        <p class="font-poppins text-white/50 text-sm mt-2"><span class="text-first">+</span> hablemos de tu proyecto</p>
+
+        <div class="grid grid-cols-3 mt-12 pt-8 border-t border-white/10 max-w-md">
+            {stats.map((s) => (
+                <div>
+                    <p class="font-bebas text-first text-4xl leading-none">{s.value}</p>
+                    <p class="font-poppins text-white/40 text-xs mt-1 leading-snug">{s.label}</p>
+                </div>
+            ))}
         </div>
     </div>
 
-    <div class="md:flex">
-        <ContactoSection />
+    <!-- Main -->
+    <div class="grid grid-cols-1 lg:grid-cols-2">
+
+        <!-- Left: Info -->
+        <div class="bg-[#111] px-5 md:px-20 xl:px-20 py-14 flex flex-col gap-10">
+
+            <!-- Contact methods -->
+            <div>
+                <h2 class="font-bebas text-white text-3xl mb-6 tracking-wide">Datos de contacto</h2>
+                <ul class="flex flex-col gap-5">
+                    <li>
+                        <a href="https://wa.me/3329335202?text=Hola%2C%20quiero%20consultar%20por%20un%20presupuesto" target="_blank" class="flex items-start gap-4 group">
+                            <div class="w-10 h-10 bg-[#25D366]/10 flex items-center justify-center shrink-0">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="#25D366">
+                                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+                                    <path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.122 1.523 5.864L0 24l6.336-1.498A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.886 0-3.65-.494-5.18-1.358l-.37-.22-3.762.889.936-3.664-.242-.38A9.952 9.952 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="font-poppins text-white/40 text-xs uppercase tracking-widest mb-0.5">WhatsApp</p>
+                                <p class="font-poppins text-white text-sm group-hover:text-first transition">+54 3329 335202</p>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="mailto:facundo@gonzalezobras.com" class="flex items-start gap-4 group">
+                            <div class="w-10 h-10 bg-first/10 flex items-center justify-center shrink-0">
+                                <Mail color="#EB192E" />
+                            </div>
+                            <div>
+                                <p class="font-poppins text-white/40 text-xs uppercase tracking-widest mb-0.5">Email</p>
+                                <p class="font-poppins text-white text-sm group-hover:text-first transition">facundo@gonzalezobras.com</p>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <div class="flex items-start gap-4">
+                            <div class="w-10 h-10 bg-first/10 flex items-center justify-center shrink-0">
+                                <Location color="#EB192E" />
+                            </div>
+                            <div>
+                                <p class="font-poppins text-white/40 text-xs uppercase tracking-widest mb-0.5">Ubicación</p>
+                                <p class="font-poppins text-white text-sm">San Pedro, Buenos Aires</p>
+                                <p class="font-poppins text-white/40 text-xs mt-0.5">CABA · Provincia · Rosario</p>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Social -->
+            <div>
+                <h2 class="font-bebas text-white text-3xl mb-4 tracking-wide">Redes sociales</h2>
+                <div class="flex flex-col sm:flex-row gap-3">
+                    <a href="https://instagram.com/gonzalez.obras" target="_blank" rel="noopener noreferrer"
+                        class="flex items-center gap-3 px-4 py-3 border border-white/10 hover:border-first/50 group transition flex-1">
+                        <Instagram fill="white" stroke="#111" />
+                        <div>
+                            <p class="font-poppins text-white/40 text-xs">Instagram</p>
+                            <p class="font-poppins text-white text-sm group-hover:text-first transition">@gonzalez.obras</p>
+                        </div>
+                    </a>
+                    <a href="https://facebook.com/FacundoGonzalez" target="_blank" rel="noopener noreferrer"
+                        class="flex items-center gap-3 px-4 py-3 border border-white/10 hover:border-first/50 group transition flex-1">
+                        <Facebook color="white" />
+                        <div>
+                            <p class="font-poppins text-white/40 text-xs">Facebook</p>
+                            <p class="font-poppins text-white text-sm group-hover:text-first transition">Facundo Gonzalez</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Map -->
+            <div class="flex-1">
+                <div
+                    id="map-placeholder"
+                    data-src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d53808.77!2d-59.69!3d-33.685!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95b767a43d5d82ef%3A0x74b8e4b7f39a7b0!2sSan%20Pedro%2C%20Buenos%20Aires%2C%20Argentina!5e0!3m2!1ses!2sar!4v1"
+                    style="width:100%;height:220px;background:#1a1a1a;"
+                ></div>
+                <script>
+                    const placeholder = document.getElementById('map-placeholder');
+                    if (placeholder) {
+                        const observer = new IntersectionObserver((entries) => {
+                            if (entries[0].isIntersecting) {
+                                const iframe = document.createElement('iframe');
+                                iframe.src = (placeholder as HTMLElement).dataset.src!;
+                                iframe.width = '100%';
+                                iframe.height = '220';
+                                iframe.style.border = '0';
+                                iframe.style.filter = 'grayscale(1) invert(0.85) contrast(0.9)';
+                                iframe.allowFullscreen = true;
+                                iframe.loading = 'lazy';
+                                iframe.referrerPolicy = 'no-referrer-when-downgrade';
+                                iframe.title = 'Ubicación de González Obras en San Pedro, Buenos Aires';
+                                placeholder.replaceWith(iframe);
+                                observer.disconnect();
+                            }
+                        }, { rootMargin: '200px' });
+                        observer.observe(placeholder);
+                    }
+                </script>
+            </div>
+        </div>
+
+        <!-- Right: Form -->
         <FormularioContacto />
     </div>
 
