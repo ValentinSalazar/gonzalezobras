@@ -3,13 +3,37 @@ import Menu from "./icons/Menu.astro";
 import Instagram from "./icons/Instagram.astro";
 import Facebook from "./icons/Facebook.astro";
 import ButtonRed from "./ButtonRed.astro";
+
+const currentPath = Astro.url.pathname;
+const navLinks = [
+    { href: "/", label: "Inicio" },
+    { href: "/proyectos", label: "Proyectos" },
+    { href: "/servicios", label: "Servicios" },
+    { href: "/transformaciones", label: "Transformaciones" },
+    { href: "/contacto", label: "Contacto" },
+];
 ---
 
-<nav class="flex justify-between items-center px-5 md:px-20 font-poppins absolute pt-10 z-50 w-full" aria-label="Navegación principal">
+<nav class="flex justify-between items-center px-5 md:px-20 xl:px-40 font-poppins absolute pt-10 z-50 w-full" aria-label="Navegación principal">
     <a href="/" class="text-white">Gonzalez</a>
-    <button id="menu-open" aria-label="Abrir menú" class="bg-transparent border-none cursor-pointer p-0">
-        <Menu color="#ffffff" class="w-8 h-8"/>
-    </button>
+
+    <!-- Links visibles solo en desktop -->
+    <ul class="hidden lg:flex gap-8 text-white text-sm items-center">
+        {navLinks.map((link) => {
+            const isActive = currentPath === link.href || (link.href !== "/" && currentPath.startsWith(link.href));
+            return (
+                <li><a href={link.href} class={`transition-colors hover:text-first ${isActive ? 'text-first' : 'text-white'}`}>{link.label}</a></li>
+            );
+        })}
+    </ul>
+
+    <!-- CTA desktop + hamburger mobile -->
+    <div class="flex items-center gap-4">
+        <ButtonRed href="https://wa.me/3329335202?text=Hola%2C%20quiero%20consultar%20por%20un%20presupuesto" text="PRESUPUESTO" size="sm" target="_blank" class="hidden lg:flex" />
+        <button id="menu-open" aria-label="Abrir menú" class="lg:hidden bg-transparent border-none cursor-pointer p-0">
+            <Menu color="#ffffff" class="w-8 h-8"/>
+        </button>
+    </div>
 </nav>
 
 <div

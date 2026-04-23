@@ -1,5 +1,4 @@
 ---
-import { Image } from 'astro:assets';
 import TitleSection from "../TitleSection.astro";
 import ButtonRed from "../ButtonRed.astro";
 import antes01 from "../../assets/antes01.webp";
@@ -20,114 +19,147 @@ const transformaciones = [
     { before: antes04, after: despues04 },
     { before: antes05, after: despues05 },
 ];
+
+const srcs = transformaciones.map(t => ({ before: t.before.src, after: t.after.src }));
 ---
 
 <section class="w-screen pb-10 relative">
-    <TitleSection title="Transformaciones" color="first" subtitle="antes y después" new_clases="pl-5 md:pl-20 pb-5"/>
-    <div class="w-full relative mt-4">
-        <div class="flex flex-col md:flex-row">
-            <div class="w-full md:w-1/2 h-64 md:h-[40vh] relative overflow-hidden">
-                {transformaciones.map((t, i) => (
-                    <Image
-                        src={t.before}
-                        alt={`Antes de transformación - González Obras obra ${i + 1}`}
-                        width={700}
-                        class={`transf-before w-full h-full object-cover object-center transition-transform duration-500 ease-in-out ${i === 0 ? 'relative' : 'absolute inset-0 -translate-x-full'}`}
-                        data-index={i}
-                        loading="lazy"
-                    />
-                ))}
-                <span class="absolute bottom-2 left-3 z-30 font-bebas text-white/70 text-sm md:text-4xl tracking-wider">ANTES</span>
-                <div class="absolute inset-0 pointer-events-none img-overlay z-10"></div>
+    <TitleSection title="Transformaciones" color="first" subtitle="antes y después" new_clases="pl-5 md:pl-20 xl:pl-40 pb-5"/>
+
+    <div class="w-full mt-4 px-5 md:px-16 xl:px-40">
+        <!-- Comparison slider -->
+        <div
+            id="comp-slider"
+            class="relative overflow-hidden select-none cursor-ew-resize"
+            style="height: 60vw; max-height: 72vh;"
+        >
+            <!-- Before image -->
+            <img id="comp-before" class="absolute inset-0 w-full h-full object-cover" alt="Antes" />
+
+            <!-- After image clipped -->
+            <div id="comp-after-wrap" class="absolute inset-0 overflow-hidden" style="width:50%">
+                <img id="comp-after" class="absolute top-0 left-0 h-full object-cover" alt="Después" />
             </div>
 
-            <div class="w-full h-1 md:w-4 md:h-auto bg-white relative z-20 flex items-center justify-center">
-                <div class="absolute z-50 w-8 md:w-14 md:h-14 h-8 bg-white flex items-center justify-center">
-                    <svg class="w-5 h-5 md:w-8 md:h-8" viewBox="0 0 20 19" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M11.683 12.5594L13.804 10.4384L19.8 16.4344L17.679 18.5554L11.683 12.5594ZM15.4 7.38736C17.33 7.38736 18.9 5.81736 18.9 3.88736C18.9 3.30736 18.74 2.76736 18.49 2.28736L15.79 4.98736L14.3 3.49736L17 0.79736C16.52 0.54736 15.98 0.38736 15.4 0.38736C13.47 0.38736 11.9 1.95736 11.9 3.88736C11.9 4.29736 11.98 4.68736 12.11 5.04736L10.26 6.89736L8.48 5.11736L9.19 4.40736L7.78 2.99736L9.9 0.87736C9.3375 0.315558 8.575 0 7.78 0C6.985 0 6.2225 0.315558 5.66 0.87736L2.12 4.41736L3.53 5.82736H0.71L0 6.53736L3.54 10.0774L4.25 9.36736V6.53736L5.66 7.94736L6.37 7.23736L8.15 9.01736L0.74 16.4274L2.86 18.5474L14.24 7.17736C14.6 7.30736 14.99 7.38736 15.4 7.38736Z" fill="#EB192E"/>
+            <!-- Edge gradients -->
+            <div class="absolute inset-0 pointer-events-none z-10" style="background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%, transparent 18%, transparent 82%, rgba(0,0,0,0.35) 100%)"></div>
+
+            <!-- Labels -->
+            <span class="absolute bottom-4 left-5 z-20 font-bebas text-white/75 text-lg md:text-3xl tracking-widest pointer-events-none">ANTES</span>
+            <span class="absolute bottom-4 right-5 z-20 font-bebas text-white/75 text-lg md:text-3xl tracking-widest pointer-events-none">DESPUÉS</span>
+
+            <!-- Handle -->
+            <div id="comp-handle" class="absolute top-0 bottom-0 z-30 flex flex-col items-center" style="left:50%; transform:translateX(-50%)">
+                <div class="w-px flex-1 bg-white/80"></div>
+                <div class="w-9 h-9 md:w-11 md:h-11 shrink-0 bg-white rounded-full flex items-center justify-center shadow-lg cursor-ew-resize handle-pulse">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                        <path d="M8 5L3 12L8 19M16 5L21 12L16 19" stroke="#EB192E" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>
                 </div>
+                <div class="w-px flex-1 bg-white/80"></div>
             </div>
 
-            <div class="w-full md:w-1/2 h-64 md:h-[40vh] relative overflow-hidden">
-                {transformaciones.map((t, i) => (
-                    <Image
-                        src={t.after}
-                        alt={`Después de transformación - González Obras obra ${i + 1}`}
-                        width={700}
-                        class={`transf-after w-full h-full object-cover object-center transition-transform duration-500 ease-in-out ${i === 0 ? 'relative' : 'absolute inset-0 translate-x-full'}`}
+            <!-- Hint -->
+            <div id="comp-hint" class="absolute inset-0 z-40 flex items-center justify-center pointer-events-none">
+                <span class="font-poppins text-white/90 text-xs md:text-sm tracking-widest bg-black/40 px-4 py-2 rounded-full hint-fade">← deslizá →</span>
+            </div>
+        </div>
+
+        <!-- Dots + button in same row -->
+        <div class="flex items-center justify-between mt-5">
+            <div class="flex gap-3">
+                {transformaciones.map((_, i) => (
+                    <button
+                        class={`comp-dot rounded-full transition-all duration-300 ${i === 0 ? 'w-5 h-2.5 bg-first' : 'w-2.5 h-2.5 bg-black/25 hover:bg-black/40'}`}
                         data-index={i}
-                        loading="lazy"
-                    />
+                        aria-label={`Transformación ${i + 1}`}
+                    ></button>
                 ))}
-                <span class="absolute bottom-2 left-3 z-30 font-bebas text-white/70 text-sm md:text-4xl tracking-wider">DESPUÉS</span>
-                <div class="absolute inset-0 pointer-events-none img-overlay z-10"></div>
             </div>
-
+            <ButtonRed href="/transformaciones" text="VER MAS TRANSFORMACIONES" size="sm" mdSize="lg" icon color="secondary" />
         </div>
     </div>
-
-    <div class="flex items-center justify-between px-5 md:px-20 mt-6">
-        <div class="flex gap-4">
-            <button id="transf-prev" aria-label="Transformación anterior" class="text-black/40 hover:text-black transition">
-                <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-            </button>
-            <button id="transf-next" aria-label="Transformación siguiente" class="text-black hover:text-black/70 transition">
-                <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-            </button>
-        </div>
-        <ButtonRed href="/transformaciones" text="VER MAS TRANSFORMACIONES" size="sm" mdSize="lg" icon color="secondary" />
-    </div>
-
 </section>
 
-<script>
-    const prevBtn = document.getElementById('transf-prev') as HTMLButtonElement;
-    const nextBtn = document.getElementById('transf-next') as HTMLButtonElement;
-    const befores = document.querySelectorAll('.transf-before') as NodeListOf<HTMLElement>;
-    const afters = document.querySelectorAll('.transf-after') as NodeListOf<HTMLElement>;
-    const total = befores.length;
-    let current = 0;
-
-    function updateTransf() {
-        befores.forEach((img, i) => {
-            img.classList.remove('translate-x-full', '-translate-x-full');
-            if (i < current) img.classList.add('-translate-x-full');
-            else if (i > current) img.classList.add('translate-x-full');
-        });
-        afters.forEach((img, i) => {
-            img.classList.remove('translate-x-full', '-translate-x-full');
-            if (i < current) img.classList.add('translate-x-full');
-            else if (i > current) img.classList.add('-translate-x-full');
-        });
-
-        prevBtn.classList.toggle('text-black/40', current === 0);
-        prevBtn.classList.toggle('text-black', current > 0);
-        nextBtn.classList.toggle('text-black/40', current >= total - 1);
-        nextBtn.classList.toggle('text-black', current < total - 1);
-    }
-
-    prevBtn.addEventListener('click', () => {
-        if (current > 0) { current--; updateTransf(); }
-    });
-
-    nextBtn.addEventListener('click', () => {
-        if (current < total - 1) { current++; updateTransf(); }
-    });
-</script>
-
 <style>
-    .img-overlay {
-        background: linear-gradient(
-            to bottom,
-            rgba(0,0,0,0.75) 0%,
-            rgba(0,0,0,0) 25%,
-            rgba(0,0,0,0) 75%,
-            rgba(0,0,0,0.75) 100%
-        );
+    .hint-fade {
+        animation: hintFade 2.5s ease forwards;
+        animation-delay: 0.8s;
+        opacity: 0;
+    }
+    @keyframes hintFade {
+        0%   { opacity: 0; transform: translateY(4px); }
+        20%  { opacity: 1; transform: translateY(0); }
+        75%  { opacity: 1; }
+        100% { opacity: 0; }
+    }
+    .handle-pulse {
+        animation: handlePulse 1.8s ease-in-out 3;
+    }
+    @keyframes handlePulse {
+        0%, 100% { box-shadow: 0 0 0 0 rgba(255,255,255,0.5); }
+        50%       { box-shadow: 0 0 0 8px rgba(255,255,255,0); }
     }
 </style>
+
+<script define:vars={{ srcs }}>
+    const slider = document.getElementById('comp-slider');
+    const beforeImg = document.getElementById('comp-before');
+    const afterWrap = document.getElementById('comp-after-wrap');
+    const afterImg = document.getElementById('comp-after');
+    const handle = document.getElementById('comp-handle');
+    const dots = document.querySelectorAll('.comp-dot');
+
+    let currentIndex = 0;
+    let isDragging = false;
+    let pos = 50;
+
+    function setAfterWidth() {
+        afterImg.style.width = slider.offsetWidth + 'px';
+    }
+
+    function updateHandle() {
+        const clamped = Math.min(Math.max(pos, 3), 97);
+        afterWrap.style.width = clamped + '%';
+        handle.style.left = clamped + '%';
+    }
+
+    function getPercent(e) {
+        const rect = slider.getBoundingClientRect();
+        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+        return ((clientX - rect.left) / rect.width) * 100;
+    }
+
+    function loadSlide(index) {
+        beforeImg.src = srcs[index].before;
+        afterImg.src = srcs[index].after;
+        pos = 50;
+        setAfterWidth();
+        updateHandle();
+
+        dots.forEach((dot, i) => {
+            if (i === index) {
+                dot.classList.add('w-5', 'bg-first');
+                dot.classList.remove('w-2.5', 'bg-black/25');
+            } else {
+                dot.classList.remove('w-5', 'bg-first');
+                dot.classList.add('w-2.5', 'bg-black/25');
+            }
+        });
+        currentIndex = index;
+    }
+
+    slider.addEventListener('mousedown', (e) => { isDragging = true; pos = getPercent(e); updateHandle(); });
+    document.addEventListener('mousemove', (e) => { if (isDragging) { pos = getPercent(e); updateHandle(); } });
+    document.addEventListener('mouseup', () => { isDragging = false; });
+
+    slider.addEventListener('touchstart', (e) => { isDragging = true; pos = getPercent(e); updateHandle(); }, { passive: true });
+    slider.addEventListener('touchmove', (e) => { if (isDragging) { pos = getPercent(e); updateHandle(); } }, { passive: true });
+    slider.addEventListener('touchend', () => { isDragging = false; });
+
+    dots.forEach((dot, i) => dot.addEventListener('click', () => loadSlide(i)));
+
+    window.addEventListener('resize', () => { setAfterWidth(); updateHandle(); });
+
+    loadSlide(0);
+</script>

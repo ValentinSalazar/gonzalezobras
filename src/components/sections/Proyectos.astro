@@ -30,19 +30,19 @@ const projects = [
 
 <section class="relative z-20 pb-10">
     <div
-        class="white-fade absolute -top-37.5 left-0 right-0 h-40 z-30 pointer-events-none"
+        class="white-fade absolute -top-37.5 left-0 right-0 h-40 lg:h-20 lg:-top-20 z-30 pointer-events-none"
     >
     </div>
 
     <TitleSection
         title="Proyectos"
         color="first"
-        new_clases="ml-5 md:ml-20 relative bottom-12 z-40"
+        new_clases="px-5 md:px-20 xl:px-40 relative bottom-12 z-40"
         subtitle="más destacados"
         subtitle_color="#000000"
     />
 
-    <div class="relative mt-2 overflow-hidden">
+    <div class="relative mt-2 overflow-hidden pl-5 md:pl-20 xl:pl-40">
         <div id="carousel-track" class="flex gap-4 transition-transform duration-500 ease-in-out">
             {projects.map((project) => (
                 <ProjectCard
@@ -55,7 +55,7 @@ const projects = [
         </div>
     </div>
 
-    <div class="flex items-center justify-between px-5 md:px-20 mt-6">
+    <div class="flex items-center justify-between px-5 md:px-20 xl:px-40 mt-6">
         <div class="flex gap-4">
             <button id="carousel-prev" aria-label="Proyecto anterior" class="text-black/40 hover:text-black transition">
                 <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -76,77 +76,72 @@ const projects = [
     const track = document.getElementById('carousel-track') as HTMLElement;
     const prevBtn = document.getElementById('carousel-prev') as HTMLButtonElement;
     const nextBtn = document.getElementById('carousel-next') as HTMLButtonElement;
-    
+
     let currentIndex = 0;
-    const cards = track.querySelectorAll('.project-card');
+    const cards = Array.from(track.querySelectorAll('.project-card')) as HTMLElement[];
     const totalCards = cards.length;
 
-    function getCardWidth() {
-        const card = cards[0] as HTMLElement;
-        const gap = 16; // gap-4 = 1rem = 16px
-        return card.offsetWidth + gap;
-    }
-
     function updateCarousel() {
-        const cardWidth = getCardWidth();
-        const trackWidth = totalCards * cardWidth - 26; // total track width minus last gap
-        const containerWidth = track.parentElement!.offsetWidth;
-        const maxOffset = trackWidth - containerWidth;
-        const offset = Math.min(currentIndex * cardWidth, maxOffset);
-        track.style.transform = `translateX(-${Math.max(0, offset)}px)`;
-        
-        // Update arrow styles
+        // Actualizar clase activa
+        cards.forEach((card, i) => {
+            card.classList.toggle('is-active', i === currentIndex);
+        });
+
+        // Esperar a que el DOM actualice anchos antes de calcular offset
+        requestAnimationFrame(() => {
+            const gap = 16;
+            let offset = 0;
+            for (let i = 0; i < currentIndex; i++) {
+                offset += cards[i].offsetWidth + gap;
+            }
+            const containerWidth = track.parentElement!.offsetWidth;
+            const trackWidth = cards.reduce((sum, c) => sum + c.offsetWidth + gap, 0) - gap;
+            const maxOffset = Math.max(0, trackWidth - containerWidth);
+            track.style.transform = `translateX(-${Math.min(offset, maxOffset)}px)`;
+        });
+
         prevBtn.classList.toggle('text-black/40', currentIndex === 0);
         prevBtn.classList.toggle('text-black', currentIndex > 0);
         nextBtn.classList.toggle('text-black/40', currentIndex >= totalCards - 1);
         nextBtn.classList.toggle('text-black', currentIndex < totalCards - 1);
     }
 
+    // Inicializar primera card como activa
+    updateCarousel();
+
     prevBtn.addEventListener('click', () => {
-        if (currentIndex > 0) {
-            currentIndex--;
-            updateCarousel();
-        }
+        if (currentIndex > 0) { currentIndex--; updateCarousel(); }
     });
-
     nextBtn.addEventListener('click', () => {
-        if (currentIndex < totalCards - 1) {
-            currentIndex++;
-            updateCarousel();
-        }
+        if (currentIndex < totalCards - 1) { currentIndex++; updateCarousel(); }
     });
 
-    // Touch/swipe support
-    let startX = 0;
-    let startY = 0;
-    let isHorizontalSwipe = false;
+    // Tap directo en una card
+    cards.forEach((card, i) => {
+        card.addEventListener('click', () => {
+            currentIndex = i;
+            updateCarousel();
+        });
+    });
 
+    // Touch/swipe
+    let startX = 0, startY = 0, isHorizontalSwipe = false;
     track.addEventListener('touchstart', (e) => {
         startX = e.touches[0].clientX;
         startY = e.touches[0].clientY;
         isHorizontalSwipe = false;
     }, { passive: true });
-
     track.addEventListener('touchmove', (e) => {
         const diffX = Math.abs(e.touches[0].clientX - startX);
         const diffY = Math.abs(e.touches[0].clientY - startY);
-        if (diffX > diffY && diffX > 10) {
-            isHorizontalSwipe = true;
-            e.preventDefault();
-        }
+        if (diffX > diffY && diffX > 10) { isHorizontalSwipe = true; e.preventDefault(); }
     }, { passive: false });
-
     track.addEventListener('touchend', (e) => {
         if (!isHorizontalSwipe) return;
-        const endX = e.changedTouches[0].clientX;
-        const diff = startX - endX;
-
+        const diff = startX - e.changedTouches[0].clientX;
         if (Math.abs(diff) > 50) {
-            if (diff > 0 && currentIndex < totalCards - 1) {
-                currentIndex++;
-            } else if (diff < 0 && currentIndex > 0) {
-                currentIndex--;
-            }
+            if (diff > 0 && currentIndex < totalCards - 1) currentIndex++;
+            else if (diff < 0 && currentIndex > 0) currentIndex--;
             updateCarousel();
         }
     }, { passive: true });

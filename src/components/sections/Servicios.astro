@@ -17,7 +17,7 @@ const servicios = [
     {
         number: "03",
         title: "Cielorrasos",
-        description: "Cielorrasos desmontables y continuos con estructura metálica y placas de yeso. Acabados perfectos para todo tipo de ambientes.",
+        description: "Cielorrasos desmontables, continuos y con gargantas, con estructura metálica y placas de yeso. Acabados perfectos para todo tipo de ambientes.",
         gallery: ["/projects/proyectos01.webp", "/projects/proyectos02.webp"],
     },
     {
@@ -32,34 +32,52 @@ const servicios = [
         description: "Revestimientos interiores y exteriores con materiales de primera calidad. Cerámicas, porcellanatos y sistemas de fachada ventilada.",
         gallery: ["/projects/proyectos01.webp", "/projects/proyectos02.webp"],
     },
+    {
+        number: "06",
+        title: "Tabiques y Paredes Divisorias",
+        description: "Construcción de tabiques y paredes divisorias en seco con estructura metálica y placas de yeso o cemento. Soluciones rápidas para dividir y reorganizar espacios residenciales y comerciales.",
+        gallery: ["/projects/proyectos01.webp", "/projects/proyectos02.webp"],
+    },
+    {
+        number: "07",
+        title: "Trabajos de Exterior",
+        description: "Intervenciones en fachadas, terrazas y espacios exteriores con materiales resistentes a la intemperie. Revestimientos, cielorrasos exteriores y terminaciones de alta durabilidad.",
+        gallery: ["/projects/proyectos01.webp", "/projects/proyectos02.webp"],
+    },
+    {
+        number: "08",
+        title: "Cajones y Cortineros",
+        description: "Fabricación e instalación de cajones y cortineros a medida integrados al diseño del espacio. Acabados prolijos en melamina o madera para todo tipo de ambientes.",
+        gallery: ["/projects/proyectos01.webp", "/projects/proyectos02.webp"],
+    },
 ];
 ---
 
-<section class="relative w-screen h-screen xs:h-[80vh] md:h-[60vh]">
+<section class="relative w-screen h-auto">
     <div class="absolute inset-0 bg-cover bg-center bg-no-repeat" style="background-image: url('/projects/proyectos01.webp');"></div>
     <div class="absolute inset-0 bg-black/75"></div>
 
-    <div class="relative z-10 px-5 py-10 md:flex md:gap-8 md:px-20 lg:px-16">
+    <div class="relative z-10 px-5 py-8 md:flex md:gap-8 md:px-20 lg:px-24 xl:px-40 lg:py-10 lg:gap-16">
         <div class="md:w-1/2">
             <TitleSection title="Servicios" mas_color="first" subtitle="explorá lo que construimos" subtitle_color="white"/>
 
-            <div class="mt-8 flex flex-col">
+            <div class="mt-5 flex flex-col">
                 {servicios.map((servicio, index) => (
                     <div class="accordion-item border-b border-white/30" data-index={index} data-gallery={JSON.stringify(servicio.gallery)}>
                         <button
-                            class="accordion-header w-full flex items-center justify-between py-5"
+                            class="accordion-header w-full flex items-center justify-between py-3"
                             aria-expanded={index === 0 ? "true" : "false"}
                         >
                             <div class="flex items-baseline gap-3">
-                                <span class="font-bebas text-first text-2xl font-bold">{servicio.number}</span>
-                                <span class="font-bebas text-white text-3xl">{servicio.title}</span>
+                                <span class="font-bebas text-first text-lg lg:text-xl font-bold">{servicio.number}</span>
+                                <span class="font-bebas text-white text-2xl lg:text-3xl">{servicio.title}</span>
                             </div>
-                            <span class="accordion-icon font-bebas text-first text-3xl leading-none">
+                            <span class="accordion-icon font-bebas text-first text-2xl leading-none">
                                 {index === 0 ? "−" : "+"}
                             </span>
                         </button>
                         <div class={`accordion-content overflow-hidden transition-all duration-300 ease-in-out ${index === 0 ? 'max-h-60' : 'max-h-0'}`}>
-                            <p class="font-poppins font-extralight text-white text-sm pb-3">{servicio.description}</p>
+                            <p class="font-poppins font-light text-white text-sm pb-3">{servicio.description}</p>
                             <button class="gallery-btn font-poppins text-white text-sm italic flex justify-end pb-5 hover:text-first transition w-full md:hidden" data-title={servicio.title}>Ver galería</button>
                         </div>
                     </div>
@@ -68,7 +86,7 @@ const servicios = [
         </div>
 
         <!-- Right column: Desktop gallery (hidden on mobile) -->
-        <div class="hidden md:flex md:w-1/2 md:self-stretch">
+        <div class="hidden md:flex md:w-1/2 md:self-center md:h-[50vh] lg:h-[55vh]">
             <div class="w-full flex flex-col">
                 <div class="relative overflow-hidden flex-1">
                     <div id="desktop-gallery-track" class="flex transition-transform duration-500 ease-in-out h-full">
@@ -145,30 +163,30 @@ const servicios = [
         dTrack.innerHTML = '';
         galleryData.forEach((src) => {
             const slide = document.createElement('div');
-            slide.className = 'w-full h-full shrink-0';
+            slide.className = 'w-full h-full shrink-0 flex items-center justify-center';
             const img = document.createElement('img');
             img.src = src;
             img.alt = '';
-            img.className = 'w-full h-full object-cover';
+            img.className = 'h-full w-4/5 object-contain';
             img.loading = 'lazy';
             slide.appendChild(img);
             dTrack.appendChild(slide);
         });
 
-        function updateDesktop() {
-            dTrack.style.transform = `translateX(-${dCurrent * 100}%)`;
-            dCounter.textContent = `${dCurrent + 1} / ${dTotal}`;
-            dPrev.style.opacity = dCurrent === 0 ? '0.2' : '1';
-            dNext.style.opacity = dCurrent >= dTotal - 1 ? '0.2' : '1';
-        }
-
-        updateDesktop();
-
-        // Remove old listeners by cloning
+        // Clone first to remove old listeners, then reference the new nodes
         const newPrev = dPrev.cloneNode(true) as HTMLButtonElement;
         const newNext = dNext.cloneNode(true) as HTMLButtonElement;
         dPrev.replaceWith(newPrev);
         dNext.replaceWith(newNext);
+
+        function updateDesktop() {
+            dTrack.style.transform = `translateX(-${dCurrent * 100}%)`;
+            dCounter.textContent = `${dCurrent + 1} / ${dTotal}`;
+            newPrev.style.opacity = dCurrent === 0 ? '0.2' : '1';
+            newNext.style.opacity = dCurrent >= dTotal - 1 ? '0.2' : '1';
+        }
+
+        updateDesktop();
 
         newPrev.addEventListener('click', () => {
             if (dCurrent > 0) { dCurrent--; updateDesktop(); }

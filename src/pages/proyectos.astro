@@ -77,7 +77,6 @@ const allTags = ["Todos", ...new Set(projects.flatMap(p => p.tags))];
 >
     <Navbar />
 
-    <!-- Hero -->
     <div class="relative h-90 overflow-hidden">
         <Image
             src={wallpanel}
@@ -88,18 +87,18 @@ const allTags = ["Todos", ...new Set(projects.flatMap(p => p.tags))];
             fetchpriority="high"
         />
         <div class="absolute inset-0 bg-gradient-to-b from-black via-black/90 to-black/60"></div>
-        <div class="absolute top-32 left-0 right-0 z-10 px-5 md:px-20">
+        <div class="absolute top-32 left-0 right-0 z-10 px-5 md:px-20 xl:px-40">
             <span class="flex w-14 h-1 bg-first mb-2"></span>
             <h1 class="font-bebas text-white text-5xl leading-none">Proyectos</h1>
             <p class="font-poppins text-white text-sm"><span class="text-first">+</span>obras realizadas</p>
-            <p class="font-poppins font-extralight text-secondary text-sm leading-relaxed max-w-lg md:max-w-xl pt-5">
+            <p class="font-poppins xl:font-light text-secondary text-sm leading-relaxed max-w-lg md:max-w-xl pt-5">
                 Cada obra que realizamos refleja nuestro compromiso con la calidad y el detalle. 
                 <br/>Explorá nuestros trabajos y encontrá inspiración para tu próximo proyecto.
             </p>
         </div>
     </div>
 
-    <div class="bg-white border-b border-gray-200 px-5 md:px-20 py-4 overflow-x-auto">
+    <div class="bg-white border-b border-gray-200 px-5 md:px-20 xl:px-40 py-4 overflow-x-auto">
         <div class="flex gap-2 min-w-max">
             {allTags.map((tag) => (
                 <button
@@ -112,8 +111,7 @@ const allTags = ["Todos", ...new Set(projects.flatMap(p => p.tags))];
         </div>
     </div>
 
-    <!-- Cards grid -->
-    <section class="bg-white px-5 md:px-20 py-8">
+    <section class="bg-white px-5 md:px-20 xl:px-40 py-8">
         <div id="projects-grid" class="grid grid-cols-1 gap-5 sm:grid-cols-2">
             {projects.map((project, i) => (
                 <a
@@ -121,7 +119,6 @@ const allTags = ["Todos", ...new Set(projects.flatMap(p => p.tags))];
                     class="project-card group flex flex-col overflow-hidden border border-gray-200 shadow-sm hover:shadow-md transition-shadow min-h-[80vh] sm:min-h-0"
                     data-tags={project.tags.join(',')}
                 >
-                    <!-- Image -->
                     <div class="relative overflow-hidden flex-1 sm:aspect-4/3 sm:flex-none">
                         <Image
                             src={project.image}
@@ -139,7 +136,6 @@ const allTags = ["Todos", ...new Set(projects.flatMap(p => p.tags))];
                         </span>
                     </div>
 
-                    <!-- Info -->
                     <div class="px-4 py-5 flex flex-col gap-3 bg-white">
                         <h2 class="font-bebas text-gray-900 text-2xl leading-none">{project.title}</h2>
 
@@ -153,7 +149,6 @@ const allTags = ["Todos", ...new Set(projects.flatMap(p => p.tags))];
 
                         <div class="flex items-center gap-4 mt-auto pt-3 border-t border-gray-100 justify-between">
                             <div class="flex items-center gap-3">
-                                <!-- Duration -->
                                 <div class="flex items-center gap-1">
                                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
                                         <circle cx="12" cy="12" r="9" stroke="#EB192E" stroke-width="1"/>
@@ -161,7 +156,6 @@ const allTags = ["Todos", ...new Set(projects.flatMap(p => p.tags))];
                                     </svg>
                                     <span class="font-poppins text-gray-400 text-xs">{project.duration}</span>
                                 </div>
-                                <!-- Location -->
                                 <div class="flex items-center gap-1">
                                     <Location />
                                     <span class="font-poppins text-gray-400 text-xs">{project.location}</span>
@@ -187,9 +181,9 @@ const allTags = ["Todos", ...new Set(projects.flatMap(p => p.tags))];
     </section>
 
     <!-- CTA -->
-    <div class="bg-white px-5 md:px-20 py-12 flex flex-col items-center gap-3 border-t border-gray-100">
+    <div class="bg-white px-5 md:px-20 xl:px-40 py-12 flex flex-col items-center gap-3 border-t border-gray-100">
         <p class="font-bebas text-gray-900 text-3xl text-center">¿TENÉS UN PROYECTO EN MENTE?</p>
-        <p class="font-poppins text-gray-400 text-sm text-center max-w-xs">Te respondemos en menos de 24 horas con un presupuesto sin compromiso.</p>
+        <p class="font-poppins text-gray-400 text-sm text-center max-w-xs xl:max-w-xlP">Te respondemos en menos de 24 horas con un presupuesto sin compromiso.</p>
         <ButtonRed href="https://wa.me/3329335202?text=Hola%2C%20quiero%20consultar%20por%20un%20presupuesto" text="PEDIR PRESUPUESTO" size="lg" target="_blank" class="mt-1" />
     </div>
 
