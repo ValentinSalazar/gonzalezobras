@@ -1,7 +1,11 @@
 ---
+interface Props {
+    sectionClass?: string;
+}
+const { sectionClass = 'px-5 md:px-14 xl:px-16' } = Astro.props;
 ---
 
-<section class="bg-white px-5 md:px-14 xl:px-16 py-14 flex flex-col justify-center">
+<section class={`bg-white ${sectionClass} py-14 flex flex-col justify-center`}>
     <span class="flex w-14 h-1 bg-first mb-4"></span>
     <h2 class="font-bebas text-gray-900 text-4xl leading-none mb-1">Escribinos</h2>
     <p class="font-poppins text-gray-400 text-sm mb-8">Te respondemos en menos de 24 horas.</p>

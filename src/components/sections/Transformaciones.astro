@@ -23,14 +23,14 @@ const transformaciones = [
 const srcs = transformaciones.map(t => ({ before: t.before.src, after: t.after.src }));
 ---
 
-<section class="w-screen pb-10 relative dot-grid">
+<section class="w-full pb-10 relative dot-grid">
     <TitleSection title="Transformaciones" color="first" subtitle="antes y después" new_clases="pl-5 md:pl-20 xl:pl-40 pb-5" title_size="text-5xl"/>
 
     <div class="w-full mt-4 px-5 md:px-16 xl:px-40">
         <!-- Comparison slider -->
         <div
             id="comp-slider"
-            class="relative overflow-hidden select-none cursor-ew-resize aspect-[8/3]"
+            class="relative overflow-hidden select-none cursor-ew-resize aspect-[4/3] md:aspect-[8/3]"
         >
             <!-- Before image -->
             <img id="comp-before" class="absolute inset-0 w-full h-full object-cover" alt="Antes" />

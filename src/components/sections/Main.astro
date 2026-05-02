@@ -6,6 +6,9 @@ import ButtonRed from "../ButtonRed.astro";
 import proj1 from "../../assets/projects/proyectos01.webp";
 import proj2 from "../../assets/projects/proyectos02.webp";
 import proj3 from "../../assets/projects/proyectos03.webp";
+import amoblamientos from "../../assets/amoblamiento.webp"
+import wallpanel from "../../assets/wallpanel.webp";
+import ascensor from "../../assets/ascensor-cristal-in.webp";
 ---
 
 <div class="relative overflow-hidden bg-black">
@@ -62,12 +65,11 @@ import proj3 from "../../assets/projects/proyectos03.webp";
 			</div>
 		</div>
 
-		<!-- Columna derecha: filmstrip (solo desktop) -->
 		<div class="hidden lg:flex lg:flex-1 lg:items-center lg:justify-center relative z-50">
 			<div class="filmstrip-wrapper flex gap-2 w-[52%] h-[60%] overflow-hidden">
 				<div class="flex-1 overflow-hidden">
 					<div class="filmstrip-up flex flex-col gap-2">
-						{[proj1, proj2, proj3, proj1, proj2, proj3].map((img) => (
+						{[proj1, proj2, proj3, amoblamientos, ascensor, wallpanel, proj1, proj2, proj3].map((img) => (
 							<a href="/proyectos" class="block overflow-hidden flex-shrink-0 aspect-[3/4]">
 								<img src={img.src} alt="Proyecto González Obras" width={img.width} height={img.height} class="w-full h-full object-cover object-center hover:scale-105 transition-transform duration-500" loading="eager" decoding="async" />
 							</a>
@@ -76,7 +78,7 @@ import proj3 from "../../assets/projects/proyectos03.webp";
 				</div>
 				<div class="flex-1 overflow-hidden">
 					<div class="filmstrip-down flex flex-col gap-2">
-						{[proj3, proj1, proj2, proj3, proj1, proj2].map((img) => (
+						{[proj3, proj1, proj2, amoblamientos, ascensor, wallpanel, proj3, proj1, proj2, amoblamientos].map((img) => (
 							<a href="/proyectos" class="block overflow-hidden flex-shrink-0 aspect-[3/4]">
 								<img src={img.src} alt="Proyecto González Obras" width={img.width} height={img.height} class="w-full h-full object-cover object-center hover:scale-105 transition-transform duration-500" loading="eager" decoding="async" />
 							</a>
