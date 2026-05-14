@@ -106,7 +106,7 @@ const servicios: { number: string; title: string; description: string; images: I
                         <div class="gallery-track flex transition-transform duration-500 ease-in-out h-full">
                             {servicio.video && (
                                 <div class="w-full h-full shrink-0 flex items-center justify-center">
-                                    <video autoplay muted loop playsinline class="h-full w-full object-contain">
+                                    <video muted loop playsinline preload="none" data-autoplay class="h-full w-full object-contain">
                                         <source src={servicio.video} type="video/mp4" />
                                     </video>
                                 </div>
@@ -116,6 +116,7 @@ const servicios: { number: string; title: string; description: string; images: I
                                     <Image
                                         src={img}
                                         alt={`${servicio.title} - imagen ${i + 1}`}
+                                        width={600}
                                         class="h-full w-full object-contain"
                                         loading={index === 0 && i === 0 ? 'eager' : 'lazy'}
                                     />
@@ -162,7 +163,7 @@ const servicios: { number: string; title: string; description: string; images: I
                     <div class="modal-track flex transition-transform duration-500 ease-in-out h-full w-full">
                         {servicio.video && (
                             <div class="w-full shrink-0 flex items-center justify-center px-4">
-                                <video autoplay muted loop playsinline class="max-h-full max-w-full object-contain rounded-lg">
+                                <video muted loop playsinline preload="none" controls class="max-h-full max-w-full object-contain rounded-lg">
                                     <source src={servicio.video} type="video/mp4" />
                                 </video>
                             </div>
@@ -263,13 +264,23 @@ const servicios: { number: string; title: string; description: string; images: I
             });
         });
 
+        function playGalleryVideo(gallery: HTMLElement) {
+            const video = gallery.querySelector<HTMLVideoElement>('video[data-autoplay]');
+            if (video) video.play().catch(() => {});
+        }
+
         function showDesktopGallery(index: number) {
             allDesktopGalleries.forEach((gallery) => {
                 const matches = parseInt(gallery.dataset.galleryIndex || '0') === index;
                 gallery.classList.toggle('hidden', !matches);
                 gallery.classList.toggle('flex', matches);
+                if (matches) playGalleryVideo(gallery);
             });
         }
+
+        // Autoplay video in initially visible gallery
+        const firstGallery = document.querySelector<HTMLElement>('.service-gallery:not(.hidden)');
+        if (firstGallery) playGalleryVideo(firstGallery);
 
         // --- Accordion ---
 
