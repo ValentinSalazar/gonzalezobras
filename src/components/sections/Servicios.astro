@@ -60,7 +60,7 @@ const servicios: { number: string; title: string; description: string; images: I
 ---
 
 <section class="relative w-full h-auto">
-    <div class="absolute inset-0 bg-cover bg-center bg-no-repeat" style="background-image: url('/projects/proyectos01.webp');"></div>
+    <Image src={proyectos01} alt="" width={900} class="absolute inset-0 w-full h-full object-cover" aria-hidden="true" loading="lazy" />
     <div class="absolute inset-0 bg-black/75"></div>
 
     <div class="relative z-10 px-5 py-8 md:flex md:gap-8 md:px-20 lg:px-24 xl:px-40 lg:py-10 lg:gap-16">
@@ -173,6 +173,7 @@ const servicios: { number: string; title: string; description: string; images: I
                                 <Image
                                     src={img}
                                     alt={`${servicio.title} - imagen ${i + 1}`}
+                                    width={600}
                                     class="max-h-full max-w-full object-contain rounded-lg"
                                     loading="lazy"
                                 />
@@ -278,9 +279,17 @@ const servicios: { number: string; title: string; description: string; images: I
             });
         }
 
-        // Autoplay video in initially visible gallery
+        // Play video only when the gallery enters the viewport
         const firstGallery = document.querySelector<HTMLElement>('.service-gallery:not(.hidden)');
-        if (firstGallery) playGalleryVideo(firstGallery);
+        if (firstGallery) {
+            const observer = new IntersectionObserver((entries) => {
+                if (entries[0].isIntersecting) {
+                    playGalleryVideo(firstGallery);
+                    observer.disconnect();
+                }
+            }, { threshold: 0.1 });
+            observer.observe(firstGallery);
+        }
 
         // --- Accordion ---
 
