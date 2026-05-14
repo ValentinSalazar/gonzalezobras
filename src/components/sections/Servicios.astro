@@ -79,6 +79,20 @@ const servicios: { number: string; title: string; description: string; images: I
         images: [rev03, proyectos01, proyectos02],
     },
 ];
+
+const EAGER_COUNT = 3;
+const carouselItems = await Promise.all(
+    servicios.map(async (s) => {
+        const all: { type: 'image' | 'video'; src: string }[] = [];
+        if (s.video && !s.videoLast) all.push({ type: 'video', src: s.video });
+        const processed = await Promise.all(s.images.map(img => getImage({ src: img, width: 400, format: 'webp' })));
+        processed.forEach(p => all.push({ type: 'image', src: p.src }));
+        if (s.video && s.videoLast) all.push({ type: 'video', src: s.video });
+        return all;
+    })
+);
+const carouselEager = carouselItems.map(items => items.slice(0, EAGER_COUNT));
+const carouselDeferred = carouselItems.map(items => items.slice(EAGER_COUNT));
 ---
 
 <section class="relative w-full h-auto bg-cover bg-center" style={`background-image: url('${bgImage.src}')`}>
@@ -109,28 +123,19 @@ const servicios: { number: string; title: string; description: string; images: I
                             <!-- Carrusel inline mobile -->
                             <div class="mobile-carousel md:hidden pb-5">
                                 <div class="relative overflow-hidden" style="height: 400px;">
-                                    <div class="mob-track flex h-full transition-transform duration-500 ease-in-out">
-                                        {servicio.video && !servicio.videoLast && (
+                                    <div
+                                        class="mob-track flex h-full transition-transform duration-500 ease-in-out"
+                                        data-deferred={JSON.stringify(carouselDeferred[index])}
+                                        data-total={carouselItems[index].length}
+                                    >
+                                        {carouselEager[index].map((item, i) => (
                                             <div class="w-full h-full shrink-0 flex items-center justify-center">
-                                                <video src={servicio.video} class="max-h-full max-w-full object-contain" muted playsinline controls preload="metadata" />
-                                            </div>
-                                        )}
-                                        {servicio.images.map((img, i) => (
-                                            <div class="w-full h-full shrink-0 flex items-center justify-center">
-                                                <Image
-                                                    src={img}
-                                                    alt={`${servicio.title} - imagen ${i + 1}`}
-                                                    width={500}
-                                                    class="max-h-full max-w-full object-contain"
-                                                    loading="lazy"
-                                                />
+                                                {item.type === 'video'
+                                                    ? <video src={item.src} class="max-h-full max-w-full object-contain" muted playsinline controls preload="metadata" />
+                                                    : <img src={item.src} alt={`${servicio.title} - imagen ${i + 1}`} class="max-h-full max-w-full object-contain" loading="lazy" />
+                                                }
                                             </div>
                                         ))}
-                                        {servicio.video && servicio.videoLast && (
-                                            <div class="w-full h-full shrink-0 flex items-center justify-center">
-                                                <video src={servicio.video} class="max-h-full max-w-full object-contain" muted playsinline controls preload="metadata" />
-                                            </div>
-                                        )}
                                     </div>
                                 </div>
                                 <div class="flex flex-col items-center mt-2 gap-0.5">
@@ -344,29 +349,64 @@ const servicios: { number: string; title: string; description: string; images: I
             const prevBtn = carousel.querySelector<HTMLButtonElement>('.mob-prev')!;
             const nextBtn = carousel.querySelector<HTMLButtonElement>('.mob-next')!;
             const counter = carousel.querySelector<HTMLElement>('.mob-counter')!;
-            const total = track.children.length;
+
+            const totalItems = parseInt(track.dataset.total || String(track.children.length));
+            let deferred: { type: string; src: string }[] = [];
+            try { deferred = JSON.parse(track.dataset.deferred || '[]'); } catch { deferred = []; }
+
             let current = 0;
+            let loadedCount = track.children.length;
+            const BATCH = 3;
+
+            function appendBatch() {
+                if (deferred.length === 0) return;
+                const batch = deferred.splice(0, BATCH);
+                batch.forEach((item) => {
+                    const wrapper = document.createElement('div');
+                    wrapper.className = 'w-full h-full shrink-0 flex items-center justify-center';
+                    if (item.type === 'video') {
+                        const video = document.createElement('video');
+                        video.src = item.src;
+                        video.className = 'max-h-full max-w-full object-contain';
+                        video.muted = true;
+                        video.setAttribute('playsinline', '');
+                        video.controls = true;
+                        video.preload = 'metadata';
+                        wrapper.appendChild(video);
+                    } else {
+                        const img = document.createElement('img');
+                        img.src = item.src;
+                        img.alt = '';
+                        img.className = 'max-h-full max-w-full object-contain';
+                        img.loading = 'lazy';
+                        wrapper.appendChild(img);
+                    }
+                    track.appendChild(wrapper);
+                });
+                loadedCount = track.children.length;
+            }
 
             function update() {
+                if (current >= loadedCount - 2 && deferred.length > 0) appendBatch();
                 track.style.transform = `translateX(-${current * 100}%)`;
-                counter.textContent = `${current + 1} / ${total}`;
+                counter.textContent = `${current + 1} / ${totalItems}`;
                 prevBtn.classList.toggle('text-white/40', current === 0);
                 prevBtn.classList.toggle('text-white', current > 0);
-                nextBtn.classList.toggle('text-white/40', current >= total - 1);
-                nextBtn.classList.toggle('text-white', current < total - 1);
+                nextBtn.classList.toggle('text-white/40', current >= totalItems - 1);
+                nextBtn.classList.toggle('text-white', current < totalItems - 1);
             }
 
             update();
 
             prevBtn.addEventListener('click', () => { if (current > 0) { current--; update(); } });
-            nextBtn.addEventListener('click', () => { if (current < total - 1) { current++; update(); } });
+            nextBtn.addEventListener('click', () => { if (current < totalItems - 1) { current++; update(); } });
 
             let touchStartX = 0;
             track.addEventListener('touchstart', (e) => { touchStartX = e.touches[0].clientX; }, { passive: true });
             track.addEventListener('touchend', (e) => {
                 const diff = touchStartX - e.changedTouches[0].clientX;
                 if (Math.abs(diff) > 40) {
-                    if (diff > 0 && current < total - 1) { current++; update(); }
+                    if (diff > 0 && current < totalItems - 1) { current++; update(); }
                     else if (diff < 0 && current > 0) { current--; update(); }
                 }
             }, { passive: true });
