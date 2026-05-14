@@ -3,16 +3,18 @@ import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
 import TitleSection from '../TitleSection.astro';
 
-import antes01 from '../../assets/antes01.webp';
-import antes02 from '../../assets/antes02.webp';
-import antes03 from '../../assets/antes03.webp';
-import antes04 from '../../assets/antes04.webp';
-import antes05 from '../../assets/antes05.webp';
-import despues01 from '../../assets/despues01.webp';
-import despues02 from '../../assets/despues02.webp';
-import despues03 from '../../assets/despues03.webp';
-import despues04 from '../../assets/despues04.webp';
-import despues05 from '../../assets/despues05.webp';
+import antes01 from '../../assets/transformaciones/antes01.webp';
+import antes02 from '../../assets/transformaciones/antes02.webp';
+import antes03 from '../../assets/transformaciones/antes03.webp';
+import antes04 from '../../assets/transformaciones/antes04.webp';
+import antes05 from '../../assets/transformaciones/antes05.webp';
+import antes06 from '../../assets/transformaciones/antes06.webp';
+import despues01 from '../../assets/transformaciones/despues01.webp';
+import despues02 from '../../assets/transformaciones/despues02.webp';
+import despues03 from '../../assets/transformaciones/despues03.webp';
+import despues04 from '../../assets/transformaciones/despues04.webp';
+import despues05 from '../../assets/transformaciones/despues05.webp';
+import despues06 from '../../assets/transformaciones/despues06.webp';
 
 interface Props {
     showTitle?: boolean;
@@ -33,6 +35,7 @@ const transformaciones: {
     { number: "03", title: "Trabajo de Exterior",         category: "Reformas",             before: antes03, after: despues03 },
     { number: "04", title: "Construcción en seco",        category: "Construcción en Seco", before: antes04, after: despues04 },
     { number: "05", title: "Amoblamientos a medida",      category: "Amoblamientos",        before: antes05, after: despues05 },
+    { number: "06", title: "Transformación completa",      category: "Reformas",             before: antes06, after: despues06 },
 ];
 
 const INITIAL_COUNT = 3;
@@ -54,7 +57,10 @@ const INITIAL_COUNT = 3;
         {transformaciones.map((t, i) => (
             <div class={`trans-card flex flex-col${!showAll && i >= INITIAL_COUNT ? ' hidden' : ''}`}>
 
-                <div class="relative overflow-hidden bg-gray-200 h-80 sm:h-60 lg:h-[350px]">
+                <button
+                    class="img-container relative overflow-hidden bg-gray-200 h-80 sm:h-60 lg:h-[350px] w-full group cursor-zoom-in"
+                    aria-label={`Ver ${t.title}`}
+                >
                     <Image
                         src={t.before}
                         alt={`Antes - ${t.title} | González Obras`}
@@ -75,7 +81,14 @@ const INITIAL_COUNT = 3;
                     <span class="state-label absolute top-2.5 right-2.5 font-bebas text-white text-xs tracking-widest bg-first px-2 py-0.5">
                         ANTES
                     </span>
-                </div>
+                    <div class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors flex items-center justify-center">
+                        <svg class="opacity-0 group-hover:opacity-100 transition-opacity" width="36" height="36" viewBox="0 0 24 24" fill="none">
+                            <circle cx="11" cy="11" r="7" stroke="white" stroke-width="2" />
+                            <path d="M16.5 16.5L21 21" stroke="white" stroke-width="2" stroke-linecap="round" />
+                            <path d="M11 8v6M8 11h6" stroke="white" stroke-width="2" stroke-linecap="round" />
+                        </svg>
+                    </div>
+                </button>
 
                 <!-- Tabs -->
                 <div class="grid grid-cols-2 border border-gray-300 border-t-0">
@@ -93,29 +106,64 @@ const INITIAL_COUNT = 3;
     </div>
 
     {!showAll && transformaciones.length > INITIAL_COUNT && (
-        <div id="ver-mas-wrapper" class="flex justify-end mt-6 px-5 md:px-20 xl:px-40">
-            <button
-                id="ver-mas-btn"
-                class="font-bebas cursor-pointer text-secondary bg-first tracking-wider hover:bg-red-700 transition flex items-center gap-2 px-5 py-1.5 text-sm md:px-8 md:py-2.5 md:text-xl"
+        <div class="flex justify-end mt-6 px-5 md:px-20 xl:px-40">
+            <a
+                href="/transformaciones"
+                class="font-bebas text-secondary bg-first tracking-wider hover:bg-red-700 transition flex items-center gap-2 px-5 py-1.5 text-sm md:px-8 md:py-2.5 md:text-xl"
             >
                 VER MÁS TRANSFORMACIONES
                 <svg class="w-4 h-4 md:w-5 md:h-5" viewBox="0 0 24 24" fill="none">
                     <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
-            </button>
+            </a>
         </div>
     )}
 
 </section>
+
+<!-- Lightbox -->
+<div
+    id="trans-lightbox"
+    class="fixed inset-0 z-[100] bg-black/95 flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300"
+    aria-hidden="true"
+>
+    <button id="trans-lb-close" aria-label="Cerrar" class="absolute top-5 right-5 text-white/70 hover:text-white transition z-10">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+    </button>
+
+    <div class="flex items-center gap-3 px-4">
+        <button id="trans-lb-prev" aria-label="Anterior" class="shrink-0 text-white/60 hover:text-white transition">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                <path d="M15 18L9 12L15 6"></path>
+            </svg>
+        </button>
+        <div class="relative flex flex-col items-center gap-2">
+            <img id="trans-lb-img" src="" alt="" class="max-w-[80vw] max-h-[80vh] object-contain" />
+            <div class="flex items-center gap-3">
+                <p id="trans-lb-label" class="font-bebas text-white tracking-widest text-sm bg-first px-3 py-0.5"></p>
+                <p id="trans-lb-counter" class="font-poppins text-white/50 text-xs"></p>
+            </div>
+        </div>
+        <button id="trans-lb-next" aria-label="Siguiente" class="shrink-0 text-white/60 hover:text-white transition">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                <path d="M9 18L15 12L9 6"></path>
+            </svg>
+        </button>
+    </div>
+</div>
 
 <script>
     function initTransformaciones() {
         document.querySelectorAll<HTMLElement>('.trans-card').forEach(card => {
             const btnAntes   = card.querySelector<HTMLButtonElement>('.btn-antes')!;
             const btnDespues = card.querySelector<HTMLButtonElement>('.btn-despues')!;
-            const imgAntes   = card.querySelector<HTMLElement>('.img-antes')!;
-            const imgDespues = card.querySelector<HTMLElement>('.img-despues')!;
+            const imgAntes   = card.querySelector<HTMLImageElement>('.img-antes')!;
+            const imgDespues = card.querySelector<HTMLImageElement>('.img-despues')!;
             const label      = card.querySelector<HTMLElement>('.state-label')!;
+            const imgBtn     = card.querySelector<HTMLButtonElement>('.img-container')!;
 
             function activate(active: HTMLButtonElement, inactive: HTMLButtonElement) {
                 active.classList.add('border-first', 'text-first');
@@ -137,16 +185,62 @@ const INITIAL_COUNT = 3;
                 label.textContent = 'DESPUÉS';
                 activate(btnDespues, btnAntes);
             });
+
+            imgBtn.addEventListener('click', () => {
+                const isAntes = imgDespues.style.opacity === '0' || imgDespues.style.opacity === '';
+                openLightbox(imgAntes.src, imgDespues.src, isAntes ? 0 : 1);
+            });
         });
 
-        const verMasBtn = document.getElementById('ver-mas-btn');
-        const verMasWrapper = document.getElementById('ver-mas-wrapper');
+        const lightbox  = document.getElementById('trans-lightbox')!;
+        const lbImg     = document.getElementById('trans-lb-img') as HTMLImageElement;
+        const lbClose   = document.getElementById('trans-lb-close')!;
+        const lbPrev    = document.getElementById('trans-lb-prev')!;
+        const lbNext    = document.getElementById('trans-lb-next')!;
+        const lbLabel   = document.getElementById('trans-lb-label')!;
+        const lbCounter = document.getElementById('trans-lb-counter')!;
 
-        verMasBtn?.addEventListener('click', () => {
-            document.querySelectorAll<HTMLElement>('.trans-card.hidden').forEach(card => {
-                card.classList.remove('hidden');
-            });
-            verMasWrapper?.remove();
+        let srcs: string[] = [];
+        let current = 0;
+
+        function showItem() {
+            lbImg.src = srcs[current];
+            lbLabel.textContent = current === 0 ? 'ANTES' : 'DESPUÉS';
+            lbCounter.textContent = `${current + 1} / ${srcs.length}`;
+        }
+
+        function openLightbox(srcAntes: string, srcDespues: string, startIndex: number) {
+            srcs = [srcAntes, srcDespues];
+            current = startIndex;
+            showItem();
+            lightbox.classList.remove('opacity-0', 'pointer-events-none');
+            lightbox.setAttribute('aria-hidden', 'false');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLightbox() {
+            lightbox.classList.add('opacity-0', 'pointer-events-none');
+            lightbox.setAttribute('aria-hidden', 'true');
+            document.body.style.overflow = '';
+        }
+
+        lbClose.addEventListener('click', closeLightbox);
+        lightbox.addEventListener('click', (e) => { if (e.target === lightbox) closeLightbox(); });
+
+        lbPrev.addEventListener('click', () => {
+            current = (current - 1 + srcs.length) % srcs.length;
+            showItem();
+        });
+        lbNext.addEventListener('click', () => {
+            current = (current + 1) % srcs.length;
+            showItem();
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (lightbox.getAttribute('aria-hidden') === 'true') return;
+            if (e.key === 'Escape') closeLightbox();
+            if (e.key === 'ArrowLeft') { current = (current - 1 + srcs.length) % srcs.length; showItem(); }
+            if (e.key === 'ArrowRight') { current = (current + 1) % srcs.length; showItem(); }
         });
     }
 

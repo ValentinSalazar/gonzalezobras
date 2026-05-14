@@ -9,8 +9,8 @@ import proyectos01 from '../assets/projects/proyectos01.webp';
 import proyectos02 from '../assets/projects/proyectos02.webp';
 import proyectos03 from '../assets/projects/proyectos03.webp';
 import amoblamiento1 from '../assets/amoblamientos01.webp'
-import despues4 from '../assets/despues04.webp'
-import transformacionesHero from '../assets/transformacionesHero.webp'
+import despues4 from '../assets/transformaciones/despues04.webp'
+import transformacionesHero from '../assets/transformaciones/transformacionesHero.webp'
 
 const servicios = [
     {
@@ -108,7 +108,7 @@ const pasos = [
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px bg-gray-200">
             {servicios.map((s) => (
                 <div class="bg-white flex flex-col group hover:bg-gray-50 transition-colors">
-                    <div class="relative h-44 overflow-hidden shrink-0">
+                    <div class="relative h-64 overflow-hidden shrink-0">
                         <Image
                             src={s.image}
                             alt={s.title}
@@ -118,7 +118,7 @@ const pasos = [
                         />
                         <div class="absolute inset-0 bg-black/20"></div>
                     </div>
-                    <div class="p-7 flex flex-col gap-4 flex-1">
+                    <div class="p-5 md:p-7 flex flex-col gap-4 flex-1">
                     <div class="flex items-start justify-between">
                         <span class="font-bebas text-first text-5xl leading-none">{s.number}</span>
                         <span class="w-8 h-px bg-first mt-4 group-hover:w-12 transition-all duration-300"></span>

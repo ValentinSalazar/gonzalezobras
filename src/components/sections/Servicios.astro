@@ -15,12 +15,30 @@ import amoblamientos04 from '../../assets/amoblamientos04.webp';
 import amoblamientos05 from '../../assets/amoblamientos05.webp';
 import amoblamientos06 from '../../assets/amoblamientos06.webp';
 import ascensor from "../../assets/ascensor-cristal-in.webp"
+import ciel01 from "../../assets/servicios/cielorrasos/1.webp";
+import ciel02 from "../../assets/servicios/cielorrasos/IMG_3149.webp";
+import ciel03 from "../../assets/servicios/cielorrasos/IMG_4855.webp";
+import ciel04 from "../../assets/servicios/cielorrasos/IMG_5720.webp";
+import ciel05 from "../../assets/servicios/cielorrasos/IMG_5736.webp";
+import ciel06 from "../../assets/servicios/cielorrasos/IMG_5740.webp";
+import ciel07 from "../../assets/servicios/cielorrasos/IMG_5903.webp";
+import ciel08 from "../../assets/servicios/cielorrasos/IMG_5905 (1).webp";
+import ciel09 from "../../assets/servicios/cielorrasos/IMG_5915 (1).webp";
+import ciel10 from "../../assets/servicios/cielorrasos/IMG_5921 (1).webp";
+import ciel11 from "../../assets/servicios/cielorrasos/IMG_6182 (1).webp";
+import cielVideo from "../../assets/servicios/cielorrasos/IMG_5752.MOV?url";
+import rev01 from "../../assets/servicios/revestimientos/FOTO PRIMCIPAL EN LA SECCIÓN (tabiques y revestimientos).webp";
+import rev02 from "../../assets/servicios/revestimientos/IMG_3897.webp";
+import rev03 from "../../assets/servicios/revestimientos/IMG_4912 (1).webp";
+import rev04 from "../../assets/servicios/revestimientos/IMG_5759.webp";
+import rev05 from "../../assets/servicios/revestimientos/IMG_6184.webp";
+import rev06 from "../../assets/servicios/revestimientos/IMG_7419.webp";
 
 import type { ImageMetadata } from 'astro';
 
 const bgImage = await getImage({ src: proyectos01, width: 600, format: 'webp' });
 
-const servicios: { number: string; title: string; description: string; images: ImageMetadata[]; video?: string }[] = [
+const servicios: { number: string; title: string; description: string; images: ImageMetadata[]; video?: string; videoLast?: boolean }[] = [
     {
         number: "01",
         title: "Wall Panel",
@@ -38,7 +56,9 @@ const servicios: { number: string; title: string; description: string; images: I
         number: "03",
         title: "Cielorrasos",
         description: "Cielorrasos desmontables, continuos y con gargantas, con estructura metálica y placas de yeso. Acabados perfectos para todo tipo de ambientes.",
-        images: [proyectos01, proyectos02, proyectos03],
+        images: [ciel01, ciel02, ciel03, ciel04, ciel05, ciel06, ciel07, ciel08, ciel09, ciel10, ciel11],
+        video: cielVideo,
+        videoLast: true,
     },
     {
         number: "04",
@@ -50,13 +70,13 @@ const servicios: { number: string; title: string; description: string; images: I
         number: "05",
         title: "Tabiques y Revestimientos",
         description: "Construcción de tabiques y paredes divisorias en seco con estructura metálica y placas de yeso o cemento. Revestimientos interiores y exteriores con cerámicas, porcellanatos y sistemas de fachada ventilada.",
-        images: [proyectos01, proyectos02],
+        images: [rev01, rev02, rev04, rev05, rev06],
     },
     {
         number: "06",
         title: "Trabajos de Exterior",
         description: "Intervenciones en fachadas, terrazas y espacios exteriores con materiales resistentes a la intemperie. Revestimientos, cielorrasos exteriores y terminaciones de alta durabilidad.",
-        images: [proyectos01, proyectos02],
+        images: [rev03, proyectos01, proyectos02],
     },
 ];
 ---
@@ -83,13 +103,48 @@ const servicios: { number: string; title: string; description: string; images: I
                                 {index === 0 ? "−" : "+"}
                             </span>
                         </button>
-                        <div class={`accordion-content overflow-hidden transition-all duration-300 ease-in-out ${index === 0 ? 'max-h-60' : 'max-h-0'}`}>
+                        <div class={`accordion-content overflow-hidden transition-all duration-300 ease-in-out ${index === 0 ? 'max-h-[650px]' : 'max-h-0'}`}>
                             <p class="font-poppins font-light text-white text-sm pb-3 text-pretty">{servicio.description}</p>
-                            <button
-                                class="gallery-btn font-poppins text-white text-sm italic flex justify-end pb-5 hover:text-first transition w-full md:hidden"
-                                data-service-index={index}
-                                data-title={servicio.title}
-                            >Ver galería</button>
+
+                            <!-- Carrusel inline mobile -->
+                            <div class="mobile-carousel md:hidden pb-5">
+                                <div class="relative overflow-hidden" style="height: 400px;">
+                                    <div class="mob-track flex h-full transition-transform duration-500 ease-in-out">
+                                        {servicio.video && !servicio.videoLast && (
+                                            <div class="w-full h-full shrink-0 flex items-center justify-center">
+                                                <video src={servicio.video} class="max-h-full max-w-full object-contain" muted playsinline controls preload="metadata" />
+                                            </div>
+                                        )}
+                                        {servicio.images.map((img, i) => (
+                                            <div class="w-full h-full shrink-0 flex items-center justify-center">
+                                                <Image
+                                                    src={img}
+                                                    alt={`${servicio.title} - imagen ${i + 1}`}
+                                                    width={500}
+                                                    class="max-h-full max-w-full object-contain"
+                                                    loading="lazy"
+                                                />
+                                            </div>
+                                        ))}
+                                        {servicio.video && servicio.videoLast && (
+                                            <div class="w-full h-full shrink-0 flex items-center justify-center">
+                                                <video src={servicio.video} class="max-h-full max-w-full object-contain" muted playsinline controls preload="metadata" />
+                                            </div>
+                                        )}
+                                    </div>
+                                </div>
+                                <div class="flex flex-col items-center mt-2 gap-0.5">
+                                    <span class="mob-counter font-poppins text-white/50 text-xs"></span>
+                                    <div class="flex items-center gap-2">
+                                        <button class="mob-prev text-white/40 transition" aria-label="Anterior">
+                                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M15 18L9 12L15 6"/></svg>
+                                        </button>
+                                        <button class="mob-next text-white transition" aria-label="Siguiente">
+                                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M9 18L15 12L9 6"/></svg>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 ))}
@@ -105,7 +160,7 @@ const servicios: { number: string; title: string; description: string; images: I
                 >
                     <div class="relative overflow-hidden flex-1 cursor-grab">
                         <div class="gallery-track flex transition-transform duration-500 ease-in-out h-full">
-                            {servicio.video && (
+                            {servicio.video && !servicio.videoLast && (
                                 <div class="w-full h-full shrink-0 flex items-center justify-center">
                                     <video muted loop playsinline preload="none" data-autoplay class="h-full w-full object-contain">
                                         <source src={servicio.video} type="video/mp4" />
@@ -123,6 +178,13 @@ const servicios: { number: string; title: string; description: string; images: I
                                     />
                                 </div>
                             ))}
+                            {servicio.video && servicio.videoLast && (
+                                <div class="w-full h-full shrink-0 flex items-center justify-center">
+                                    <video muted loop playsinline preload="none" data-autoplay class="h-full w-full object-contain">
+                                        <source src={servicio.video} type="video/mp4" />
+                                    </video>
+                                </div>
+                            )}
                         </div>
                     </div>
                     <div class="gallery-nav flex flex-col items-center gap-1 mt-4">
@@ -146,59 +208,6 @@ const servicios: { number: string; title: string; description: string; images: I
     </div>
 </section>
 
-<!-- Gallery Modal (mobile) -->
-<div id="gallery-modal" class="fixed inset-0 z-[100] hidden items-center justify-center">
-    <div class="absolute inset-0 bg-black/90" id="gallery-overlay"></div>
-    <div class="relative z-10 w-full h-full flex flex-col">
-        <div class="flex items-center justify-between px-5 md:px-20 py-4">
-            <h3 id="gallery-title" class="font-bebas text-white text-2xl"></h3>
-            <button id="gallery-close" class="text-white hover:text-first transition" aria-label="Cerrar galería">
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-            </button>
-        </div>
-        <div class="flex-1 relative overflow-hidden">
-            {servicios.map((servicio, index) => (
-                <div class="modal-gallery hidden absolute inset-0" data-modal-index={index}>
-                    <div class="modal-track flex transition-transform duration-500 ease-in-out h-full w-full">
-                        {servicio.video && (
-                            <div class="w-full shrink-0 flex items-center justify-center px-4">
-                                <video muted loop playsinline preload="none" controls class="max-h-full max-w-full object-contain rounded-lg">
-                                    <source src={servicio.video} type="video/mp4" />
-                                </video>
-                            </div>
-                        )}
-                        {servicio.images.map((img, i) => (
-                            <div class="w-full shrink-0 flex items-center justify-center px-4">
-                                <Image
-                                    src={img}
-                                    alt={`${servicio.title} - imagen ${i + 1}`}
-                                    width={600}
-                                    class="max-h-full max-w-full object-contain rounded-lg"
-                                    loading="lazy"
-                                />
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            ))}
-        </div>
-        <div class="flex items-center justify-center gap-6 py-4">
-            <button id="gallery-prev" class="text-white transition" aria-label="Imagen anterior">
-                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-            </button>
-            <span id="gallery-counter" class="font-poppins text-white/70 text-sm"></span>
-            <button id="gallery-next" class="text-white transition" aria-label="Imagen siguiente">
-                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-            </button>
-        </div>
-    </div>
-</div>
 
 <script>
     function initServicios() {
@@ -306,7 +315,7 @@ const servicios: { number: string; title: string; description: string; images: I
                     if (other === item) return;
                     other.querySelector<HTMLButtonElement>('.accordion-header')!.setAttribute('aria-expanded', 'false');
                     const c = other.querySelector<HTMLElement>('.accordion-content')!;
-                    c.classList.remove('max-h-60');
+                    c.classList.remove('max-h-[650px]');
                     c.classList.add('max-h-0');
                     other.querySelector<HTMLElement>('.accordion-icon')!.textContent = '+';
                 });
@@ -315,12 +324,12 @@ const servicios: { number: string; title: string; description: string; images: I
 
                 if (!isOpen) {
                     content.classList.remove('max-h-0');
-                    content.classList.add('max-h-60');
+                    content.classList.add('max-h-[650px]');
                     header.setAttribute('aria-expanded', 'true');
                     icon.textContent = '−';
                     if (isDesktop()) showDesktopGallery(index);
                 } else {
-                    content.classList.remove('max-h-60');
+                    content.classList.remove('max-h-[650px]');
                     content.classList.add('max-h-0');
                     header.setAttribute('aria-expanded', 'false');
                     icon.textContent = '+';
@@ -328,81 +337,39 @@ const servicios: { number: string; title: string; description: string; images: I
             });
         });
 
-        // --- Mobile modal ---
+        // --- Mobile carrusel inline ---
 
-        const modal = document.getElementById('gallery-modal')!;
-        const modalTitle = document.getElementById('gallery-title')!;
-        const counter = document.getElementById('gallery-counter')!;
-        const closeBtn = document.getElementById('gallery-close')!;
-        const overlay = document.getElementById('gallery-overlay')!;
-        const prevBtn = document.getElementById('gallery-prev')!;
-        const nextBtn = document.getElementById('gallery-next')!;
-        const allModalGalleries = document.querySelectorAll<HTMLElement>('.modal-gallery');
+        document.querySelectorAll<HTMLElement>('.mobile-carousel').forEach((carousel) => {
+            const track = carousel.querySelector<HTMLElement>('.mob-track')!;
+            const prevBtn = carousel.querySelector<HTMLButtonElement>('.mob-prev')!;
+            const nextBtn = carousel.querySelector<HTMLButtonElement>('.mob-next')!;
+            const counter = carousel.querySelector<HTMLElement>('.mob-counter')!;
+            const total = track.children.length;
+            let current = 0;
 
-        let activeModalGallery: HTMLElement | null = null;
-        let modalCurrent = 0;
-        let modalTotal = 0;
-
-        function updateModal() {
-            if (!activeModalGallery) return;
-            const track = activeModalGallery.querySelector<HTMLElement>('.modal-track')!;
-            track.style.transform = `translateX(-${modalCurrent * 100}%)`;
-            counter.textContent = `${modalCurrent + 1} / ${modalTotal}`;
-            prevBtn.style.opacity = modalCurrent === 0 ? '0.2' : '1';
-            nextBtn.style.opacity = modalCurrent >= modalTotal - 1 ? '0.2' : '1';
-        }
-
-        function openModal(serviceIndex: number, title: string) {
-            modalTitle.textContent = title;
-            modalCurrent = 0;
-            allModalGalleries.forEach((g) => g.classList.add('hidden'));
-            const target = document.querySelector<HTMLElement>(`.modal-gallery[data-modal-index="${serviceIndex}"]`);
-            if (target) {
-                target.classList.remove('hidden');
-                activeModalGallery = target;
-                modalTotal = target.querySelectorAll('.modal-track > div').length;
+            function update() {
+                track.style.transform = `translateX(-${current * 100}%)`;
+                counter.textContent = `${current + 1} / ${total}`;
+                prevBtn.classList.toggle('text-white/40', current === 0);
+                prevBtn.classList.toggle('text-white', current > 0);
+                nextBtn.classList.toggle('text-white/40', current >= total - 1);
+                nextBtn.classList.toggle('text-white', current < total - 1);
             }
-            updateModal();
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
-            document.body.style.overflow = 'hidden';
-        }
 
-        function closeModal() {
-            modal.classList.add('hidden');
-            modal.classList.remove('flex');
-            document.body.style.overflow = '';
-            activeModalGallery = null;
-        }
+            update();
 
-        document.querySelectorAll<HTMLElement>('.gallery-btn').forEach((btn) => {
-            btn.addEventListener('click', (e) => {
-                e.preventDefault();
-                if (isDesktop()) return;
-                openModal(parseInt(btn.dataset.serviceIndex || '0'), btn.dataset.title || '');
-            });
-        });
+            prevBtn.addEventListener('click', () => { if (current > 0) { current--; update(); } });
+            nextBtn.addEventListener('click', () => { if (current < total - 1) { current++; update(); } });
 
-        closeBtn.addEventListener('click', closeModal);
-        overlay.addEventListener('click', closeModal);
-        prevBtn.addEventListener('click', () => { if (modalCurrent > 0) { modalCurrent--; updateModal(); } });
-        nextBtn.addEventListener('click', () => { if (modalCurrent < modalTotal - 1) { modalCurrent++; updateModal(); } });
-
-        let modalStartX = 0;
-        modal.addEventListener('touchstart', (e) => { modalStartX = e.touches[0].clientX; }, { passive: true });
-        modal.addEventListener('touchend', (e) => {
-            const diff = modalStartX - e.changedTouches[0].clientX;
-            if (Math.abs(diff) > 50) {
-                if (diff > 0 && modalCurrent < modalTotal - 1) { modalCurrent++; updateModal(); }
-                else if (diff < 0 && modalCurrent > 0) { modalCurrent--; updateModal(); }
-            }
-        }, { passive: true });
-
-        document.addEventListener('keydown', (e) => {
-            if (modal.classList.contains('hidden')) return;
-            if (e.key === 'Escape') closeModal();
-            if (e.key === 'ArrowLeft' && modalCurrent > 0) { modalCurrent--; updateModal(); }
-            if (e.key === 'ArrowRight' && modalCurrent < modalTotal - 1) { modalCurrent++; updateModal(); }
+            let touchStartX = 0;
+            track.addEventListener('touchstart', (e) => { touchStartX = e.touches[0].clientX; }, { passive: true });
+            track.addEventListener('touchend', (e) => {
+                const diff = touchStartX - e.changedTouches[0].clientX;
+                if (Math.abs(diff) > 40) {
+                    if (diff > 0 && current < total - 1) { current++; update(); }
+                    else if (diff < 0 && current > 0) { current--; update(); }
+                }
+            }, { passive: true });
         });
     }
 

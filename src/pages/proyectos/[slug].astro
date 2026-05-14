@@ -8,7 +8,26 @@ import type { ImageMetadata } from "astro";
 import proyectos01 from "../../assets/projects/proyectos01.webp";
 import proyectos02 from "../../assets/projects/proyectos02.webp";
 import proyectos03 from "../../assets/projects/proyectos03.webp";
+import techo from "../../assets/techo.webp";
 import Location from "../../components/icons/Location.astro";
+
+import ci7039 from "../../assets/projects/cristal-inn/IMG_7039.webp";
+import ci7088 from "../../assets/projects/cristal-inn/IMG_7088.webp";
+import ci7135 from "../../assets/projects/cristal-inn/IMG_7135.webp";
+import ci7146 from "../../assets/projects/cristal-inn/IMG_7146.webp";
+import ci7151 from "../../assets/projects/cristal-inn/IMG_7151.webp";
+import ci7217 from "../../assets/projects/cristal-inn/IMG_7217.webp";
+import ci7222 from "../../assets/projects/cristal-inn/IMG_7222.webp";
+import ci7244 from "../../assets/projects/cristal-inn/IMG_7244.webp";
+import ci7326 from "../../assets/projects/cristal-inn/IMG_7326.webp";
+import ci7345 from "../../assets/projects/cristal-inn/IMG_7345.webp";
+import ci7372 from "../../assets/projects/cristal-inn/IMG_7372.MOV?url";
+import ci7421 from "../../assets/projects/cristal-inn/IMG_7421.webp";
+import ci7457 from "../../assets/projects/cristal-inn/IMG_7457.webp";
+import ci7459 from "../../assets/projects/cristal-inn/IMG_7459.MOV?url";
+import ci7475 from "../../assets/projects/cristal-inn/IMG_7475.webp";
+import ci7476 from "../../assets/projects/cristal-inn/IMG_7476.webp";
+import ciAscensor from "../../assets/ascensor-cristal-in.webp";
 
 type GalleryItem =
     | { type: "image"; src: ImageMetadata }
@@ -37,11 +56,25 @@ export function getStaticPaths() {
                 year: "2024",
                 description:
                     "Renovación completa de techos con sistema de PVC de alta durabilidad para edificio comercial en el centro de San Pedro. El proyecto incluyó desmontaje del sistema anterior, impermeabilización, y colocación de cubierta de PVC con aislación térmica.",
-                hero: proyectos01,
+                hero: ci7345,
                 gallery: [
-                    { type: "image", src: proyectos02 },
-                    { type: "video", src: "/video1.mp4" },
-                    { type: "image", src: proyectos01 },
+                    { type: "image", src: ci7345 },
+                    { type: "image", src: ci7476 },
+                    { type: "image", src: ciAscensor },
+                    { type: "image", src: ci7475 },
+                    { type: "video", src: ci7459 },
+                    { type: "image", src: ci7457 },
+                    { type: "image", src: ci7421 },
+                    { type: "video", src: ci7372 },
+                    { type: "image", src: ci7326 },
+                    { type: "image", src: ci7244 },
+                    { type: "image", src: ci7222 },
+                    { type: "image", src: ci7217 },
+                    { type: "image", src: ci7151 },
+                    { type: "image", src: ci7146 },
+                    { type: "image", src: ci7135 },
+                    { type: "image", src: ci7088 },
+                    { type: "image", src: ci7039 },
                 ],
             } satisfies Project,
         },
@@ -57,9 +90,8 @@ export function getStaticPaths() {
                     "Construcción de techo con estructura steel frame, aislación térmica de alta performance y cubierta metálica prepintada. El proyecto contempló el diseño estructural, montaje y terminaciones interiores del cielorraso.",
                 hero: proyectos02,
                 gallery: [
-                    { type: "image", src: proyectos03 },
-                    { type: "image", src: proyectos01 },
                     { type: "image", src: proyectos02 },
+                    { type: "image", src: techo },
                 ],
             } satisfies Project,
         },

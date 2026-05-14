@@ -1,16 +1,18 @@
 ---
 import TitleSection from "../TitleSection.astro";
 import ButtonRed from "../ButtonRed.astro";
-import antes01 from "../../assets/antes01.webp";
-import antes02 from "../../assets/antes02.webp";
-import antes03 from "../../assets/antes03.webp";
-import antes04 from "../../assets/antes04.webp";
-import antes05 from "../../assets/antes05.webp";
-import despues01 from "../../assets/despues01.webp";
-import despues02 from "../../assets/despues02.webp";
-import despues03 from "../../assets/despues03.webp";
-import despues04 from "../../assets/despues04.webp";
-import despues05 from "../../assets/despues05.webp";
+import antes01 from "../../assets/transformaciones/antes01.webp";
+import antes02 from "../../assets/transformaciones/antes02.webp";
+import antes03 from "../../assets/transformaciones/antes03.webp";
+import antes04 from "../../assets/transformaciones/antes04.webp";
+import antes05 from "../../assets/transformaciones/antes05.webp";
+import antes06 from "../../assets/transformaciones/antes06.webp";
+import despues01 from "../../assets/transformaciones/despues01.webp";
+import despues02 from "../../assets/transformaciones/despues02.webp";
+import despues03 from "../../assets/transformaciones/despues03.webp";
+import despues04 from "../../assets/transformaciones/despues04.webp";
+import despues05 from "../../assets/transformaciones/despues05.webp";
+import despues06 from "../../assets/transformaciones/despues06.webp";
 
 const transformaciones = [
     { before: antes02, after: despues02 },
@@ -18,6 +20,7 @@ const transformaciones = [
     { before: antes03, after: despues03 },
     { before: antes04, after: despues04 },
     { before: antes05, after: despues05 },
+    { before: antes06, after: despues06 },
 ];
 
 const srcs = transformaciones.map(t => ({ before: t.before.src, after: t.after.src }));
