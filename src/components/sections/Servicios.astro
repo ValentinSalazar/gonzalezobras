@@ -123,24 +123,20 @@ const servicios: { number: string; title: string; description: string; images: I
                             ))}
                         </div>
                     </div>
-                    <div class="gallery-dots flex justify-center gap-3 mt-4">
-                        {servicio.video && (
-                            <button
-                                class="gallery-dot rounded-full h-2.5 transition-all duration-300 w-5 bg-first"
-                                data-dot-index={0}
-                                aria-label="Video"
-                            ></button>
-                        )}
-                        {servicio.images.map((_, i) => {
-                            const dotIndex = servicio.video ? i + 1 : i;
-                            return (
-                                <button
-                                    class={`gallery-dot rounded-full h-2.5 transition-all duration-300 ${!servicio.video && i === 0 ? 'w-5 bg-first' : 'w-2.5 bg-white/30'}`}
-                                    data-dot-index={dotIndex}
-                                    aria-label={`Imagen ${i + 1}`}
-                                ></button>
-                            );
-                        })}
+                    <div class="gallery-nav flex flex-col items-center gap-1 mt-4">
+                        <span class="gallery-counter font-poppins text-white/50 text-xs"></span>
+                        <div class="flex items-center gap-2">
+                            <button class="gallery-prev text-white/40 hover:text-white transition" aria-label="Anterior">
+                                <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                                    <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </button>
+                            <button class="gallery-next text-white hover:text-white/70 transition" aria-label="Siguiente">
+                                <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                                    <path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </button>
+                        </div>
                     </div>
                 </div>
             ))}
@@ -202,182 +198,192 @@ const servicios: { number: string; title: string; description: string; images: I
 </div>
 
 <script>
-    const isDesktop = () => window.matchMedia('(min-width: 768px)').matches;
-    const items = document.querySelectorAll('.accordion-item');
-    const allDesktopGalleries = document.querySelectorAll<HTMLElement>('.service-gallery');
+    function initServicios() {
+        const isDesktop = () => window.matchMedia('(min-width: 768px)').matches;
+        const items = document.querySelectorAll('.accordion-item');
+        const allDesktopGalleries = document.querySelectorAll<HTMLElement>('.service-gallery');
 
-    // --- Desktop gallery ---
+        // --- Desktop gallery ---
 
-    type GalleryState = { current: number; total: number };
-    const galleryStates = new Map<HTMLElement, GalleryState>();
+        type GalleryState = { current: number; total: number };
+        const galleryStates = new Map<HTMLElement, GalleryState>();
 
-    allDesktopGalleries.forEach((gallery) => {
-        const total = gallery.querySelectorAll('.gallery-track > div').length;
-        galleryStates.set(gallery, { current: 0, total });
+        allDesktopGalleries.forEach((gallery) => {
+            const total = gallery.querySelectorAll('.gallery-track > div').length;
+            galleryStates.set(gallery, { current: 0, total });
 
-        const track = gallery.querySelector<HTMLElement>('.gallery-track')!;
-        const dots = gallery.querySelectorAll<HTMLElement>('.gallery-dot');
-        const state = galleryStates.get(gallery)!;
+            const track = gallery.querySelector<HTMLElement>('.gallery-track')!;
+            const prevBtn = gallery.querySelector<HTMLButtonElement>('.gallery-prev')!;
+            const nextBtn = gallery.querySelector<HTMLButtonElement>('.gallery-next')!;
+            const counterEl = gallery.querySelector<HTMLElement>('.gallery-counter')!;
+            const state = galleryStates.get(gallery)!;
 
-        function updateGallery() {
-            track.style.transform = `translateX(-${state.current * 100}%)`;
-            dots.forEach((dot, i) => {
-                dot.classList.toggle('w-5', i === state.current);
-                dot.classList.toggle('bg-[#EB192E]', i === state.current);
-                dot.classList.toggle('w-2.5', i !== state.current);
-                dot.classList.toggle('bg-white/30', i !== state.current);
+            function updateGallery() {
+                track.style.transform = `translateX(-${state.current * 100}%)`;
+                counterEl.textContent = `${state.current + 1} / ${state.total}`;
+                prevBtn.classList.toggle('text-white/40', state.current === 0);
+                prevBtn.classList.toggle('text-white', state.current > 0);
+                nextBtn.classList.toggle('text-white/40', state.current >= state.total - 1);
+                nextBtn.classList.toggle('text-white', state.current < state.total - 1);
+            }
+
+            updateGallery();
+
+            prevBtn.addEventListener('click', () => {
+                if (state.current > 0) { state.current--; updateGallery(); }
+            });
+            nextBtn.addEventListener('click', () => {
+                if (state.current < state.total - 1) { state.current++; updateGallery(); }
+            });
+
+            // Touch swipe
+            let touchStartX = 0;
+            track.addEventListener('touchstart', (e) => { touchStartX = e.touches[0].clientX; }, { passive: true });
+            track.addEventListener('touchend', (e) => {
+                const diff = touchStartX - e.changedTouches[0].clientX;
+                if (Math.abs(diff) > 50) {
+                    if (diff > 0 && state.current < state.total - 1) { state.current++; updateGallery(); }
+                    else if (diff < 0 && state.current > 0) { state.current--; updateGallery(); }
+                }
+            }, { passive: true });
+
+            // Mouse drag
+            let mouseStartX = 0;
+            let isDragging = false;
+            track.addEventListener('mousedown', (e) => { isDragging = true; mouseStartX = e.clientX; track.style.cursor = 'grabbing'; });
+            document.addEventListener('mouseup', (e) => {
+                if (!isDragging) return;
+                isDragging = false;
+                track.style.cursor = 'grab';
+                const diff = mouseStartX - e.clientX;
+                if (Math.abs(diff) > 50) {
+                    if (diff > 0 && state.current < state.total - 1) { state.current++; updateGallery(); }
+                    else if (diff < 0 && state.current > 0) { state.current--; updateGallery(); }
+                }
+            });
+        });
+
+        function showDesktopGallery(index: number) {
+            allDesktopGalleries.forEach((gallery) => {
+                const matches = parseInt(gallery.dataset.galleryIndex || '0') === index;
+                gallery.classList.toggle('hidden', !matches);
+                gallery.classList.toggle('flex', matches);
             });
         }
 
-        dots.forEach((dot, i) => {
-            dot.addEventListener('click', () => { state.current = i; updateGallery(); });
+        // --- Accordion ---
+
+        items.forEach((item) => {
+            const header = item.querySelector<HTMLButtonElement>('.accordion-header')!;
+            const content = item.querySelector<HTMLElement>('.accordion-content')!;
+            const icon = item.querySelector<HTMLElement>('.accordion-icon')!;
+
+            header.addEventListener('click', () => {
+                const isOpen = header.getAttribute('aria-expanded') === 'true';
+
+                items.forEach((other) => {
+                    if (other === item) return;
+                    other.querySelector<HTMLButtonElement>('.accordion-header')!.setAttribute('aria-expanded', 'false');
+                    const c = other.querySelector<HTMLElement>('.accordion-content')!;
+                    c.classList.remove('max-h-60');
+                    c.classList.add('max-h-0');
+                    other.querySelector<HTMLElement>('.accordion-icon')!.textContent = '+';
+                });
+
+                const index = parseInt((item as HTMLElement).dataset.index || '0');
+
+                if (!isOpen) {
+                    content.classList.remove('max-h-0');
+                    content.classList.add('max-h-60');
+                    header.setAttribute('aria-expanded', 'true');
+                    icon.textContent = '−';
+                    if (isDesktop()) showDesktopGallery(index);
+                } else {
+                    content.classList.remove('max-h-60');
+                    content.classList.add('max-h-0');
+                    header.setAttribute('aria-expanded', 'false');
+                    icon.textContent = '+';
+                }
+            });
         });
 
-        // Touch swipe
-        let touchStartX = 0;
-        track.addEventListener('touchstart', (e) => { touchStartX = e.touches[0].clientX; }, { passive: true });
-        track.addEventListener('touchend', (e) => {
-            const diff = touchStartX - e.changedTouches[0].clientX;
+        // --- Mobile modal ---
+
+        const modal = document.getElementById('gallery-modal')!;
+        const modalTitle = document.getElementById('gallery-title')!;
+        const counter = document.getElementById('gallery-counter')!;
+        const closeBtn = document.getElementById('gallery-close')!;
+        const overlay = document.getElementById('gallery-overlay')!;
+        const prevBtn = document.getElementById('gallery-prev')!;
+        const nextBtn = document.getElementById('gallery-next')!;
+        const allModalGalleries = document.querySelectorAll<HTMLElement>('.modal-gallery');
+
+        let activeModalGallery: HTMLElement | null = null;
+        let modalCurrent = 0;
+        let modalTotal = 0;
+
+        function updateModal() {
+            if (!activeModalGallery) return;
+            const track = activeModalGallery.querySelector<HTMLElement>('.modal-track')!;
+            track.style.transform = `translateX(-${modalCurrent * 100}%)`;
+            counter.textContent = `${modalCurrent + 1} / ${modalTotal}`;
+            prevBtn.style.opacity = modalCurrent === 0 ? '0.2' : '1';
+            nextBtn.style.opacity = modalCurrent >= modalTotal - 1 ? '0.2' : '1';
+        }
+
+        function openModal(serviceIndex: number, title: string) {
+            modalTitle.textContent = title;
+            modalCurrent = 0;
+            allModalGalleries.forEach((g) => g.classList.add('hidden'));
+            const target = document.querySelector<HTMLElement>(`.modal-gallery[data-modal-index="${serviceIndex}"]`);
+            if (target) {
+                target.classList.remove('hidden');
+                activeModalGallery = target;
+                modalTotal = target.querySelectorAll('.modal-track > div').length;
+            }
+            updateModal();
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            document.body.style.overflow = '';
+            activeModalGallery = null;
+        }
+
+        document.querySelectorAll<HTMLElement>('.gallery-btn').forEach((btn) => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                if (isDesktop()) return;
+                openModal(parseInt(btn.dataset.serviceIndex || '0'), btn.dataset.title || '');
+            });
+        });
+
+        closeBtn.addEventListener('click', closeModal);
+        overlay.addEventListener('click', closeModal);
+        prevBtn.addEventListener('click', () => { if (modalCurrent > 0) { modalCurrent--; updateModal(); } });
+        nextBtn.addEventListener('click', () => { if (modalCurrent < modalTotal - 1) { modalCurrent++; updateModal(); } });
+
+        let modalStartX = 0;
+        modal.addEventListener('touchstart', (e) => { modalStartX = e.touches[0].clientX; }, { passive: true });
+        modal.addEventListener('touchend', (e) => {
+            const diff = modalStartX - e.changedTouches[0].clientX;
             if (Math.abs(diff) > 50) {
-                if (diff > 0 && state.current < state.total - 1) { state.current++; updateGallery(); }
-                else if (diff < 0 && state.current > 0) { state.current--; updateGallery(); }
+                if (diff > 0 && modalCurrent < modalTotal - 1) { modalCurrent++; updateModal(); }
+                else if (diff < 0 && modalCurrent > 0) { modalCurrent--; updateModal(); }
             }
         }, { passive: true });
 
-        // Mouse drag
-        let mouseStartX = 0;
-        let isDragging = false;
-        track.addEventListener('mousedown', (e) => { isDragging = true; mouseStartX = e.clientX; track.style.cursor = 'grabbing'; });
-        document.addEventListener('mouseup', (e) => {
-            if (!isDragging) return;
-            isDragging = false;
-            track.style.cursor = 'grab';
-            const diff = mouseStartX - e.clientX;
-            if (Math.abs(diff) > 50) {
-                if (diff > 0 && state.current < state.total - 1) { state.current++; updateGallery(); }
-                else if (diff < 0 && state.current > 0) { state.current--; updateGallery(); }
-            }
-        });
-    });
-
-    function showDesktopGallery(index: number) {
-        allDesktopGalleries.forEach((gallery) => {
-            const matches = parseInt(gallery.dataset.galleryIndex || '0') === index;
-            gallery.classList.toggle('hidden', !matches);
-            gallery.classList.toggle('flex', matches);
+        document.addEventListener('keydown', (e) => {
+            if (modal.classList.contains('hidden')) return;
+            if (e.key === 'Escape') closeModal();
+            if (e.key === 'ArrowLeft' && modalCurrent > 0) { modalCurrent--; updateModal(); }
+            if (e.key === 'ArrowRight' && modalCurrent < modalTotal - 1) { modalCurrent++; updateModal(); }
         });
     }
 
-    // --- Accordion ---
-
-    items.forEach((item) => {
-        const header = item.querySelector<HTMLButtonElement>('.accordion-header')!;
-        const content = item.querySelector<HTMLElement>('.accordion-content')!;
-        const icon = item.querySelector<HTMLElement>('.accordion-icon')!;
-
-        header.addEventListener('click', () => {
-            const isOpen = header.getAttribute('aria-expanded') === 'true';
-
-            items.forEach((other) => {
-                if (other === item) return;
-                other.querySelector<HTMLButtonElement>('.accordion-header')!.setAttribute('aria-expanded', 'false');
-                const c = other.querySelector<HTMLElement>('.accordion-content')!;
-                c.classList.remove('max-h-60');
-                c.classList.add('max-h-0');
-                other.querySelector<HTMLElement>('.accordion-icon')!.textContent = '+';
-            });
-
-            const index = parseInt((item as HTMLElement).dataset.index || '0');
-
-            if (!isOpen) {
-                content.classList.remove('max-h-0');
-                content.classList.add('max-h-60');
-                header.setAttribute('aria-expanded', 'true');
-                icon.textContent = '−';
-                if (isDesktop()) showDesktopGallery(index);
-            } else {
-                content.classList.remove('max-h-60');
-                content.classList.add('max-h-0');
-                header.setAttribute('aria-expanded', 'false');
-                icon.textContent = '+';
-            }
-        });
-    });
-
-    // --- Mobile modal ---
-
-    const modal = document.getElementById('gallery-modal')!;
-    const modalTitle = document.getElementById('gallery-title')!;
-    const counter = document.getElementById('gallery-counter')!;
-    const closeBtn = document.getElementById('gallery-close')!;
-    const overlay = document.getElementById('gallery-overlay')!;
-    const prevBtn = document.getElementById('gallery-prev')!;
-    const nextBtn = document.getElementById('gallery-next')!;
-    const allModalGalleries = document.querySelectorAll<HTMLElement>('.modal-gallery');
-
-    let activeModalGallery: HTMLElement | null = null;
-    let modalCurrent = 0;
-    let modalTotal = 0;
-
-    function updateModal() {
-        if (!activeModalGallery) return;
-        const track = activeModalGallery.querySelector<HTMLElement>('.modal-track')!;
-        track.style.transform = `translateX(-${modalCurrent * 100}%)`;
-        counter.textContent = `${modalCurrent + 1} / ${modalTotal}`;
-        prevBtn.style.opacity = modalCurrent === 0 ? '0.2' : '1';
-        nextBtn.style.opacity = modalCurrent >= modalTotal - 1 ? '0.2' : '1';
-    }
-
-    function openModal(serviceIndex: number, title: string) {
-        modalTitle.textContent = title;
-        modalCurrent = 0;
-        allModalGalleries.forEach((g) => g.classList.add('hidden'));
-        const target = document.querySelector<HTMLElement>(`.modal-gallery[data-modal-index="${serviceIndex}"]`);
-        if (target) {
-            target.classList.remove('hidden');
-            activeModalGallery = target;
-            modalTotal = target.querySelectorAll('.modal-track > div').length;
-        }
-        updateModal();
-        modal.classList.remove('hidden');
-        modal.classList.add('flex');
-        document.body.style.overflow = 'hidden';
-    }
-
-    function closeModal() {
-        modal.classList.add('hidden');
-        modal.classList.remove('flex');
-        document.body.style.overflow = '';
-        activeModalGallery = null;
-    }
-
-    document.querySelectorAll<HTMLElement>('.gallery-btn').forEach((btn) => {
-        btn.addEventListener('click', (e) => {
-            e.preventDefault();
-            if (isDesktop()) return;
-            openModal(parseInt(btn.dataset.serviceIndex || '0'), btn.dataset.title || '');
-        });
-    });
-
-    closeBtn.addEventListener('click', closeModal);
-    overlay.addEventListener('click', closeModal);
-    prevBtn.addEventListener('click', () => { if (modalCurrent > 0) { modalCurrent--; updateModal(); } });
-    nextBtn.addEventListener('click', () => { if (modalCurrent < modalTotal - 1) { modalCurrent++; updateModal(); } });
-
-    let modalStartX = 0;
-    modal.addEventListener('touchstart', (e) => { modalStartX = e.touches[0].clientX; }, { passive: true });
-    modal.addEventListener('touchend', (e) => {
-        const diff = modalStartX - e.changedTouches[0].clientX;
-        if (Math.abs(diff) > 50) {
-            if (diff > 0 && modalCurrent < modalTotal - 1) { modalCurrent++; updateModal(); }
-            else if (diff < 0 && modalCurrent > 0) { modalCurrent--; updateModal(); }
-        }
-    }, { passive: true });
-
-    document.addEventListener('keydown', (e) => {
-        if (modal.classList.contains('hidden')) return;
-        if (e.key === 'Escape') closeModal();
-        if (e.key === 'ArrowLeft' && modalCurrent > 0) { modalCurrent--; updateModal(); }
-        if (e.key === 'ArrowRight' && modalCurrent < modalTotal - 1) { modalCurrent++; updateModal(); }
-    });
+    document.addEventListener('astro:page-load', initServicios);
 </script>

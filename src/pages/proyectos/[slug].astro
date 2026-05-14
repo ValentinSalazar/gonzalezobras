@@ -448,15 +448,15 @@ const galleryLabel =
         function openLightbox(index: number) {
             current = index;
             showItem();
-            lightbox.classList.remove("opacity-0", "pointer-events-none");
-            lightbox.setAttribute("aria-hidden", "false");
+            lightbox?.classList.remove("opacity-0", "pointer-events-none");
+            lightbox?.setAttribute("aria-hidden", "false");
             document.body.style.overflow = "hidden";
         }
 
         function closeLightbox() {
             lbVideo.pause();
-            lightbox.classList.add("opacity-0", "pointer-events-none");
-            lightbox.setAttribute("aria-hidden", "true");
+            lightbox?.classList.add("opacity-0", "pointer-events-none");
+            lightbox?.setAttribute("aria-hidden", "true");
             document.body.style.overflow = "";
         }
 
