@@ -2,6 +2,9 @@
 import WhatsappButton from '../components/WhatsappButton.astro';
 import { ClientRouter } from 'astro:transitions';
 import '../styles/global.css';
+import bebasNeueUrl from '@fontsource/bebas-neue/files/bebas-neue-latin-400-normal.woff2?url';
+import poppins400Url from '@fontsource/poppins/files/poppins-latin-400-normal.woff2?url';
+import poppins300Url from '@fontsource/poppins/files/poppins-latin-300-normal.woff2?url';
 
 interface Props {
 	title?: string;
@@ -47,6 +50,10 @@ const {
 		<meta name="twitter:title" content={title} />
 		<meta name="twitter:description" content={description} />
 		<meta name="twitter:image" content={ogImage} />
+
+		<link rel="preload" href={bebasNeueUrl} as="font" type="font/woff2" crossorigin="anonymous" />
+		<link rel="preload" href={poppins400Url} as="font" type="font/woff2" crossorigin="anonymous" />
+		<link rel="preload" href={poppins300Url} as="font" type="font/woff2" crossorigin="anonymous" />
 
 		<ClientRouter />
 	</head>

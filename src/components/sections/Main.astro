@@ -9,6 +9,9 @@ import proj3 from "../../assets/projects/proyectos03.webp";
 import amoblamientos from "../../assets/amoblamiento.webp"
 import wallpanel from "../../assets/wallpanel.webp";
 import ascensor from "../../assets/ascensor-cristal-in.webp";
+import { getImage } from 'astro:assets';
+
+const optimizedMobile = await getImage({ src: heroMobile, width: 480, format: 'webp' });
 ---
 
 <div class="relative overflow-hidden bg-black">
@@ -20,10 +23,10 @@ import ascensor from "../../assets/ascensor-cristal-in.webp";
 		height={heroDesktop.height}
 	/>
 	<img
-		src={heroMobile.src}
+		src={optimizedMobile.src}
 		alt="González Obras - Construcción en Seco en San Pedro, Buenos Aires"
-		width={heroMobile.width}
-		height={heroMobile.height}
+		width={optimizedMobile.attributes.width}
+		height={optimizedMobile.attributes.height}
 		class="w-full h-full object-cover object-center"
 		loading="eager"
 		fetchpriority="high"
@@ -71,7 +74,7 @@ import ascensor from "../../assets/ascensor-cristal-in.webp";
 					<div class="filmstrip-up flex flex-col gap-2">
 						{[proj1, proj2, proj3, amoblamientos, ascensor, wallpanel, proj1, proj2, proj3].map((img) => (
 							<a href="/proyectos" class="block overflow-hidden flex-shrink-0 aspect-[3/4]">
-								<img src={img.src} alt="Proyecto González Obras" width={img.width} height={img.height} class="w-full h-full object-cover object-center hover:scale-105 transition-transform duration-500" loading="eager" decoding="async" />
+								<img src={img.src} alt="Proyecto González Obras" width={img.width} height={img.height} class="w-full h-full object-cover object-center hover:scale-105 transition-transform duration-500" loading="lazy" decoding="async" />
 							</a>
 						))}
 					</div>
@@ -80,7 +83,7 @@ import ascensor from "../../assets/ascensor-cristal-in.webp";
 					<div class="filmstrip-down flex flex-col gap-2">
 						{[proj3, proj1, proj2, amoblamientos, ascensor, wallpanel, proj3, proj1, proj2, amoblamientos].map((img) => (
 							<a href="/proyectos" class="block overflow-hidden flex-shrink-0 aspect-[3/4]">
-								<img src={img.src} alt="Proyecto González Obras" width={img.width} height={img.height} class="w-full h-full object-cover object-center hover:scale-105 transition-transform duration-500" loading="eager" decoding="async" />
+								<img src={img.src} alt="Proyecto González Obras" width={img.width} height={img.height} class="w-full h-full object-cover object-center hover:scale-105 transition-transform duration-500" loading="lazy" decoding="async" />
 							</a>
 						))}
 					</div>
