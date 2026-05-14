@@ -1,54 +1,60 @@
 ---
+import { Image } from 'astro:assets';
 import TitleSection from "../TitleSection.astro";
 
-const servicios = [
+import proyectos01 from '../../assets/projects/proyectos01.webp';
+import proyectos02 from '../../assets/projects/proyectos02.webp';
+import proyectos03 from '../../assets/projects/proyectos03.webp';
+import wallpanel2 from '../../assets/wallpanel2.webp';
+import techo from '../../assets/techo.webp';
+import amoblamiento from '../../assets/amoblamiento.webp';
+import amoblamientos01 from '../../assets/amoblamientos01.webp';
+import amoblamientos02 from '../../assets/amoblamientos02.webp';
+import amoblamientos03 from '../../assets/amoblamientos03.webp';
+import amoblamientos04 from '../../assets/amoblamientos04.webp';
+import amoblamientos05 from '../../assets/amoblamientos05.webp';
+import amoblamientos06 from '../../assets/amoblamientos06.webp';
+import ascensor from "../../assets/ascensor-cristal-in.webp"
+
+import type { ImageMetadata } from 'astro';
+
+const servicios: { number: string; title: string; description: string; images: ImageMetadata[]; video?: string }[] = [
     {
         number: "01",
         title: "Wall Panel",
         description: "Instalación de paneles decorativos para interiores y exteriores, con acabados modernos y duraderos.",
-        gallery: ["/projects/proyectos01.webp", "/projects/proyectos02.webp", "/projects/proyectos03.webp"],
+        images: [proyectos01, ascensor, wallpanel2],
+        video: "/video1.mp4",
     },
     {
         number: "02",
         title: "PVC",
         description: "Techos y revestimientos de PVC resistentes a la intemperie, livianos y de bajo mantenimiento. Ideales para obras residenciales y comerciales.",
-        gallery: ["/projects/proyectos01.webp", "/projects/proyectos02.webp"],
+        images: [techo, proyectos01, proyectos02],
     },
     {
         number: "03",
         title: "Cielorrasos",
         description: "Cielorrasos desmontables, continuos y con gargantas, con estructura metálica y placas de yeso. Acabados perfectos para todo tipo de ambientes.",
-        gallery: ["/projects/proyectos01.webp", "/projects/proyectos02.webp"],
+        images: [proyectos01, proyectos02, proyectos03],
     },
     {
         number: "04",
         title: "Amoblamientos",
-        description: "Muebles a medida en melamina y madera maciza con herrajes importados. Cocinas, placards y dormitorios equipados con materiales de primera.",
-        gallery: ["/projects/proyectos01.webp", "/projects/proyectos02.webp"],
+        description: "Muebles a medida en melamina y madera maciza con herrajes importados. Cocinas, placards y dormitorios equipados con materiales de primera. Fabricación e instalación de cajones y cortineros integrados al diseño del espacio.",
+        images: [amoblamiento, amoblamientos01, amoblamientos02, amoblamientos03, amoblamientos04, amoblamientos05, amoblamientos06],
     },
     {
         number: "05",
-        title: "Revestimientos",
-        description: "Revestimientos interiores y exteriores con materiales de primera calidad. Cerámicas, porcellanatos y sistemas de fachada ventilada.",
-        gallery: ["/projects/proyectos01.webp", "/projects/proyectos02.webp"],
+        title: "Tabiques y Revestimientos",
+        description: "Construcción de tabiques y paredes divisorias en seco con estructura metálica y placas de yeso o cemento. Revestimientos interiores y exteriores con cerámicas, porcellanatos y sistemas de fachada ventilada.",
+        images: [proyectos01, proyectos02],
     },
     {
         number: "06",
-        title: "Tabiques y Paredes Divisorias",
-        description: "Construcción de tabiques y paredes divisorias en seco con estructura metálica y placas de yeso o cemento. Soluciones rápidas para dividir y reorganizar espacios residenciales y comerciales.",
-        gallery: ["/projects/proyectos01.webp", "/projects/proyectos02.webp"],
-    },
-    {
-        number: "07",
         title: "Trabajos de Exterior",
         description: "Intervenciones en fachadas, terrazas y espacios exteriores con materiales resistentes a la intemperie. Revestimientos, cielorrasos exteriores y terminaciones de alta durabilidad.",
-        gallery: ["/projects/proyectos01.webp", "/projects/proyectos02.webp"],
-    },
-    {
-        number: "08",
-        title: "Cajones y Cortineros",
-        description: "Fabricación e instalación de cajones y cortineros a medida integrados al diseño del espacio. Acabados prolijos en melamina o madera para todo tipo de ambientes.",
-        gallery: ["/projects/proyectos01.webp", "/projects/proyectos02.webp"],
+        images: [proyectos01, proyectos02],
     },
 ];
 ---
@@ -63,7 +69,7 @@ const servicios = [
 
             <div class="mt-5 flex flex-col">
                 {servicios.map((servicio, index) => (
-                    <div class="accordion-item border-b border-white/30" data-index={index} data-gallery={JSON.stringify(servicio.gallery)}>
+                    <div class="accordion-item border-b border-white/30" data-index={index}>
                         <button
                             class="accordion-header w-full flex items-center justify-between py-3"
                             aria-expanded={index === 0 ? "true" : "false"}
@@ -78,31 +84,74 @@ const servicios = [
                         </button>
                         <div class={`accordion-content overflow-hidden transition-all duration-300 ease-in-out ${index === 0 ? 'max-h-60' : 'max-h-0'}`}>
                             <p class="font-poppins font-light text-white text-sm pb-3 text-pretty">{servicio.description}</p>
-                            <button class="gallery-btn font-poppins text-white text-sm italic flex justify-end pb-5 hover:text-first transition w-full md:hidden" data-title={servicio.title}>Ver galería</button>
+                            <button
+                                class="gallery-btn font-poppins text-white text-sm italic flex justify-end pb-5 hover:text-first transition w-full md:hidden"
+                                data-service-index={index}
+                                data-title={servicio.title}
+                            >Ver galería</button>
                         </div>
                     </div>
                 ))}
             </div>
         </div>
 
-        <!-- Right column: Desktop gallery (hidden on mobile) -->
-        <div class="hidden md:flex md:w-1/2 md:self-center md:h-[65vh] lg:h-[70vh]">
-            <div class="w-full flex flex-col">
-                <div class="relative overflow-hidden flex-1">
-                    <div id="desktop-gallery-track" class="flex transition-transform duration-500 ease-in-out h-full cursor-grab">
+        <!-- Desktop gallery: pre-rendered, shown/hidden per service -->
+        <div class="hidden md:block md:w-1/2 md:self-center md:h-[65vh] lg:h-[70vh]">
+            {servicios.map((servicio, index) => (
+                <div
+                    class={`service-gallery w-full h-full flex-col ${index === 0 ? 'flex' : 'hidden'}`}
+                    data-gallery-index={index}
+                >
+                    <div class="relative overflow-hidden flex-1 cursor-grab">
+                        <div class="gallery-track flex transition-transform duration-500 ease-in-out h-full">
+                            {servicio.video && (
+                                <div class="w-full h-full shrink-0 flex items-center justify-center">
+                                    <video autoplay muted loop playsinline class="h-full w-full object-contain">
+                                        <source src={servicio.video} type="video/mp4" />
+                                    </video>
+                                </div>
+                            )}
+                            {servicio.images.map((img, i) => (
+                                <div class="w-full h-full shrink-0 flex items-center justify-center">
+                                    <Image
+                                        src={img}
+                                        alt={`${servicio.title} - imagen ${i + 1}`}
+                                        class="h-full w-full object-contain"
+                                        loading={index === 0 && i === 0 ? 'eager' : 'lazy'}
+                                    />
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                    <div class="gallery-dots flex justify-center gap-3 mt-4">
+                        {servicio.video && (
+                            <button
+                                class="gallery-dot rounded-full h-2.5 transition-all duration-300 w-5 bg-first"
+                                data-dot-index={0}
+                                aria-label="Video"
+                            ></button>
+                        )}
+                        {servicio.images.map((_, i) => {
+                            const dotIndex = servicio.video ? i + 1 : i;
+                            return (
+                                <button
+                                    class={`gallery-dot rounded-full h-2.5 transition-all duration-300 ${!servicio.video && i === 0 ? 'w-5 bg-first' : 'w-2.5 bg-white/30'}`}
+                                    data-dot-index={dotIndex}
+                                    aria-label={`Imagen ${i + 1}`}
+                                ></button>
+                            );
+                        })}
                     </div>
                 </div>
-                <div id="desktop-gallery-dots" class="flex justify-center gap-3 mt-4"></div>
-            </div>
+            ))}
         </div>
     </div>
 </section>
 
-<!-- Gallery Modal -->
+<!-- Gallery Modal (mobile) -->
 <div id="gallery-modal" class="fixed inset-0 z-[100] hidden items-center justify-center">
     <div class="absolute inset-0 bg-black/90" id="gallery-overlay"></div>
     <div class="relative z-10 w-full h-full flex flex-col">
-        <!-- Header -->
         <div class="flex items-center justify-between px-5 md:px-20 py-4">
             <h3 id="gallery-title" class="font-bebas text-white text-2xl"></h3>
             <button id="gallery-close" class="text-white hover:text-first transition" aria-label="Cerrar galería">
@@ -111,12 +160,31 @@ const servicios = [
                 </svg>
             </button>
         </div>
-        <!-- Image container -->
-        <div class="flex-1 flex items-center justify-center relative overflow-hidden">
-            <div id="gallery-track" class="flex transition-transform duration-500 ease-in-out h-full w-full">
-            </div>
+        <div class="flex-1 relative overflow-hidden">
+            {servicios.map((servicio, index) => (
+                <div class="modal-gallery hidden absolute inset-0" data-modal-index={index}>
+                    <div class="modal-track flex transition-transform duration-500 ease-in-out h-full w-full">
+                        {servicio.video && (
+                            <div class="w-full shrink-0 flex items-center justify-center px-4">
+                                <video autoplay muted loop playsinline class="max-h-full max-w-full object-contain rounded-lg">
+                                    <source src={servicio.video} type="video/mp4" />
+                                </video>
+                            </div>
+                        )}
+                        {servicio.images.map((img, i) => (
+                            <div class="w-full shrink-0 flex items-center justify-center px-4">
+                                <Image
+                                    src={img}
+                                    alt={`${servicio.title} - imagen ${i + 1}`}
+                                    class="max-h-full max-w-full object-contain rounded-lg"
+                                    loading="lazy"
+                                />
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            ))}
         </div>
-        <!-- Controls -->
         <div class="flex items-center justify-center gap-6 py-4">
             <button id="gallery-prev" class="text-white transition" aria-label="Imagen anterior">
                 <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -135,121 +203,99 @@ const servicios = [
 
 <script>
     const isDesktop = () => window.matchMedia('(min-width: 768px)').matches;
-
-    // Accordion logic
     const items = document.querySelectorAll('.accordion-item');
+    const allDesktopGalleries = document.querySelectorAll<HTMLElement>('.service-gallery');
 
-    function loadDesktopGallery(galleryData: string[]) {
-        const dTrack = document.getElementById('desktop-gallery-track') as HTMLElement;
-        const dotsContainer = document.getElementById('desktop-gallery-dots') as HTMLElement;
+    // --- Desktop gallery ---
 
-        let dCurrent = 0;
-        const dTotal = galleryData.length;
+    type GalleryState = { current: number; total: number };
+    const galleryStates = new Map<HTMLElement, GalleryState>();
 
-        dTrack.innerHTML = '';
-        galleryData.forEach((src) => {
-            const slide = document.createElement('div');
-            slide.className = 'w-full h-full shrink-0 flex items-center justify-center';
-            const img = document.createElement('img');
-            img.src = src;
-            img.alt = '';
-            img.className = 'h-full w-full object-contain   ';
-            img.loading = 'lazy';
-            slide.appendChild(img);
-            dTrack.appendChild(slide);
-        });
+    allDesktopGalleries.forEach((gallery) => {
+        const total = gallery.querySelectorAll('.gallery-track > div').length;
+        galleryStates.set(gallery, { current: 0, total });
 
-        function updateDesktop() {
-            dTrack.style.transform = `translateX(-${dCurrent * 100}%)`;
-            dotsContainer.querySelectorAll('.svc-dot').forEach((dot, i) => {
-                const el = dot as HTMLElement;
-                if (i === dCurrent) {
-                    el.classList.add('w-5', 'bg-[#EB192E]');
-                    el.classList.remove('w-2.5', 'bg-white/30');
-                } else {
-                    el.classList.remove('w-5', 'bg-[#EB192E]');
-                    el.classList.add('w-2.5', 'bg-white/30');
-                }
+        const track = gallery.querySelector<HTMLElement>('.gallery-track')!;
+        const dots = gallery.querySelectorAll<HTMLElement>('.gallery-dot');
+        const state = galleryStates.get(gallery)!;
+
+        function updateGallery() {
+            track.style.transform = `translateX(-${state.current * 100}%)`;
+            dots.forEach((dot, i) => {
+                dot.classList.toggle('w-5', i === state.current);
+                dot.classList.toggle('bg-[#EB192E]', i === state.current);
+                dot.classList.toggle('w-2.5', i !== state.current);
+                dot.classList.toggle('bg-white/30', i !== state.current);
             });
         }
 
-        dotsContainer.innerHTML = '';
-        galleryData.forEach((_, i) => {
-            const dot = document.createElement('button');
-            dot.className = `svc-dot rounded-full h-2.5 transition-all duration-300 ${i === 0 ? 'w-5 bg-[#EB192E]' : 'w-2.5 bg-white/30'}`;
-            dot.setAttribute('aria-label', `Imagen ${i + 1}`);
-            dot.addEventListener('click', () => { dCurrent = i; updateDesktop(); });
-            dotsContainer.appendChild(dot);
+        dots.forEach((dot, i) => {
+            dot.addEventListener('click', () => { state.current = i; updateGallery(); });
         });
-
-        updateDesktop();
 
         // Touch swipe
         let touchStartX = 0;
-        dTrack.addEventListener('touchstart', (e) => {
-            touchStartX = e.touches[0].clientX;
-        }, { passive: true });
-        dTrack.addEventListener('touchend', (e) => {
+        track.addEventListener('touchstart', (e) => { touchStartX = e.touches[0].clientX; }, { passive: true });
+        track.addEventListener('touchend', (e) => {
             const diff = touchStartX - e.changedTouches[0].clientX;
             if (Math.abs(diff) > 50) {
-                if (diff > 0 && dCurrent < dTotal - 1) { dCurrent++; updateDesktop(); }
-                else if (diff < 0 && dCurrent > 0) { dCurrent--; updateDesktop(); }
+                if (diff > 0 && state.current < state.total - 1) { state.current++; updateGallery(); }
+                else if (diff < 0 && state.current > 0) { state.current--; updateGallery(); }
             }
         }, { passive: true });
 
         // Mouse drag
         let mouseStartX = 0;
         let isDragging = false;
-        dTrack.addEventListener('mousedown', (e) => {
-            isDragging = true;
-            mouseStartX = e.clientX;
-            dTrack.style.cursor = 'grabbing';
-        });
+        track.addEventListener('mousedown', (e) => { isDragging = true; mouseStartX = e.clientX; track.style.cursor = 'grabbing'; });
         document.addEventListener('mouseup', (e) => {
             if (!isDragging) return;
             isDragging = false;
-            dTrack.style.cursor = 'grab';
+            track.style.cursor = 'grab';
             const diff = mouseStartX - e.clientX;
             if (Math.abs(diff) > 50) {
-                if (diff > 0 && dCurrent < dTotal - 1) { dCurrent++; updateDesktop(); }
-                else if (diff < 0 && dCurrent > 0) { dCurrent--; updateDesktop(); }
+                if (diff > 0 && state.current < state.total - 1) { state.current++; updateGallery(); }
+                else if (diff < 0 && state.current > 0) { state.current--; updateGallery(); }
             }
+        });
+    });
+
+    function showDesktopGallery(index: number) {
+        allDesktopGalleries.forEach((gallery) => {
+            const matches = parseInt(gallery.dataset.galleryIndex || '0') === index;
+            gallery.classList.toggle('hidden', !matches);
+            gallery.classList.toggle('flex', matches);
         });
     }
 
+    // --- Accordion ---
+
     items.forEach((item) => {
-        const header = item.querySelector('.accordion-header') as HTMLButtonElement;
-        const content = item.querySelector('.accordion-content') as HTMLElement;
-        const icon = item.querySelector('.accordion-icon') as HTMLElement;
+        const header = item.querySelector<HTMLButtonElement>('.accordion-header')!;
+        const content = item.querySelector<HTMLElement>('.accordion-content')!;
+        const icon = item.querySelector<HTMLElement>('.accordion-icon')!;
 
         header.addEventListener('click', () => {
             const isOpen = header.getAttribute('aria-expanded') === 'true';
 
-            // Close all others with animation
-            items.forEach((otherItem) => {
-                if (otherItem === item) return;
-                const otherHeader = otherItem.querySelector('.accordion-header') as HTMLButtonElement;
-                const otherContent = otherItem.querySelector('.accordion-content') as HTMLElement;
-                const otherIcon = otherItem.querySelector('.accordion-icon') as HTMLElement;
-                otherHeader.setAttribute('aria-expanded', 'false');
-                otherContent.classList.remove('max-h-60');
-                otherContent.classList.add('max-h-0');
-                otherIcon.textContent = '+';
+            items.forEach((other) => {
+                if (other === item) return;
+                other.querySelector<HTMLButtonElement>('.accordion-header')!.setAttribute('aria-expanded', 'false');
+                const c = other.querySelector<HTMLElement>('.accordion-content')!;
+                c.classList.remove('max-h-60');
+                c.classList.add('max-h-0');
+                other.querySelector<HTMLElement>('.accordion-icon')!.textContent = '+';
             });
+
+            const index = parseInt((item as HTMLElement).dataset.index || '0');
 
             if (!isOpen) {
                 content.classList.remove('max-h-0');
                 content.classList.add('max-h-60');
                 header.setAttribute('aria-expanded', 'true');
                 icon.textContent = '−';
-
-                // On desktop, update the right-side gallery
-                if (isDesktop()) {
-                    const gallery = JSON.parse((item as HTMLElement).dataset.gallery || '[]');
-                    loadDesktopGallery(gallery);
-                }
+                if (isDesktop()) showDesktopGallery(index);
             } else {
-                // Close the current item
                 content.classList.remove('max-h-60');
                 content.classList.add('max-h-0');
                 header.setAttribute('aria-expanded', 'false');
@@ -258,102 +304,80 @@ const servicios = [
         });
     });
 
-    // Load first service gallery on desktop
-    if (isDesktop()) {
-        const firstItem = items[0] as HTMLElement;
-        const gallery = JSON.parse(firstItem.dataset.gallery || '[]');
-        loadDesktopGallery(gallery);
+    // --- Mobile modal ---
+
+    const modal = document.getElementById('gallery-modal')!;
+    const modalTitle = document.getElementById('gallery-title')!;
+    const counter = document.getElementById('gallery-counter')!;
+    const closeBtn = document.getElementById('gallery-close')!;
+    const overlay = document.getElementById('gallery-overlay')!;
+    const prevBtn = document.getElementById('gallery-prev')!;
+    const nextBtn = document.getElementById('gallery-next')!;
+    const allModalGalleries = document.querySelectorAll<HTMLElement>('.modal-gallery');
+
+    let activeModalGallery: HTMLElement | null = null;
+    let modalCurrent = 0;
+    let modalTotal = 0;
+
+    function updateModal() {
+        if (!activeModalGallery) return;
+        const track = activeModalGallery.querySelector<HTMLElement>('.modal-track')!;
+        track.style.transform = `translateX(-${modalCurrent * 100}%)`;
+        counter.textContent = `${modalCurrent + 1} / ${modalTotal}`;
+        prevBtn.style.opacity = modalCurrent === 0 ? '0.2' : '1';
+        nextBtn.style.opacity = modalCurrent >= modalTotal - 1 ? '0.2' : '1';
     }
 
-    // Gallery modal logic (mobile only)
-    const modal = document.getElementById('gallery-modal') as HTMLElement;
-    const modalTitle = document.getElementById('gallery-title') as HTMLElement;
-    const track = document.getElementById('gallery-track') as HTMLElement;
-    const counter = document.getElementById('gallery-counter') as HTMLElement;
-    const closeBtn = document.getElementById('gallery-close') as HTMLButtonElement;
-    const overlay = document.getElementById('gallery-overlay') as HTMLElement;
-    const prevBtn = document.getElementById('gallery-prev') as HTMLButtonElement;
-    const nextBtn = document.getElementById('gallery-next') as HTMLButtonElement;
-
-    let currentImg = 0;
-    let totalImgs = 0;
-
-    function openGallery(title: string, images: string[]) {
+    function openModal(serviceIndex: number, title: string) {
         modalTitle.textContent = title;
-        currentImg = 0;
-        totalImgs = images.length;
-
-        track.innerHTML = '';
-        images.forEach((src) => {
-            const slide = document.createElement('div');
-            slide.className = 'w-full shrink-0 flex items-center justify-center px-4';
-            const img = document.createElement('img');
-            img.src = src;
-            img.alt = title;
-            img.className = 'max-h-full max-w-full object-contain rounded-lg';
-            img.loading = 'lazy';
-            slide.appendChild(img);
-            track.appendChild(slide);
-        });
-
-        updateGallery();
+        modalCurrent = 0;
+        allModalGalleries.forEach((g) => g.classList.add('hidden'));
+        const target = document.querySelector<HTMLElement>(`.modal-gallery[data-modal-index="${serviceIndex}"]`);
+        if (target) {
+            target.classList.remove('hidden');
+            activeModalGallery = target;
+            modalTotal = target.querySelectorAll('.modal-track > div').length;
+        }
+        updateModal();
         modal.classList.remove('hidden');
         modal.classList.add('flex');
         document.body.style.overflow = 'hidden';
     }
 
-    function closeGallery() {
+    function closeModal() {
         modal.classList.add('hidden');
         modal.classList.remove('flex');
         document.body.style.overflow = '';
-        track.innerHTML = '';
+        activeModalGallery = null;
     }
 
-    function updateGallery() {
-        track.style.transform = `translateX(-${currentImg * 100}%)`;
-        counter.textContent = `${currentImg + 1} / ${totalImgs}`;
-        prevBtn.style.opacity = currentImg === 0 ? '0.2' : '1';
-        nextBtn.style.opacity = currentImg >= totalImgs - 1 ? '0.2' : '1';
-    }
-
-    document.querySelectorAll('.gallery-btn').forEach((btn) => {
+    document.querySelectorAll<HTMLElement>('.gallery-btn').forEach((btn) => {
         btn.addEventListener('click', (e) => {
             e.preventDefault();
-            if (isDesktop()) return; // On desktop, gallery is in the right column
-            const accordionItem = (btn as HTMLElement).closest('.accordion-item') as HTMLElement;
-            const gallery = JSON.parse(accordionItem.dataset.gallery || '[]');
-            const title = (btn as HTMLElement).dataset.title || '';
-            openGallery(title, gallery);
+            if (isDesktop()) return;
+            openModal(parseInt(btn.dataset.serviceIndex || '0'), btn.dataset.title || '');
         });
     });
 
-    closeBtn.addEventListener('click', closeGallery);
-    overlay.addEventListener('click', closeGallery);
+    closeBtn.addEventListener('click', closeModal);
+    overlay.addEventListener('click', closeModal);
+    prevBtn.addEventListener('click', () => { if (modalCurrent > 0) { modalCurrent--; updateModal(); } });
+    nextBtn.addEventListener('click', () => { if (modalCurrent < modalTotal - 1) { modalCurrent++; updateModal(); } });
 
-    prevBtn.addEventListener('click', () => {
-        if (currentImg > 0) { currentImg--; updateGallery(); }
-    });
-
-    nextBtn.addEventListener('click', () => {
-        if (currentImg < totalImgs - 1) { currentImg++; updateGallery(); }
-    });
-
-    let startX = 0;
-    track.addEventListener('touchstart', (e) => {
-        startX = e.touches[0].clientX;
-    }, { passive: true });
-
-    track.addEventListener('touchend', (e) => {
-        const diff = startX - e.changedTouches[0].clientX;
+    let modalStartX = 0;
+    modal.addEventListener('touchstart', (e) => { modalStartX = e.touches[0].clientX; }, { passive: true });
+    modal.addEventListener('touchend', (e) => {
+        const diff = modalStartX - e.changedTouches[0].clientX;
         if (Math.abs(diff) > 50) {
-            if (diff > 0 && currentImg < totalImgs - 1) { currentImg++; updateGallery(); }
-            else if (diff < 0 && currentImg > 0) { currentImg--; updateGallery(); }
+            if (diff > 0 && modalCurrent < modalTotal - 1) { modalCurrent++; updateModal(); }
+            else if (diff < 0 && modalCurrent > 0) { modalCurrent--; updateModal(); }
         }
     }, { passive: true });
 
     document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && !modal.classList.contains('hidden')) closeGallery();
-        if (e.key === 'ArrowLeft' && !modal.classList.contains('hidden') && currentImg > 0) { currentImg--; updateGallery(); }
-        if (e.key === 'ArrowRight' && !modal.classList.contains('hidden') && currentImg < totalImgs - 1) { currentImg++; updateGallery(); }
+        if (modal.classList.contains('hidden')) return;
+        if (e.key === 'Escape') closeModal();
+        if (e.key === 'ArrowLeft' && modalCurrent > 0) { modalCurrent--; updateModal(); }
+        if (e.key === 'ArrowRight' && modalCurrent < modalTotal - 1) { modalCurrent++; updateModal(); }
     });
 </script>

@@ -9,6 +9,7 @@ import WhatsappButton from '../components/WhatsappButton.astro'
 import Contacto from '../components/sections/Contacto.astro';
 import FormularioContacto from '../components/sections/FormularioContacto.astro';
 import Footer from '../components/sections/Footer.astro';
+import TransformacionesCards from '../components/sections/TransformacionesCards.astro';
 
 ---
 
@@ -19,11 +20,11 @@ import Footer from '../components/sections/Footer.astro';
 	<Navbar />
 	<Main />
 	<Proyectos />
-	<Transformaciones />
+	<TransformacionesCards />
 	<Servicios />
-	<div class="relative md:flex md:mb-10 md:pb-5 lg:px-20 xl:px-40 lg:gap-10 lg:mb-10 lg:mt-0 pt-2 lg:pt-0">
+	<div class="relative md:flex md:mb-10 md:pb-5 px-5 md:px-20 xl:px-40 md:gap-10 lg:mb-10 lg:mt-0 pt-2 lg:pt-0">
 		<Contacto />
-		<FormularioContacto sectionClass="px-5" />
+		<FormularioContacto sectionClass="md:flex-1" />
 	</div>
 	<Footer />
 
@@ -43,13 +44,36 @@ import Footer from '../components/sections/Footer.astro';
 		},
 		"areaServed": [
 			{ "@type": "City", "name": "San Pedro" },
+			{ "@type": "City", "name": "San Nicolas" },
+			{ "@type": "City", "name": "Ramallo" },
+			{ "@type": "City", "name": "Villa Ramallo" },
+			{ "@type": "City", "name": "Baradero" },
+			{ "@type": "City", "name": "Campana" },
+			{ "@type": "City", "name": "Lima" },
+			{ "@type": "City", "name": "Pacheco" },
+			{ "@type": "City", "name": "Pergamino" },
+			{ "@type": "City", "name": "San Antonio de Areco" },
+			{ "@type": "City", "name": "Arrecifes" },
+			{ "@type": "City", "name": "Santa Coloma" },
+			{ "@type": "City", "name": "Zarate" },
+			{ "@type": "City", "name": "Funes" },
+			{ "@type": "City", "name": "Arenales" },
+			{ "@type": "City", "name": "Castro" },
+			{ "@type": "City", "name": "Santa Lucia" },
+			{ "@type": "City", "name": "Villa Sarita" },
+			{ "@type": "City", "name": "Villa Constitucion" },
+			{ "@type": "City", "name": "Rojas" },
+			{ "@type": "City", "name": "Mercedes" },
 			{ "@type": "State", "name": "Buenos Aires" },
 			{ "@type": "City", "name": "Buenos Aires (CABA)" },
-			{ "@type": "City", "name": "Rosario" }
+			{ "@type": "City", "name": "Rosario" },
+			{ "@type": "City", "name": "San Lorenzo" },
+			{ "@type": "City", "name": "Roldan" },
+			{ "@type": "City", "name": "Piñero" }
 		],
 		"sameAs": [
 			"https://instagram.com/GonzalezObras",
-			"https://facebook.com/FacundoGonzalez"
+			"https://www.facebook.com/share/1DKUmMPAkA/?mibextid=wwXIfr"
 		],
 		"priceRange": "$$",
 		"openingHoursSpecification": {
