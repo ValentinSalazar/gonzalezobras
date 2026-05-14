@@ -1,5 +1,5 @@
 ---
-import { Image } from 'astro:assets';
+import { Image, getImage } from 'astro:assets';
 import TitleSection from "../TitleSection.astro";
 
 import proyectos01 from '../../assets/projects/proyectos01.webp';
@@ -17,6 +17,8 @@ import amoblamientos06 from '../../assets/amoblamientos06.webp';
 import ascensor from "../../assets/ascensor-cristal-in.webp"
 
 import type { ImageMetadata } from 'astro';
+
+const bgImage = await getImage({ src: proyectos01, width: 600, format: 'webp' });
 
 const servicios: { number: string; title: string; description: string; images: ImageMetadata[]; video?: string }[] = [
     {
@@ -59,8 +61,7 @@ const servicios: { number: string; title: string; description: string; images: I
 ];
 ---
 
-<section class="relative w-full h-auto">
-    <Image src={proyectos01} alt="" width={900} class="absolute inset-0 w-full h-full object-cover" aria-hidden="true" loading="lazy" />
+<section class="relative w-full h-auto bg-cover bg-center" style={`background-image: url('${bgImage.src}')`}>
     <div class="absolute inset-0 bg-black/75"></div>
 
     <div class="relative z-10 px-5 py-8 md:flex md:gap-8 md:px-20 lg:px-24 xl:px-40 lg:py-10 lg:gap-16">
