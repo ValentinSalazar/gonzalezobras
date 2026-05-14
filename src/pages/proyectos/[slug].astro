@@ -10,6 +10,10 @@ import proyectos02 from "../../assets/projects/proyectos02.webp";
 import proyectos03 from "../../assets/projects/proyectos03.webp";
 import Location from "../../components/icons/Location.astro";
 
+type GalleryItem =
+    | { type: "image"; src: ImageMetadata }
+    | { type: "video"; src: string };
+
 interface Project {
     title: string;
     category: string;
@@ -18,7 +22,7 @@ interface Project {
     year: string;
     description: string;
     hero: ImageMetadata;
-    gallery: ImageMetadata[];
+    gallery: GalleryItem[];
 }
 
 export function getStaticPaths() {
@@ -34,7 +38,11 @@ export function getStaticPaths() {
                 description:
                     "Renovación completa de techos con sistema de PVC de alta durabilidad para edificio comercial en el centro de San Pedro. El proyecto incluyó desmontaje del sistema anterior, impermeabilización, y colocación de cubierta de PVC con aislación térmica.",
                 hero: proyectos01,
-                gallery: [proyectos02, proyectos03, proyectos01],
+                gallery: [
+                    { type: "image", src: proyectos02 },
+                    { type: "video", src: "/video1.mp4" },
+                    { type: "image", src: proyectos01 },
+                ],
             } satisfies Project,
         },
         {
@@ -48,7 +56,11 @@ export function getStaticPaths() {
                 description:
                     "Construcción de techo con estructura steel frame, aislación térmica de alta performance y cubierta metálica prepintada. El proyecto contempló el diseño estructural, montaje y terminaciones interiores del cielorraso.",
                 hero: proyectos02,
-                gallery: [proyectos03, proyectos01, proyectos02],
+                gallery: [
+                    { type: "image", src: proyectos03 },
+                    { type: "image", src: proyectos01 },
+                    { type: "image", src: proyectos02 },
+                ],
             } satisfies Project,
         },
         {
@@ -62,7 +74,11 @@ export function getStaticPaths() {
                 description:
                     "Remodelación interior completa con diseño y fabricación de muebles a medida en melamina y madera maciza. Se realizaron revestimientos en paredes con diferentes materiales y texturas, logrando una estética moderna y funcional.",
                 hero: proyectos03,
-                gallery: [proyectos01, proyectos02, proyectos03],
+                gallery: [
+                    { type: "image", src: proyectos01 },
+                    { type: "image", src: proyectos02 },
+                    { type: "image", src: proyectos03 },
+                ],
             } satisfies Project,
         },
         {
@@ -76,7 +92,11 @@ export function getStaticPaths() {
                 description:
                     "Instalación de cielorrasos desmontables y paneles decorativos para local comercial. El trabajo incluyó estructura metálica, placas de yeso y terminaciones con molduras de aluminio.",
                 hero: proyectos01,
-                gallery: [proyectos02, proyectos03, proyectos01],
+                gallery: [
+                    { type: "image", src: proyectos02 },
+                    { type: "image", src: proyectos03 },
+                    { type: "image", src: proyectos01 },
+                ],
             } satisfies Project,
         },
         {
@@ -90,7 +110,11 @@ export function getStaticPaths() {
                 description:
                     "Proyecto integral de amoblamientos a medida para vivienda familiar. Cocina, dormitorios, placard y living completamente amoblados con materiales de primera calidad y herrajes importados.",
                 hero: proyectos02,
-                gallery: [proyectos03, proyectos01, proyectos02],
+                gallery: [
+                    { type: "image", src: proyectos03 },
+                    { type: "image", src: proyectos01 },
+                    { type: "image", src: proyectos02 },
+                ],
             } satisfies Project,
         },
         {
@@ -104,7 +128,11 @@ export function getStaticPaths() {
                 description:
                     "Revestimiento exterior completo de edificio de 4 pisos con sistema PVC resistente a la intemperie. El proyecto incluyó preparación de superficies, fijación de perfiles y colocación de paneles en toda la fachada.",
                 hero: proyectos03,
-                gallery: [proyectos01, proyectos02, proyectos03],
+                gallery: [
+                    { type: "image", src: proyectos01 },
+                    { type: "image", src: proyectos02 },
+                    { type: "image", src: proyectos03 },
+                ],
             } satisfies Project,
         },
     ];
@@ -112,6 +140,15 @@ export function getStaticPaths() {
 
 const { title, category, tags, location, year, description, hero, gallery } =
     Astro.props as Project;
+
+const imageCount = gallery.filter((i) => i.type === "image").length;
+const videoCount = gallery.filter((i) => i.type === "video").length;
+const galleryLabel =
+    videoCount === 0
+        ? `${imageCount} fotos`
+        : imageCount === 0
+          ? `${videoCount} videos`
+          : `${imageCount} fotos · ${videoCount} videos`;
 ---
 
 <Layout
@@ -132,10 +169,9 @@ const { title, category, tags, location, year, description, hero, gallery } =
         />
         <div class="absolute inset-0 bg-black/70"></div>
 
-        <!-- Back button: positioned at the top matching the Servicios page title -->
         <a
             href="/proyectos"
-            class="absolute top-32 left-0 right-0 z-10 px-5 md:px-20 font-poppins text-white text-xs flex items-center gap-1.5 hover:text-white/80 transition w-fit"
+            class="absolute top-32 left-0 right-0 z-10 px-5 md:px-20 xl:px-40 font-poppins text-white text-xs flex items-center gap-1.5 hover:text-white/80 transition w-fit"
         >
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
                 <path
@@ -148,14 +184,11 @@ const { title, category, tags, location, year, description, hero, gallery } =
             Todos los proyectos
         </a>
 
-        <!-- Project info at the bottom -->
-        <div class="relative z-10 px-5 md:px-20 pb-8 w-full">
+        <div class="relative z-10 px-5 md:px-20 xl:px-40 pb-8 w-full">
             <span class="flex w-14 h-1 bg-first mb-3"></span>
             <div class="flex items-end justify-between">
                 <div>
-                    <p
-                        class="font-bebas text-first text-sm tracking-widest mb-1"
-                    >
+                    <p class="font-bebas text-first text-sm tracking-widest mb-1">
                         {year} - {category}
                     </p>
                     <h1 class="font-bebas text-white text-5xl leading-none">
@@ -166,9 +199,7 @@ const { title, category, tags, location, year, description, hero, gallery } =
             <div class="flex items-center gap-4 flex-wrap">
                 <div class="flex items-center gap-1.5">
                     <Location color="white" />
-                    <span class="font-poppins text-secondary text-xs"
-                        >{location}</span
-                    >
+                    <span class="font-poppins text-secondary text-xs">{location}</span>
                 </div>
                 {
                     tags.map((tag) => (
@@ -182,68 +213,138 @@ const { title, category, tags, location, year, description, hero, gallery } =
     </div>
 
     <div class="bg-secondary">
-        <div class="px-5 md:px-20 py-8">
+        <div class="px-5 md:px-20 xl:px-40 py-8">
             <p class="font-bebas text-first text-xs md:text-sm tracking-widest mb-3">
                 DESCRIPCIÓN
             </p>
             <p class="font-poppins text-third text-sm leading-relaxed text-pretty" set:html={description.replace('San Pedro.', 'San Pedro.<br />')} />
         </div>
 
-        <div class="px-5 md:px-20 pb-10">
+        <div class="px-5 md:px-20 xl:px-40 pb-10">
             <div class="flex items-baseline justify-between mb-4">
                 <p class="font-bebas text-first text-xs md:text-sm tracking-widest">
-                    GALERÍA DE FOTOS
+                    GALERÍA
                 </p>
-                <span class="font-poppins text-third/40 text-xs">{gallery.length} fotos</span>
+                <span class="font-poppins text-third/40 text-xs">{galleryLabel}</span>
             </div>
 
-            <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-                {
-                    gallery.map((img, i) => (
-                        <button
-                            class="relative overflow-hidden group cursor-zoom-in aspect-[3/4] bg-gray-100"
-                            data-gallery-index={i}
-                            aria-label={`Ver foto ${i + 1}`}
-                        >
-                            <Image
-                                src={img}
-                                alt={`${title} - foto ${i + 1}`}
-                                width={600}
-                                class="absolute inset-0 w-full h-full object-contain transition-transform duration-500 group-hover:scale-105"
-                                loading="lazy"
-                            />
-                            <div class="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors flex items-center justify-center">
-                                <svg
-                                    class="opacity-0 group-hover:opacity-100 transition-opacity"
-                                    width="32"
-                                    height="32"
-                                    viewBox="0 0 24 24"
-                                    fill="none"
+            <!-- Layout: imagen grande izquierda + 2×2 cuadradas derecha -->
+            <div class="flex flex-col gap-5 lg:flex-row">
+
+                <!-- Imagen destacada -->
+                {gallery[0] && (
+                    <button
+                        class="relative overflow-hidden group bg-gray-100 aspect-[3/4] lg:w-1/3 lg:flex-none lg:self-start"
+                        data-gallery-index={0}
+                        data-type={gallery[0].type}
+                        data-src={gallery[0].type === "video" ? gallery[0].src : ""}
+                        aria-label={gallery[0].type === "video" ? "Ver video principal" : "Ver foto principal"}
+                    >
+                        {gallery[0].type === "image" ? (
+                            <>
+                                <Image
+                                    src={gallery[0].src}
+                                    alt={`${title} - foto principal`}
+                                    width={600}
+                                    class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                                    loading="lazy"
+                                />
+                                <div class="absolute inset-0 bg-black/0 group-hover:bg-black/25 transition-colors flex items-center justify-center">
+                                    <svg class="opacity-0 group-hover:opacity-100 transition-opacity" width="36" height="36" viewBox="0 0 24 24" fill="none">
+                                        <circle cx="11" cy="11" r="7" stroke="white" stroke-width="2" />
+                                        <path d="M16.5 16.5L21 21" stroke="white" stroke-width="2" stroke-linecap="round" />
+                                        <path d="M11 8v6M8 11h6" stroke="white" stroke-width="2" stroke-linecap="round" />
+                                    </svg>
+                                </div>
+                            </>
+                        ) : (
+                            <>
+                                <video src={gallery[0].src} class="absolute inset-0 w-full h-full object-contain" muted preload="metadata" playsinline />
+                                <div class="absolute inset-0 bg-black/30 group-hover:bg-black/45 transition-colors flex items-center justify-center">
+                                    <div class="w-16 h-16 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center group-hover:bg-white/30 transition-colors">
+                                        <svg width="26" height="26" viewBox="0 0 24 24" fill="white"><path d="M8 5v14l11-7z" /></svg>
+                                    </div>
+                                </div>
+                                <span class="absolute top-2 right-2 font-poppins text-white text-[10px] tracking-widest bg-black/50 px-2 py-0.5 backdrop-blur-sm">VIDEO</span>
+                            </>
+                        )}
+                    </button>
+                )}
+
+                <!-- 2×2 grid de miniaturas -->
+                {gallery.length > 1 && (
+                    <div class="grid grid-cols-2 gap-2 lg:flex-1 lg:grid-rows-2" style="align-self: stretch;">
+                        {gallery.slice(1, 5).map((item, i) => {
+                            const index = i + 1;
+                            const isLastVisible = i === 3 && gallery.length > 5;
+                            const remaining = gallery.length - 5;
+                            return (
+                                <button
+                                    class="relative overflow-hidden group bg-gray-100 aspect-square lg:aspect-auto lg:h-full"
+                                    data-gallery-index={index}
+                                    data-type={item.type}
+                                    data-src={item.type === "video" ? item.src : ""}
+                                    aria-label={item.type === "video" ? `Ver video ${index + 1}` : `Ver foto ${index + 1}`}
                                 >
-                                    <circle cx="11" cy="11" r="7" stroke="white" stroke-width="2" />
-                                    <path d="M16.5 16.5L21 21" stroke="white" stroke-width="2" stroke-linecap="round" />
-                                    <path d="M11 8v6M8 11h6" stroke="white" stroke-width="2" stroke-linecap="round" />
-                                </svg>
-                            </div>
-                        </button>
-                    ))
-                }
+                                    {item.type === "image" ? (
+                                        <>
+                                            <Image
+                                                src={item.src}
+                                                alt={`${title} - foto ${index + 1}`}
+                                                width={400}
+                                                class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                                                loading="lazy"
+                                            />
+                                            <div class="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors" />
+                                        </>
+                                    ) : (
+                                        <>
+                                            <video src={item.src} class="absolute inset-0 w-full h-full object-cover" muted preload="metadata" playsinline />
+                                            <div class="absolute inset-0 bg-black/30 group-hover:bg-black/45 transition-colors flex items-center justify-center">
+                                                <div class="w-10 h-10 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center group-hover:bg-white/30 transition-colors">
+                                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M8 5v14l11-7z" /></svg>
+                                                </div>
+                                            </div>
+                                            <span class="absolute top-1.5 right-1.5 font-poppins text-white text-[9px] tracking-widest bg-black/50 px-1.5 py-0.5 backdrop-blur-sm">VIDEO</span>
+                                        </>
+                                    )}
+                                    {isLastVisible && (
+                                        <div class="absolute inset-0 bg-black/60 flex items-center justify-center pointer-events-none">
+                                            <span class="font-bebas text-white text-3xl">+{remaining}</span>
+                                        </div>
+                                    )}
+                                </button>
+                            );
+                        })}
+                    </div>
+                )}
+
+                <!-- Items 5+ ocultos: accesibles via lightbox -->
+                {gallery.slice(5).map((item, i) => (
+                    <button
+                        class="hidden"
+                        data-gallery-index={i + 5}
+                        data-type={item.type}
+                        data-src={item.type === "video" ? item.src : ""}
+                        aria-hidden="true"
+                        tabindex="-1"
+                    >
+                        {item.type === "image" && (
+                            <Image src={item.src} alt="" width={600} loading="lazy" class="hidden" />
+                        )}
+                    </button>
+                ))}
             </div>
         </div>
     </div>
 
     <!-- CTA -->
-    <div
-        class="bg-third px-5 md:px-20 py-10 flex flex-col items-center gap-4 border-t border-white/10"
-    >
+    <div class="bg-third px-5 md:px-20 xl:px-40 py-10 flex flex-col items-center gap-4 border-t border-white/10">
         <p class="font-bebas text-white text-xl tracking-wider text-center">
             ¿QUERÉS UN PROYECTO SIMILAR?
         </p>
         <ButtonRed href={`https://wa.me/3329335202?text=Hola%2C%20quiero%20consultar%20por%20un%20presupuesto%20similar%20al%20proyecto%20${encodeURIComponent(title)}`} text="PEDIR PRESUPUESTO" size="lg" target="_blank" />
-        <a
-            href="/proyectos"
-            class="font-poppins text-white text-xs hover:text-white/70 transition"
-        >
+        <a href="/proyectos" class="font-poppins text-white text-xs hover:text-white/70 transition">
             Ver todos los <span class="underline">proyectos</span> →
         </a>
     </div>
@@ -257,104 +358,104 @@ const { title, category, tags, location, year, description, hero, gallery } =
         <button
             id="lb-close"
             aria-label="Cerrar"
-            class="absolute top-5 right-5 text-white/70 hover:text-white transition"
+            class="absolute top-5 right-5 text-white/70 hover:text-white transition z-10"
         >
-            <svg
-                width="28"
-                height="28"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-            >
-                <line x1="18" y1="6" x2="6" y2="18"></line><line
-                    x1="6"
-                    y1="6"
-                    x2="18"
-                    y2="18"></line>
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
             </svg>
         </button>
         <button
             id="lb-prev"
             aria-label="Anterior"
-            class="absolute left-3 top-1/2 -translate-y-1/2 text-white/60 hover:text-white transition"
+            class="absolute left-3 top-1/2 -translate-y-1/2 text-white/60 hover:text-white transition z-10"
         >
-            <svg
-                width="32"
-                height="32"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"><path d="M15 18L9 12L15 6"></path></svg
-            >
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                <path d="M15 18L9 12L15 6"></path>
+            </svg>
         </button>
         <button
             id="lb-next"
             aria-label="Siguiente"
-            class="absolute right-3 top-1/2 -translate-y-1/2 text-white/60 hover:text-white transition"
+            class="absolute right-3 top-1/2 -translate-y-1/2 text-white/60 hover:text-white transition z-10"
         >
-            <svg
-                width="32"
-                height="32"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"><path d="M9 18L15 12L9 6"></path></svg
-            >
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                <path d="M9 18L15 12L9 6"></path>
+            </svg>
         </button>
-        <img
-            id="lb-img"
+
+        <!-- Imagen -->
+        <img id="lb-img" src="" alt="" class="max-w-[90vw] max-h-[85vh] object-contain" />
+
+        <!-- Video -->
+        <video
+            id="lb-video"
             src=""
-            alt=""
-            class="max-w-[90vw] max-h-[85vh] object-contain"
-        />
-        <p
-            id="lb-counter"
-            class="absolute bottom-5 left-1/2 -translate-x-1/2 font-poppins text-white/50 text-xs"
-        >
-        </p>
+            class="max-w-[90vw] max-h-[85vh] hidden"
+            controls
+            playsinline
+        ></video>
+
+        <p id="lb-counter" class="absolute bottom-5 left-1/2 -translate-x-1/2 font-poppins text-white/50 text-xs"></p>
     </div>
 
     <Footer />
 </Layout>
 
 <script>
+    type Item = { type: "image" | "video"; src: string };
+
     const galleryBtns = document.querySelectorAll("[data-gallery-index]");
     const lightbox = document.getElementById("lightbox")!;
     const lbImg = document.getElementById("lb-img") as HTMLImageElement;
+    const lbVideo = document.getElementById("lb-video") as HTMLVideoElement;
     const lbClose = document.getElementById("lb-close")!;
     const lbPrev = document.getElementById("lb-prev")!;
     const lbNext = document.getElementById("lb-next")!;
     const lbCounter = document.getElementById("lb-counter")!;
 
-    const images: string[] = [];
+    const items: Item[] = [];
     galleryBtns.forEach((btn) => {
-        const img = btn.querySelector("img");
-        if (img) images.push(img.src);
+        const type = (btn.getAttribute("data-type") || "image") as "image" | "video";
+        if (type === "video") {
+            items.push({ type, src: btn.getAttribute("data-src") || "" });
+        } else {
+            const img = btn.querySelector("img");
+            items.push({ type, src: img?.src || "" });
+        }
     });
 
     let current = 0;
 
+    function showItem() {
+        const item = items[current];
+        lbCounter.textContent = `${current + 1} / ${items.length}`;
+        if (item.type === "video") {
+            lbImg.classList.add("hidden");
+            lbVideo.classList.remove("hidden");
+            lbVideo.src = item.src;
+            lbVideo.load();
+        } else {
+            lbVideo.pause();
+            lbVideo.classList.add("hidden");
+            lbImg.classList.remove("hidden");
+            lbImg.src = item.src;
+        }
+    }
+
     function openLightbox(index: number) {
         current = index;
-        showImage();
+        showItem();
         lightbox.classList.remove("opacity-0", "pointer-events-none");
         lightbox.setAttribute("aria-hidden", "false");
         document.body.style.overflow = "hidden";
     }
 
     function closeLightbox() {
+        lbVideo.pause();
         lightbox.classList.add("opacity-0", "pointer-events-none");
         lightbox.setAttribute("aria-hidden", "true");
         document.body.style.overflow = "";
-    }
-
-    function showImage() {
-        lbImg.src = images[current];
-        lbCounter.textContent = `${current + 1} / ${images.length}`;
     }
 
     galleryBtns.forEach((btn) => {
@@ -369,25 +470,25 @@ const { title, category, tags, location, year, description, hero, gallery } =
     });
 
     lbPrev.addEventListener("click", () => {
-        current = (current - 1 + images.length) % images.length;
-        showImage();
+        current = (current - 1 + items.length) % items.length;
+        showItem();
     });
 
     lbNext.addEventListener("click", () => {
-        current = (current + 1) % images.length;
-        showImage();
+        current = (current + 1) % items.length;
+        showItem();
     });
 
     document.addEventListener("keydown", (e) => {
         if (lightbox.getAttribute("aria-hidden") === "true") return;
         if (e.key === "Escape") closeLightbox();
         if (e.key === "ArrowLeft") {
-            current = (current - 1 + images.length) % images.length;
-            showImage();
+            current = (current - 1 + items.length) % items.length;
+            showItem();
         }
         if (e.key === "ArrowRight") {
-            current = (current + 1) % images.length;
-            showImage();
+            current = (current + 1) % items.length;
+            showItem();
         }
     });
 </script>
