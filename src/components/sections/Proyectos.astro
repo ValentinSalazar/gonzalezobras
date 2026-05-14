@@ -137,101 +137,64 @@ const projects = [
 </section>
 
 <script>
-    const track = document.getElementById("carousel-track") as HTMLElement;
-    const prevBtn = document.getElementById(
-        "carousel-prev",
-    ) as HTMLButtonElement;
-    const nextBtn = document.getElementById(
-        "carousel-next",
-    ) as HTMLButtonElement;
+    function initCarousel() {
+        const track = document.getElementById("carousel-track") as HTMLElement;
+        if (!track) return;
+        const prevBtn = document.getElementById("carousel-prev") as HTMLButtonElement;
+        const nextBtn = document.getElementById("carousel-next") as HTMLButtonElement;
 
-    let currentIndex = 0;
-    const cards = Array.from(
-        track.querySelectorAll(".project-card"),
-    ) as HTMLElement[];
-    const totalCards = cards.length;
+        let currentIndex = 0;
+        const cards = Array.from(track.querySelectorAll(".project-card")) as HTMLElement[];
+        const totalCards = cards.length;
 
-    function updateCarousel() {
-        // Actualizar clase activa
+        function updateCarousel() {
+            cards.forEach((card, i) => {
+                card.classList.toggle("is-active", i === currentIndex);
+            });
+
+            requestAnimationFrame(() => {
+                const gap = 16;
+                let offset = 0;
+                for (let i = 0; i < currentIndex; i++) {
+                    offset += cards[i].offsetWidth + gap;
+                }
+                const containerWidth = track.parentElement!.offsetWidth;
+                const trackWidth = cards.reduce((sum, c) => sum + c.offsetWidth + gap, 0) - gap;
+                const maxOffset = Math.max(0, trackWidth - containerWidth);
+                track.style.transform = `translateX(-${Math.min(offset, maxOffset)}px)`;
+            });
+
+            prevBtn.classList.toggle("text-black/40", currentIndex === 0);
+            prevBtn.classList.toggle("text-black", currentIndex > 0);
+            nextBtn.classList.toggle("text-black/40", currentIndex >= totalCards - 1);
+            nextBtn.classList.toggle("text-black", currentIndex < totalCards - 1);
+        }
+
+        updateCarousel();
+
+        prevBtn.addEventListener("click", () => {
+            if (currentIndex > 0) { currentIndex--; updateCarousel(); }
+        });
+        nextBtn.addEventListener("click", () => {
+            if (currentIndex < totalCards - 1) { currentIndex++; updateCarousel(); }
+        });
+
         cards.forEach((card, i) => {
-            card.classList.toggle("is-active", i === currentIndex);
+            card.addEventListener("click", () => { currentIndex = i; updateCarousel(); });
         });
 
-        // Esperar a que el DOM actualice anchos antes de calcular offset
-        requestAnimationFrame(() => {
-            const gap = 16;
-            let offset = 0;
-            for (let i = 0; i < currentIndex; i++) {
-                offset += cards[i].offsetWidth + gap;
-            }
-            const containerWidth = track.parentElement!.offsetWidth;
-            const trackWidth =
-                cards.reduce((sum, c) => sum + c.offsetWidth + gap, 0) - gap;
-            const maxOffset = Math.max(0, trackWidth - containerWidth);
-            track.style.transform = `translateX(-${Math.min(offset, maxOffset)}px)`;
-        });
-
-        prevBtn.classList.toggle("text-black/40", currentIndex === 0);
-        prevBtn.classList.toggle("text-black", currentIndex > 0);
-        nextBtn.classList.toggle(
-            "text-black/40",
-            currentIndex >= totalCards - 1,
-        );
-        nextBtn.classList.toggle("text-black", currentIndex < totalCards - 1);
-    }
-
-    // Inicializar primera card como activa
-    updateCarousel();
-
-    prevBtn.addEventListener("click", () => {
-        if (currentIndex > 0) {
-            currentIndex--;
-            updateCarousel();
-        }
-    });
-    nextBtn.addEventListener("click", () => {
-        if (currentIndex < totalCards - 1) {
-            currentIndex++;
-            updateCarousel();
-        }
-    });
-
-    // Tap directo en una card
-    cards.forEach((card, i) => {
-        card.addEventListener("click", () => {
-            currentIndex = i;
-            updateCarousel();
-        });
-    });
-
-    // Touch/swipe
-    let startX = 0,
-        startY = 0,
-        isHorizontalSwipe = false;
-    track.addEventListener(
-        "touchstart",
-        (e) => {
+        let startX = 0, startY = 0, isHorizontalSwipe = false;
+        track.addEventListener("touchstart", (e) => {
             startX = e.touches[0].clientX;
             startY = e.touches[0].clientY;
             isHorizontalSwipe = false;
-        },
-        { passive: true },
-    );
-    track.addEventListener(
-        "touchmove",
-        (e) => {
+        }, { passive: true });
+        track.addEventListener("touchmove", (e) => {
             const diffX = Math.abs(e.touches[0].clientX - startX);
             const diffY = Math.abs(e.touches[0].clientY - startY);
-            if (diffX > diffY && diffX > 10) {
-                isHorizontalSwipe = true;
-                e.preventDefault();
-            }
-        },
-        { passive: false },
-    );
-    track.addEventListener(
-        "touchend",
-        (e) => {
+            if (diffX > diffY && diffX > 10) { isHorizontalSwipe = true; e.preventDefault(); }
+        }, { passive: false });
+        track.addEventListener("touchend", (e) => {
             if (!isHorizontalSwipe) return;
             const diff = startX - e.changedTouches[0].clientX;
             if (Math.abs(diff) > 50) {
@@ -239,9 +202,10 @@ const projects = [
                 else if (diff < 0 && currentIndex > 0) currentIndex--;
                 updateCarousel();
             }
-        },
-        { passive: true },
-    );
+        }, { passive: true });
+    }
+
+    document.addEventListener('astro:page-load', initCarousel);
 </script>
 
 <style>

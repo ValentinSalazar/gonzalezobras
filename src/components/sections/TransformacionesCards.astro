@@ -14,6 +14,13 @@ import despues03 from '../../assets/despues03.webp';
 import despues04 from '../../assets/despues04.webp';
 import despues05 from '../../assets/despues05.webp';
 
+interface Props {
+    showTitle?: boolean;
+    showAll?: boolean;
+}
+
+const { showTitle = true, showAll = false } = Astro.props;
+
 const transformaciones: {
     number: string;
     title: string;
@@ -33,17 +40,19 @@ const INITIAL_COUNT = 3;
 
 <section class="dot-grid pb-10 pt-2">
 
-    <TitleSection
-        title="Transformaciones"
-        color="first"
-        subtitle="antes y después"
-        new_clases="pl-5 md:pl-20 xl:pl-40 pb-5"
-        title_size="text-5xl"
-    />
+    {showTitle && (
+        <TitleSection
+            title="Transformaciones"
+            color="first"
+            subtitle="antes y después"
+            new_clases="pl-5 md:pl-20 xl:pl-40 pb-5"
+            title_size="text-5xl"
+        />
+    )}
 
-    <div class="px-5 md:px-20 xl:px-40 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 pt-10">
+    <div class={`px-5 md:px-20 xl:px-40 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5${showTitle ? ' pt-10' : ' pt-6'}`}>
         {transformaciones.map((t, i) => (
-            <div class={`trans-card flex flex-col${i >= INITIAL_COUNT ? ' hidden' : ''}`}>
+            <div class={`trans-card flex flex-col${!showAll && i >= INITIAL_COUNT ? ' hidden' : ''}`}>
 
                 <div class="relative overflow-hidden bg-gray-200 h-80 sm:h-60 lg:h-[350px]">
                     <Image
@@ -81,7 +90,7 @@ const INITIAL_COUNT = 3;
         ))}
     </div>
 
-    {transformaciones.length > INITIAL_COUNT && (
+    {!showAll && transformaciones.length > INITIAL_COUNT && (
         <div id="ver-mas-wrapper" class="flex justify-end mt-6 px-5 md:px-20 xl:px-40">
             <button
                 id="ver-mas-btn"
@@ -98,46 +107,48 @@ const INITIAL_COUNT = 3;
 </section>
 
 <script>
-    // --- Toggle antes / después ---
-    document.querySelectorAll<HTMLElement>('.trans-card').forEach(card => {
-        const btnAntes   = card.querySelector<HTMLButtonElement>('.btn-antes')!;
-        const btnDespues = card.querySelector<HTMLButtonElement>('.btn-despues')!;
-        const imgAntes   = card.querySelector<HTMLElement>('.img-antes')!;
-        const imgDespues = card.querySelector<HTMLElement>('.img-despues')!;
-        const label      = card.querySelector<HTMLElement>('.state-label')!;
+    function initTransformaciones() {
+        document.querySelectorAll<HTMLElement>('.trans-card').forEach(card => {
+            const btnAntes   = card.querySelector<HTMLButtonElement>('.btn-antes')!;
+            const btnDespues = card.querySelector<HTMLButtonElement>('.btn-despues')!;
+            const imgAntes   = card.querySelector<HTMLElement>('.img-antes')!;
+            const imgDespues = card.querySelector<HTMLElement>('.img-despues')!;
+            const label      = card.querySelector<HTMLElement>('.state-label')!;
 
-        function activate(active: HTMLButtonElement, inactive: HTMLButtonElement) {
-            active.classList.add('border-first', 'text-first');
-            active.classList.remove('border-transparent', 'text-gray-400');
-            inactive.classList.remove('border-first', 'text-first');
-            inactive.classList.add('border-transparent', 'text-gray-400');
-        }
+            function activate(active: HTMLButtonElement, inactive: HTMLButtonElement) {
+                active.classList.add('border-first', 'text-first');
+                active.classList.remove('border-transparent', 'text-gray-400');
+                inactive.classList.remove('border-first', 'text-first');
+                inactive.classList.add('border-transparent', 'text-gray-400');
+            }
 
-        btnAntes.addEventListener('click', () => {
-            imgAntes.style.opacity = '1';
-            imgDespues.style.opacity = '0';
-            label.textContent = 'ANTES';
-            activate(btnAntes, btnDespues);
+            btnAntes.addEventListener('click', () => {
+                imgAntes.style.opacity = '1';
+                imgDespues.style.opacity = '0';
+                label.textContent = 'ANTES';
+                activate(btnAntes, btnDespues);
+            });
+
+            btnDespues.addEventListener('click', () => {
+                imgAntes.style.opacity = '0';
+                imgDespues.style.opacity = '1';
+                label.textContent = 'DESPUÉS';
+                activate(btnDespues, btnAntes);
+            });
         });
 
-        btnDespues.addEventListener('click', () => {
-            imgAntes.style.opacity = '0';
-            imgDespues.style.opacity = '1';
-            label.textContent = 'DESPUÉS';
-            activate(btnDespues, btnAntes);
-        });
-    });
+        const verMasBtn = document.getElementById('ver-mas-btn');
+        const verMasWrapper = document.getElementById('ver-mas-wrapper');
 
-    // --- Ver más ---
-    const verMasBtn = document.getElementById('ver-mas-btn');
-    const verMasWrapper = document.getElementById('ver-mas-wrapper');
-
-    verMasBtn?.addEventListener('click', () => {
-        document.querySelectorAll<HTMLElement>('.trans-card.hidden').forEach(card => {
-            card.classList.remove('hidden');
+        verMasBtn?.addEventListener('click', () => {
+            document.querySelectorAll<HTMLElement>('.trans-card.hidden').forEach(card => {
+                card.classList.remove('hidden');
+            });
+            verMasWrapper?.remove();
         });
-        verMasWrapper?.remove();
-    });
+    }
+
+    document.addEventListener('astro:page-load', initTransformaciones);
 </script>
 
 <style>

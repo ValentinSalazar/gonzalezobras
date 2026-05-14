@@ -83,102 +83,90 @@ const { sectionClass = 'px-5 md:px-14 xl:px-16' } = Astro.props;
 </section>
 
 <script>
-    const form = document.getElementById('contact-form') as HTMLFormElement;
-    const submitBtn = document.getElementById('submit-btn') as HTMLButtonElement;
-    const formStatus = document.getElementById('form-status') as HTMLElement;
+    function initForm() {
+        const form = document.getElementById('contact-form') as HTMLFormElement;
+        if (!form) return;
+        const submitBtn = document.getElementById('submit-btn') as HTMLButtonElement;
+        const formStatus = document.getElementById('form-status') as HTMLElement;
 
-    const validators: Record<string, (value: string) => string> = {
-        name: (v) => v.trim() === '' ? 'El nombre es obligatorio' : '',
-        email: (v) => {
-            if (v.trim() === '') return 'El email es obligatorio';
-            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)) return 'Ingresá un email válido';
-            return '';
-        },
-        message: (v) => v.trim() === '' ? 'El mensaje es obligatorio' : '',
-    };
+        const validators: Record<string, (value: string) => string> = {
+            name: (v) => v.trim() === '' ? 'El nombre es obligatorio' : '',
+            email: (v) => {
+                if (v.trim() === '') return 'El email es obligatorio';
+                if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)) return 'Ingresá un email válido';
+                return '';
+            },
+            message: (v) => v.trim() === '' ? 'El mensaje es obligatorio' : '',
+        };
 
-    function showError(field: HTMLInputElement | HTMLTextAreaElement, message: string) {
-        field.classList.remove('border-gray-200');
-        field.classList.add('border-first');
-        const errorEl = field.parentElement?.querySelector('.form-error') as HTMLElement;
-        if (errorEl) {
-            errorEl.textContent = message;
-            errorEl.classList.remove('hidden');
+        function showError(field: HTMLInputElement | HTMLTextAreaElement, message: string) {
+            field.classList.remove('border-gray-200');
+            field.classList.add('border-first');
+            const errorEl = field.parentElement?.querySelector('.form-error') as HTMLElement;
+            if (errorEl) { errorEl.textContent = message; errorEl.classList.remove('hidden'); }
         }
-    }
 
-    function clearError(field: HTMLInputElement | HTMLTextAreaElement) {
-        field.classList.remove('border-first');
-        field.classList.add('border-gray-200');
-        const errorEl = field.parentElement?.querySelector('.form-error') as HTMLElement;
-        if (errorEl) {
-            errorEl.textContent = '';
-            errorEl.classList.add('hidden');
+        function clearError(field: HTMLInputElement | HTMLTextAreaElement) {
+            field.classList.remove('border-first');
+            field.classList.add('border-gray-200');
+            const errorEl = field.parentElement?.querySelector('.form-error') as HTMLElement;
+            if (errorEl) { errorEl.textContent = ''; errorEl.classList.add('hidden'); }
         }
-    }
 
-    ['name', 'email', 'message'].forEach((name) => {
-        const field = form.elements.namedItem(name) as HTMLInputElement | HTMLTextAreaElement;
-        field.addEventListener('input', () => clearError(field));
-    });
-
-    form.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        formStatus.classList.add('hidden');
-
-        let hasErrors = false;
-
-        for (const [name, validate] of Object.entries(validators)) {
+        ['name', 'email', 'message'].forEach((name) => {
             const field = form.elements.namedItem(name) as HTMLInputElement | HTMLTextAreaElement;
-            const error = validate(field.value);
-            if (error) {
-                showError(field, error);
-                hasErrors = true;
-            } else {
-                clearError(field);
+            field.addEventListener('input', () => clearError(field));
+        });
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            formStatus.classList.add('hidden');
+
+            let hasErrors = false;
+            for (const [name, validate] of Object.entries(validators)) {
+                const field = form.elements.namedItem(name) as HTMLInputElement | HTMLTextAreaElement;
+                const error = validate(field.value);
+                if (error) { showError(field, error); hasErrors = true; }
+                else { clearError(field); }
             }
-        }
+            if (hasErrors) return;
 
-        if (hasErrors) return;
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'ENVIANDO...';
 
-        submitBtn.disabled = true;
-        submitBtn.textContent = 'ENVIANDO...';
-
-        try {
-            const servicioField = form.elements.namedItem('servicio') as HTMLSelectElement;
-            const res = await fetch('https://api.web3forms.com/submit', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json',
-                },
-                body: JSON.stringify({
-                    access_key: 'f25a7dd1-ce4d-4aaa-9015-1e6775233432',
-                    subject: 'Nuevo mensaje desde González Obras',
-                    from_name: 'Gonzalez Obras – Consultas',
-                    name: (form.elements.namedItem('name') as HTMLInputElement).value,
-                    email: (form.elements.namedItem('email') as HTMLInputElement).value,
-                    servicio: servicioField?.value || 'No especificado',
-                    message: (form.elements.namedItem('message') as HTMLTextAreaElement).value,
-                }),
-            });
-
-            const data = await res.json();
-
-            if (data.success) {
-                formStatus.textContent = '¡Mensaje enviado correctamente!';
-                formStatus.className = 'font-poppins text-sm text-center text-green-600';
-                form.reset();
-            } else {
-                formStatus.textContent = `Error: ${data.message || 'Intentá de nuevo.'}`;
+            try {
+                const servicioField = form.elements.namedItem('servicio') as HTMLSelectElement;
+                const res = await fetch('https://api.web3forms.com/submit', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                    body: JSON.stringify({
+                        access_key: 'f25a7dd1-ce4d-4aaa-9015-1e6775233432',
+                        subject: 'Nuevo mensaje desde González Obras',
+                        from_name: 'Gonzalez Obras – Consultas',
+                        name: (form.elements.namedItem('name') as HTMLInputElement).value,
+                        email: (form.elements.namedItem('email') as HTMLInputElement).value,
+                        servicio: servicioField?.value || 'No especificado',
+                        message: (form.elements.namedItem('message') as HTMLTextAreaElement).value,
+                    }),
+                });
+                const data = await res.json();
+                if (data.success) {
+                    formStatus.textContent = '¡Mensaje enviado correctamente!';
+                    formStatus.className = 'font-poppins text-sm text-center text-green-600';
+                    form.reset();
+                } else {
+                    formStatus.textContent = `Error: ${data.message || 'Intentá de nuevo.'}`;
+                    formStatus.className = 'font-poppins text-sm text-center text-first';
+                }
+            } catch {
+                formStatus.textContent = 'Error de conexión. Intentá de nuevo.';
                 formStatus.className = 'font-poppins text-sm text-center text-first';
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'ENVIAR MENSAJE';
             }
-        } catch {
-            formStatus.textContent = 'Error de conexión. Intentá de nuevo.';
-            formStatus.className = 'font-poppins text-sm text-center text-first';
-        } finally {
-            submitBtn.disabled = false;
-            submitBtn.textContent = 'ENVIAR MENSAJE';
-        }
-    });
+        });
+    }
+
+    document.addEventListener('astro:page-load', initForm);
 </script>

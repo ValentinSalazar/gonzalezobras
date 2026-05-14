@@ -403,92 +403,97 @@ const galleryLabel =
 </Layout>
 
 <script>
-    type Item = { type: "image" | "video"; src: string };
+    function initLightbox() {
+        type Item = { type: "image" | "video"; src: string };
 
-    const galleryBtns = document.querySelectorAll("[data-gallery-index]");
-    const lightbox = document.getElementById("lightbox")!;
-    const lbImg = document.getElementById("lb-img") as HTMLImageElement;
-    const lbVideo = document.getElementById("lb-video") as HTMLVideoElement;
-    const lbClose = document.getElementById("lb-close")!;
-    const lbPrev = document.getElementById("lb-prev")!;
-    const lbNext = document.getElementById("lb-next")!;
-    const lbCounter = document.getElementById("lb-counter")!;
+        const galleryBtns = document.querySelectorAll("[data-gallery-index]");
+        const lightbox = document.getElementById("lightbox");
+        if (!lightbox) return;
+        const lbImg = document.getElementById("lb-img") as HTMLImageElement;
+        const lbVideo = document.getElementById("lb-video") as HTMLVideoElement;
+        const lbClose = document.getElementById("lb-close")!;
+        const lbPrev = document.getElementById("lb-prev")!;
+        const lbNext = document.getElementById("lb-next")!;
+        const lbCounter = document.getElementById("lb-counter")!;
 
-    const items: Item[] = [];
-    galleryBtns.forEach((btn) => {
-        const type = (btn.getAttribute("data-type") || "image") as "image" | "video";
-        if (type === "video") {
-            items.push({ type, src: btn.getAttribute("data-src") || "" });
-        } else {
-            const img = btn.querySelector("img");
-            items.push({ type, src: img?.src || "" });
-        }
-    });
-
-    let current = 0;
-
-    function showItem() {
-        const item = items[current];
-        lbCounter.textContent = `${current + 1} / ${items.length}`;
-        if (item.type === "video") {
-            lbImg.classList.add("hidden");
-            lbVideo.classList.remove("hidden");
-            lbVideo.src = item.src;
-            lbVideo.load();
-        } else {
-            lbVideo.pause();
-            lbVideo.classList.add("hidden");
-            lbImg.classList.remove("hidden");
-            lbImg.src = item.src;
-        }
-    }
-
-    function openLightbox(index: number) {
-        current = index;
-        showItem();
-        lightbox.classList.remove("opacity-0", "pointer-events-none");
-        lightbox.setAttribute("aria-hidden", "false");
-        document.body.style.overflow = "hidden";
-    }
-
-    function closeLightbox() {
-        lbVideo.pause();
-        lightbox.classList.add("opacity-0", "pointer-events-none");
-        lightbox.setAttribute("aria-hidden", "true");
-        document.body.style.overflow = "";
-    }
-
-    galleryBtns.forEach((btn) => {
-        btn.addEventListener("click", () => {
-            openLightbox(Number(btn.getAttribute("data-gallery-index")));
+        const items: Item[] = [];
+        galleryBtns.forEach((btn) => {
+            const type = (btn.getAttribute("data-type") || "image") as "image" | "video";
+            if (type === "video") {
+                items.push({ type, src: btn.getAttribute("data-src") || "" });
+            } else {
+                const img = btn.querySelector("img");
+                items.push({ type, src: img?.src || "" });
+            }
         });
-    });
 
-    lbClose.addEventListener("click", closeLightbox);
-    lightbox.addEventListener("click", (e) => {
-        if (e.target === lightbox) closeLightbox();
-    });
+        let current = 0;
 
-    lbPrev.addEventListener("click", () => {
-        current = (current - 1 + items.length) % items.length;
-        showItem();
-    });
+        function showItem() {
+            const item = items[current];
+            lbCounter.textContent = `${current + 1} / ${items.length}`;
+            if (item.type === "video") {
+                lbImg.classList.add("hidden");
+                lbVideo.classList.remove("hidden");
+                lbVideo.src = item.src;
+                lbVideo.load();
+            } else {
+                lbVideo.pause();
+                lbVideo.classList.add("hidden");
+                lbImg.classList.remove("hidden");
+                lbImg.src = item.src;
+            }
+        }
 
-    lbNext.addEventListener("click", () => {
-        current = (current + 1) % items.length;
-        showItem();
-    });
+        function openLightbox(index: number) {
+            current = index;
+            showItem();
+            lightbox.classList.remove("opacity-0", "pointer-events-none");
+            lightbox.setAttribute("aria-hidden", "false");
+            document.body.style.overflow = "hidden";
+        }
 
-    document.addEventListener("keydown", (e) => {
-        if (lightbox.getAttribute("aria-hidden") === "true") return;
-        if (e.key === "Escape") closeLightbox();
-        if (e.key === "ArrowLeft") {
+        function closeLightbox() {
+            lbVideo.pause();
+            lightbox.classList.add("opacity-0", "pointer-events-none");
+            lightbox.setAttribute("aria-hidden", "true");
+            document.body.style.overflow = "";
+        }
+
+        galleryBtns.forEach((btn) => {
+            btn.addEventListener("click", () => {
+                openLightbox(Number(btn.getAttribute("data-gallery-index")));
+            });
+        });
+
+        lbClose.addEventListener("click", closeLightbox);
+        lightbox.addEventListener("click", (e) => {
+            if (e.target === lightbox) closeLightbox();
+        });
+
+        lbPrev.addEventListener("click", () => {
             current = (current - 1 + items.length) % items.length;
             showItem();
-        }
-        if (e.key === "ArrowRight") {
+        });
+
+        lbNext.addEventListener("click", () => {
             current = (current + 1) % items.length;
             showItem();
-        }
-    });
+        });
+
+        document.addEventListener("keydown", (e) => {
+            if (lightbox.getAttribute("aria-hidden") === "true") return;
+            if (e.key === "Escape") closeLightbox();
+            if (e.key === "ArrowLeft") {
+                current = (current - 1 + items.length) % items.length;
+                showItem();
+            }
+            if (e.key === "ArrowRight") {
+                current = (current + 1) % items.length;
+                showItem();
+            }
+        });
+    }
+
+    document.addEventListener("astro:page-load", initLightbox);
 </script>
