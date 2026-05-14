@@ -58,12 +58,14 @@ const INITIAL_COUNT = 3;
                     <Image
                         src={t.before}
                         alt={`Antes - ${t.title} | González Obras`}
+                        width={800}
                         class="img-antes absolute inset-0 w-full h-full object-cover transition-opacity duration-300"
                         loading={i < INITIAL_COUNT ? 'eager' : 'lazy'}
                     />
                     <Image
                         src={t.after}
                         alt={`Después - ${t.title} | González Obras`}
+                        width={800}
                         class="img-despues absolute inset-0 w-full h-full object-cover transition-opacity duration-300 opacity-0"
                         loading="lazy"
                     />
