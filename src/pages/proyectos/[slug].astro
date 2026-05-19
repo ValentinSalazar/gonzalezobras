@@ -435,12 +435,19 @@ const galleryLabel =
 </Layout>
 
 <script>
+    type Item = { type: "image" | "video"; src: string };
+
+    let abortController: AbortController | null = null;
+
     function initLightbox() {
-        type Item = { type: "image" | "video"; src: string };
+        abortController?.abort();
+        abortController = new AbortController();
+        const signal = abortController.signal;
 
         const galleryBtns = document.querySelectorAll("[data-gallery-index]");
         const lightbox = document.getElementById("lightbox");
-        if (!lightbox) return;
+        if (!lightbox || !galleryBtns.length) return;
+
         const lbImg = document.getElementById("lb-img") as HTMLImageElement;
         const lbVideo = document.getElementById("lb-video") as HTMLVideoElement;
         const lbClose = document.getElementById("lb-close")!;
@@ -480,38 +487,38 @@ const galleryLabel =
         function openLightbox(index: number) {
             current = index;
             showItem();
-            lightbox?.classList.remove("opacity-0", "pointer-events-none");
-            lightbox?.setAttribute("aria-hidden", "false");
+            lightbox.classList.remove("opacity-0", "pointer-events-none");
+            lightbox.setAttribute("aria-hidden", "false");
             document.body.style.overflow = "hidden";
         }
 
         function closeLightbox() {
             lbVideo.pause();
-            lightbox?.classList.add("opacity-0", "pointer-events-none");
-            lightbox?.setAttribute("aria-hidden", "true");
+            lightbox.classList.add("opacity-0", "pointer-events-none");
+            lightbox.setAttribute("aria-hidden", "true");
             document.body.style.overflow = "";
         }
 
         galleryBtns.forEach((btn) => {
             btn.addEventListener("click", () => {
                 openLightbox(Number(btn.getAttribute("data-gallery-index")));
-            });
+            }, { signal });
         });
 
-        lbClose.addEventListener("click", closeLightbox);
+        lbClose.addEventListener("click", closeLightbox, { signal });
         lightbox.addEventListener("click", (e) => {
             if (e.target === lightbox) closeLightbox();
-        });
+        }, { signal });
 
         lbPrev.addEventListener("click", () => {
             current = (current - 1 + items.length) % items.length;
             showItem();
-        });
+        }, { signal });
 
         lbNext.addEventListener("click", () => {
             current = (current + 1) % items.length;
             showItem();
-        });
+        }, { signal });
 
         document.addEventListener("keydown", (e) => {
             if (lightbox.getAttribute("aria-hidden") === "true") return;
@@ -524,8 +531,9 @@ const galleryLabel =
                 current = (current + 1) % items.length;
                 showItem();
             }
-        });
+        }, { signal });
     }
 
     document.addEventListener("astro:page-load", initLightbox);
+    initLightbox();
 </script>
